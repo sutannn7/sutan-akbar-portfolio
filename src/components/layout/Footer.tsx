@@ -21,8 +21,7 @@ import {
     X,
     Gamepad2,
     Music,
-    Bot,
-    Focus
+    Bot
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/useIsMobile';
@@ -216,17 +215,6 @@ export function Footer() {
                                         const Icon = socialIcons[social.icon] || Github;
                                         return (
                                             <Fragment key={social.label}>
-                                                {social.label === 'Email' && (
-                                                    <motion.a
-                                                        href="https://arfazrllworkspace.vercel.app/"
-                                                        target="_blank"
-                                                        rel="noopener noreferrer"
-                                                        className="p-1.5 rounded-full hover:bg-foreground/5 transition-all text-muted-foreground hover:text-foreground hover:scale-110 active:scale-95"
-                                                        aria-label="Workspace"
-                                                    >
-                                                        <Focus className="w-4 h-4" />
-                                                    </motion.a>
-                                                )}
                                                 <motion.a
                                                     key={social.label}
                                                     href={social.url}
@@ -367,9 +355,11 @@ export function Footer() {
                                                     )}
                                                 </AnimatePresence>
                                             </div>
-                                            <FooterLink href={portfolioData.personal.links.find(s => s.label === 'LinkedIn')?.url || '#'} target="_blank">LinkedIn</FooterLink>
-                                            <FooterLink href={portfolioData.personal.links.find(s => s.label === 'Instagram')?.url || '#'} target="_blank">Instagram</FooterLink>
-                                            <FooterLink href={portfolioData.personal.links.find(s => s.label === 'GitHub')?.url || '#'} target="_blank">GitHub</FooterLink>
+                                            {portfolioData.personal.links
+                                                .filter((s) => ['LinkedIn', 'GitHub'].includes(s.label))
+                                                .map((s) => (
+                                                    <FooterLink key={s.label} href={s.url} target="_blank">{s.label}</FooterLink>
+                                                ))}
                                         </FooterColumn>
 
                                         <FooterColumn title={t('localTime')}>
@@ -402,7 +392,7 @@ export function Footer() {
                                         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                                         className="text-[18vw] font-black leading-none text-zinc-900 dark:text-white tracking-tighter select-none text-center"
                                     >
-                                        ARFAZRLL
+                                        SUTAN AKBAR
                                     </motion.h2>
                                 </div>
                             </div>

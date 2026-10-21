@@ -32,27 +32,27 @@ const signature = Alex_Brush({
 
 export const metadata: Metadata = {
     title: {
-        default: 'Arfazrll | AI & Software Engineer',
-        template: '%s | Portfolio',
+        default: 'Sutan Akbar — Frontend Engineer',
+        template: '%s | Sutan Akbar',
     },
-    description: 'A passionate developer building digital experiences that inspire. Explore my projects, skills, and professional journey.',
-    keywords: ['developer', 'portfolio', 'web development', 'full stack', 'react', 'nextjs'],
-    authors: [{ name: 'Your Name' }],
-    creator: 'Your Name',
-    metadataBase: new URL('https://your-domain.com'),
+    description: 'Frontend Engineer dari Palembang. Antarmuka yang ringan, kode yang rapi, dan produk yang jalan di HP orang.',
+    keywords: ['frontend engineer', 'react', 'nextjs', 'tailwind', 'palembang'],
+    authors: [{ name: 'Sutan Akbar Dwi Nugraha' }],
+    creator: 'Sutan Akbar Dwi Nugraha',
+    metadataBase: new URL('https://sutan-akbar.vercel.app'),
     openGraph: {
         type: 'website',
         locale: 'en_US',
-        url: 'https://your-domain.com',
-        title: 'Arfazrll | AI & Software Engineer',
-        description: 'A passionate developer building digital experiences that inspire.',
-        siteName: 'Portfolio',
+        url: 'https://sutan-akbar.vercel.app',
+        title: 'Sutan Akbar — Frontend Engineer',
+        description: 'Frontend Engineer dari Palembang. Antarmuka yang ringan, kode yang rapi, dan produk yang jalan di HP orang.',
+        siteName: 'Sutan Akbar',
     },
     twitter: {
         card: 'summary_large_image',
-        title: 'Arfazrll | AI & Software Engineer',
-        description: 'A passionate developer building digital experiences that inspire.',
-        creator: '@yourusername',
+        title: 'Sutan Akbar — Frontend Engineer',
+        description: 'Frontend Engineer dari Palembang. Antarmuka yang ringan, kode yang rapi, dan produk yang jalan di HP orang.',
+        creator: '@sutannn7',
     },
     robots: {
         index: true,
@@ -66,17 +66,14 @@ export const metadata: Metadata = {
         },
     },
     icons: {
-        icon: [
-            { url: '/Arfazrll_light.svg', media: '(prefers-color-scheme: light)' },
-            { url: '/Arfazrll_dark.svg', media: '(prefers-color-scheme: dark)' },
-        ],
+        icon: '/favicon.svg',
     },
 };
 
 export const viewport: Viewport = {
     themeColor: [
-        { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-        { media: '(prefers-color-scheme: dark)', color: '#0a0a0f' },
+        { media: '(prefers-color-scheme: light)', color: '#FAFAFB' },
+        { media: '(prefers-color-scheme: dark)', color: '#08080C' },
     ],
     width: 'device-width',
     initialScale: 1,

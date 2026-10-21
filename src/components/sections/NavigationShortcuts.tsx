@@ -236,10 +236,10 @@ export const NavigationShortcuts = () => {
                                     </h3>
 
                                     <div className="space-y-0">
-                                        {category.items.map((item, idx) => (
+                                        {category.items.filter((item) => item.href).map((item, idx) => (
                                             <Link
                                                 key={item.id}
-                                                href={item.href || '#'}
+                                                href={item.href}
                                                 target={item.external ? "_blank" : undefined}
                                                 className="group block relative"
                                                 onClick={() => setIsOpen(false)}

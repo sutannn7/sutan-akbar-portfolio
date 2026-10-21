@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Separator } from "@/components/ui/separator";
-import { Github, Linkedin, Instagram, ArrowDown, ArrowDownRight, Bot, Zap, ExternalLink, MessageSquare } from 'lucide-react';
+import { Github, Linkedin, Instagram, ArrowDown, ArrowDownRight, Bot, Zap, MessageSquare } from 'lucide-react';
 import { portfolioData } from "@/data/portfolio";
 import { cn } from "@/lib/utils";
 import Link from 'next/link';
@@ -140,7 +140,6 @@ export function HeroVisual({ isExiting = false }: { isExiting?: boolean }) {
                   y: "-150%", // offset slightly above the cursor
                 }}
               >
-                {tooltip.icon === 'zap' && <ExternalLink className="w-4 h-4" />}
                 {tooltip.icon === 'bot' && <MessageSquare className="w-4 h-4" />}
                 <span className="text-sm">{tooltip.text}</span>
               </motion.div>
@@ -177,23 +176,15 @@ export function HeroVisual({ isExiting = false }: { isExiting?: boolean }) {
                 <span className="">SOFT</span>
                 <div
                   ref={zapRef}
-                  className="hidden lg:block mx-[0.05em] relative cursor-pointer group"
-                  onClick={() => window.open('https://arfazrllworkspace.vercel.app/', '_blank')}
-                  onMouseEnter={(e) => setTooltip({ show: true, text: "Go to Workspace", icon: 'zap', x: e.clientX, y: e.clientY })}
-                  onMouseMove={(e) => setTooltip(prev => ({ ...prev, x: e.clientX, y: e.clientY }))}
-                  onMouseLeave={() => setTooltip(prev => ({ ...prev, show: false }))}
+                  className="hidden lg:block mx-[0.05em] relative"
                 >
-                  <Zap className="w-[0.8em] h-[0.8em] text-sky-400 group-hover:text-sky-300 transition-colors" strokeWidth={1.5} />
+                  <Zap className="w-[0.8em] h-[0.8em] text-sky-400 transition-colors" strokeWidth={1.5} />
                 </div>
                 <div
                   ref={zapSmallRef}
-                  className="block lg:hidden mx-[0.02em] relative cursor-pointer group"
-                  onClick={() => window.open('https://arfazrllworkspace.vercel.app/', '_blank')}
-                  onMouseEnter={(e) => setTooltip({ show: true, text: "Go to Workspace", icon: 'zap', x: e.clientX, y: e.clientY })}
-                  onMouseMove={(e) => setTooltip(prev => ({ ...prev, x: e.clientX, y: e.clientY }))}
-                  onMouseLeave={() => setTooltip(prev => ({ ...prev, show: false }))}
+                  className="block lg:hidden mx-[0.02em] relative"
                 >
-                  <Zap className="w-[0.8em] h-[0.8em] text-sky-400 group-hover:text-sky-300 transition-colors" strokeWidth={2} />
+                  <Zap className="w-[0.8em] h-[0.8em] text-sky-400 transition-colors" strokeWidth={2} />
                 </div>
                 <span className="">WARE</span>
               </motion.h1>
