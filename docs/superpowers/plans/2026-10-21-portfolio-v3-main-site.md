@@ -298,6 +298,150 @@ Commit boleh gagal build — Task 6–10 yang memperbaikinya. Catat di commit bo
 
 ---
 
+### Task 2b: Pangkas komponen yatim dan dependency sisa
+
+**Files:**
+- Delete: 70 file yatim (daftar lengkap di bawah)
+- Modify: `package.json` (buang 11 package yang jadi tak terpakai)
+- Create: `scripts/find-unreachable.mjs`
+
+**Interfaces:**
+- Consumes: state repo setelah Task 2 (92 file terjangkau, 86 tak terjangkau)
+- Produces: `scripts/find-unreachable.mjs` — alat reachability graph: parse import statis + dynamic import dari entry point `src/app/**` dan `src/proxy.ts`, lalu cetak file yang tak terjangkau. Dijalankan: `node scripts/find-unreachable.mjs`.
+
+> **Raison d'être:** repo ini adalah portofolio publik. 86 file tak terjangkau = 86 file mati yang dibaca siapa pun yang cloned repo. Membersihkannya memangkas repo jadi ~⅓ dan melepas 11 package.
+
+- [ ] **Step 1: Buat `scripts/find-unreachable.mjs`**
+
+Node script yang:
+1. Mengumpulkan semua `.ts/.tsx/.js/.jsx` di bawah `src/`.
+2. Entry point = semua file di `src/app/**` + `src/proxy.ts`.
+3. Parse import via regex `(?:from\s+|import\s*\(|require\s*\(|import\s+)['"]([^'"]+)['"]`.
+4. Resolve: `@/x` → `src/x`, `./x` → relatif ke file pengimpor; coba ekstens `.ts .tsx .js .jsx` lalu `index.ts`/`index.tsx`. **Normalize path** (`path.normalize`) supaya separator Windows tidak merusak pencocokan.
+5. Print: jumlah file terjangkau, jumlah tak terjangkau, lalu daftar per file.
+
+Wajib menyertakan test: `src/lib/find-unreachable.test.ts` yang menguji fungsi resolvernya pada kasus `@/x`, `./x`, dan subfolder `index.ts`.
+
+- [ ] **Step 2: Jalankan alatnya dan cocokkan dengan daftar**
+
+Run: `node scripts/find-unreachable.mjs`
+Expected: 178 file total, 92 terjangkau, 86 tak terjangkau.
+
+- [ ] **Step 3: Hapus file yatim — HANYA yang memenuhi DUA syarat**
+
+(a) tidak terjangkau dari entry point, DAN (b) **tidak** disebut di File Structure plan ini maupun di daftar file task mana pun (Task 3–10).
+
+File yang **WAJIB** dipertahankan meski tak terjangkau (dipakai task lain):
+`src/components/projects/ProjectDetail.tsx` (Task 9) · `src/components/sections/ExperienceStickyScroll.tsx` (Task 8) · `src/components/sections/skills/SoftSkills.tsx` (Task 10) · `src/i18n/request.ts` + `src/i18n/settings.ts` (dipakai `next.config.ts` via `createNextIntlPlugin`) · `src/lib/verify-build.ts` + `src/lib/verify-build.test.ts` (dipakai `scripts/`) · `src/types/global.d.ts`, `src/types.d.ts` (deklarasi global).
+
+Daftar hapus (70 file — hapus hanya yang lolos dua syarat di atas; kalau ternyata ada yang diimpor file terjangkau, **pertahankan** dan laporkan):
+```
+src/components/animate-ui/components/animate/code.tsx
+src/components/animate-ui/components/buttons/copy.tsx
+src/components/animate-ui/primitives/animate/code-block.tsx
+src/components/animate-ui/primitives/animate/slot.tsx
+src/components/animate-ui/primitives/buttons/button.tsx
+src/components/effects/FallingText.tsx
+src/components/globe-demo.tsx
+src/components/sections/AboutMeHub.tsx
+src/components/sections/ExperienceMarquee.tsx
+src/components/sections/ExperienceTabsSection.tsx
+src/components/sections/InnovativeExperienceHero.tsx
+src/components/sections/SmoothScrollHero.tsx
+src/components/sections/skills/SkillsClosing.tsx
+src/components/ui/3d-folder.tsx
+src/components/ui/AnimatedMist.tsx
+src/components/ui/BlogCard.tsx
+src/components/ui/CircularGallery.tsx
+src/components/ui/DomeGallery.tsx
+src/components/ui/FlickeringGrid.tsx
+src/components/ui/FlowingMenu.tsx
+src/components/ui/GalleryFolder.tsx
+src/components/ui/GalleryStack.tsx
+src/components/ui/Lens.tsx
+src/components/ui/Marquee.tsx
+src/components/ui/MonolithStack.tsx
+src/components/ui/NebulaWorkbench.tsx
+src/components/ui/OrbitalWorkbench.tsx
+src/components/ui/Particles.tsx
+src/components/ui/ScrollStack.tsx
+src/components/ui/SystemPipeline.tsx
+src/components/ui/TechConstellation.tsx
+src/components/ui/TextScrollMarquee.tsx
+src/components/ui/VoidWorkbench.tsx
+src/components/ui/background-boxes.tsx
+src/components/ui/card-hover-effect.tsx
+src/components/ui/card.tsx
+src/components/ui/davincho-hero-1.tsx
+src/components/ui/demo.tsx
+src/components/ui/flowing-menu.tsx
+src/components/ui/globe.tsx
+src/components/ui/glsl-hills.tsx
+src/components/ui/hero-highlight.tsx
+src/components/ui/impact-section.tsx
+src/components/ui/infinite-image-field.tsx
+src/components/ui/input.tsx
+src/components/ui/liquid-ocean.tsx
+src/components/ui/marquee-logo-scroller.tsx
+src/components/ui/orbiting-circles.tsx
+src/components/ui/parallax-scroll-feature-section.tsx
+src/components/ui/popover.tsx
+src/components/ui/scroll-area.tsx
+src/components/ui/select.tsx
+src/components/ui/sheet.tsx
+src/components/ui/sidebar.tsx
+src/components/ui/skeleton.tsx
+src/components/ui/sticky-scroll-reveal.tsx
+src/components/ui/svg-mask-effect.tsx
+src/components/ui/team-showcase.tsx
+src/components/ui/terminal.tsx
+src/components/ui/testimonal-slider.tsx
+src/components/ui/text-generate-effect.tsx
+src/components/ui/text-reveal.tsx
+src/components/ui/timeline.tsx
+src/components/ui/tooltip.tsx
+src/hooks/use-controlled-state.tsx
+src/hooks/use-is-in-view.tsx
+src/hooks/use-mobile.tsx
+src/hooks/useScrollAnimation.ts
+src/hooks/useTextScramble.ts
+src/hooks/useTypewriter.ts
+src/lib/get-strict-context.tsx
+src/test-types.ts
+src/types/spline.d.ts
+src/types/spline-viewer.d.ts
+```
+`src/hooks/index.ts` dan `src/lib/i18n.ts` **tidak** dihapus di task ini — Task 5 yang memutuskan.
+
+- [ ] **Step 4: Hapus package yang jadi tak terpakai**
+
+Hapus dari `package.json` (hanya kalau `grep -rn "<pkg>" src/` kosong setelah penghapusan file):
+`@headlessui/react`, `@radix-ui/react-dialog`, `@radix-ui/react-popover`, `@radix-ui/react-scroll-area`, `@radix-ui/react-select`, `@radix-ui/react-tooltip`, `matter-js`, `@types/matter-js`, `ogl`, `shiki`, `three-globe`.
+
+**Tetap disimpan** (masih dipakai file yang hidup): `@radix-ui/react-slot` (`ui/button.tsx`), `@radix-ui/react-separator` (`sections/HeroVisual.tsx` — Task 7 rewrite), `gl-matrix` (`components/InfiniteMenu.tsx` — Task 8 rewrite), `@splinetool/react-spline` (`sections/ProjectContact.tsx` — Task 9), `@react-three/drei`, `@react-three/fiber` (Task 7).
+
+Package-package ini akan bebas setelah Task 8–10; **sapu dependency** dilakukan di Task 10 Step 8.
+
+Lalu jalankan `npm.cmd install` untuk memperbarui lockfile.
+
+- [ ] **Step 5: Verifikasi**
+
+```bash
+npm.cmd run test
+npm.cmd run typecheck
+node scripts/find-unreachable.mjs
+```
+Expected: test hijau (termasuk test baru `find-unreachable.test.ts`); typecheck error **tetap 13** dan semuanya di file milik Task 6–10 (tidak boleh bertambah, tidak boleh berkurang); file tak terjangkau berkurang ke ~10 (yang ada di daftar "WAJIB dipertahankan").
+
+- [ ] **Step 6: Commit**
+
+```bash
+git add -A
+git -c user.name="opencode" -c user.email="opencode@local" commit -m "chore: prune unreachable components and remaining deps"
+```
+
+---
+
 ### Task 3: Token desain, tema, dan konfigurasi Next
 
 **Files:**
