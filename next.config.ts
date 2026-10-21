@@ -8,9 +8,7 @@ const nextConfig: NextConfig = {
     transpilePackages: ['three'],
     images: {
         remotePatterns: [
-            { protocol: 'https', hostname: 'cdn.jsdelivr.net' },
-            { protocol: 'https', hostname: 'images.unsplash.com' },
-            { protocol: 'https', hostname: 'assets.aceternity.com' }
+            { protocol: 'https', hostname: 'cdn.jsdelivr.net' }
         ],
         formats: ['image/avif', 'image/webp'],
     },
