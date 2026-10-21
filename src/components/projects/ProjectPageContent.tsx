@@ -174,7 +174,7 @@ export function ProjectPageContent({ project, isLowPowerMode }: { project: Proje
     const t = useTranslations('projects');
     const tCommon = useTranslations('common');
     const router = useRouter();
-    const isOngoing = project.status === 'ongoing';
+    const isOngoing = false;
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -224,11 +224,11 @@ export function ProjectPageContent({ project, isLowPowerMode }: { project: Proje
 
                         {/* Full Width Layout for Title */}
                         <h1 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tight text-foreground mb-6 leading-[1.0] break-words uppercase">
-                            {project.title}
+                            {project.title.id}
                         </h1>
 
                         <p className="text-xl md:text-2xl text-muted-foreground/80 leading-relaxed max-w-3xl font-light mb-8">
-                            {project.description}
+                            {project.description.id}
                         </p>
 
                         {/* Typewriter Effect (Subtext) */}
@@ -255,11 +255,11 @@ export function ProjectPageContent({ project, isLowPowerMode }: { project: Proje
                     {project.image ? (
                         <motion.img
                             src={project.image}
-                            alt={project.title}
+                            alt={project.title.id}
                             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 cursor-zoom-in"
                         />
                     ) : (
-                        <ProjectPlaceholder className="rounded-none border-0 bg-transparent pb-0 [&>div.z-10]:scale-125" title={project.title} />
+                        <ProjectPlaceholder className="rounded-none border-0 bg-transparent pb-0 [&>div.z-10]:scale-125" title={project.title.id} />
                     )}
 
                     {/* Overlay Gradient */}
@@ -280,7 +280,7 @@ export function ProjectPageContent({ project, isLowPowerMode }: { project: Proje
                         <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold flex items-center gap-2">
                             <Clock className="w-3 h-3" /> {t('metadata.timeline')}
                         </span>
-                        <span className="font-bold text-foreground">{project.customTimeline || formatDate(project.startDate)}</span>
+                        <span className="font-bold text-foreground">{project.year}</span>
                     </div>
                     <div className="flex flex-col gap-2">
                         <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold flex items-center gap-2">
@@ -313,123 +313,17 @@ export function ProjectPageContent({ project, isLowPowerMode }: { project: Proje
                                 <h2 className="text-2xl font-bold text-foreground">{t('sections.missionBrief')}</h2>
                             </div>
                             <div className="prose prose-lg dark:prose-invert prose-emerald max-w-none prose-headings:font-black prose-headings:tracking-tight prose-p:leading-loose text-zinc-600 dark:text-muted-foreground">
-                                <p>{project.longDescription || project.description}</p>
+                                <p>{project.longDescription.id || project.description.id}</p>
                             </div>
                         </section>
 
-                        {/* FEATURES (BENTO GRID - Adapted for 8 cols) */}
-                        {project.features && (
-                            <section id="features">
-                                <div className="flex items-center gap-3 mb-8">
-                                    <span className="bg-blue-500/10 text-blue-500 p-2 rounded-lg">
-                                        <Zap className="w-5 h-5" />
-                                    </span>
-                                    <h2 className="text-2xl font-bold text-foreground">{t('sections.keyFeatures')}</h2>
-                                </div>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {project.features.map((group, idx) => (
-                                        <motion.div
-                                            key={idx}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            className="p-6 rounded-2xl bg-secondary/10 dark:bg-secondary/5 border border-black/25 dark:border-white/5 hover:border-black/35 dark:hover:border-white/10 transition-colors shadow-sm dark:shadow-none"
-                                        >
-                                            <div className="w-10 h-10 rounded-xl bg-black/10 dark:bg-white/5 flex items-center justify-center mb-4 text-emerald-700 dark:text-emerald-500">
-                                                {idx === 0 ? <Box className="w-5 h-5" /> : idx === 1 ? <Terminal className="w-5 h-5" /> : idx === 2 ? <Zap className="w-5 h-5" /> : <Sparkles className="w-5 h-5" />}
-                                            </div>
-                                            <h3 className="text-lg font-bold text-foreground mb-3">{group.title}</h3>
-                                            <ul className="space-y-2">
-                                                {group.items.map((item, i) => (
-                                                    <li key={i} className="text-sm text-muted-foreground flex gap-2 items-start">
-                                                        <span className="mt-1.5 w-1 h-1 rounded-full bg-emerald-500 shrink-0" />
-                                                        <span>{renderRichText(item)}</span>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </section>
-                        )}
 
-                        {/* ENGINEERING CHRONICLES (TIMELINE) */}
-                        {project.challengesAndSolutions && (
-                            <section id="chronicles">
-                                <div className="flex items-center gap-3 mb-8">
-                                    <span className="bg-amber-500/10 text-amber-500 p-2 rounded-lg">
-                                        <Terminal className="w-5 h-5" />
-                                    </span>
-                                    <h2 className="text-2xl font-bold text-foreground">{t('sections.engineeringChronicles')}</h2>
-                                </div>
-                                <div className="relative border-l border-black/40 dark:border-white/10 ml-3 space-y-12 pl-8 pb-4">
-                                    {project.challengesAndSolutions.map((item, idx) => (
-                                        <div key={idx} className="relative group">
-                                            <div className="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-background border-2 border-black/40 dark:border-white/10 group-hover:border-amber-500 transition-colors z-10" />
-                                            <h4 className="text-lg font-bold text-foreground mb-2 group-hover:text-amber-500 transition-colors">
-                                                {item.problem}
-                                            </h4>
-                                            <div className="text-sm text-zinc-600 dark:text-muted-foreground pl-4 border-l border-black/30 dark:border-white/5">
-                                                <span className="text-emerald-700 dark:text-emerald-500 font-bold text-xs uppercase tracking-wider block mb-1">{t('sections.solution')}</span>
-                                                {item.solution}
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </section>
-                        )}
 
-                        {/* GALLERY (Vertical Stack, Limit 2) */}
-                        {project.galleryImages && project.galleryImages.length > 0 && (
-                            <section id="gallery">
-                                <div className="flex items-center gap-3 mb-8">
-                                    <span className="bg-purple-500/10 text-purple-500 p-2 rounded-lg">
-                                        <LayoutGrid className="w-5 h-5" />
-                                    </span>
-                                    <h2 className="text-2xl font-bold text-foreground">{t('sections.visualGallery')}</h2>
-                                </div>
-                                <ProjectGallery
-                                    images={project.galleryImages}
-                                    onImageClick={(img) => setSelectedImage(img)}
-                                    viewMoreText={t('sections.viewMore')}
-                                    viewLessText={t('sections.viewLess')}
-                                />
-                            </section>
-                        )}
 
-                        {/* INSTALLATION */}
-                        {project.installation && (
-                            <section id="installation">
-                                <div className="flex items-center gap-3 mb-8">
-                                    <span className="bg-emerald-500/10 text-emerald-500 p-2 rounded-lg">
-                                        <Terminal className="w-5 h-5" />
-                                    </span>
-                                    <h2 className="text-2xl font-bold text-foreground">{t('sections.installation')}</h2>
-                                </div>
-                                <div className="space-y-6">
-                                    {project.installation.map((step, idx) => (
-                                        <div key={idx}>
-                                            {step.type === 'code' ? (
-                                                <TerminalBlock
-                                                    title={step.title}
-                                                    code={step.cmd || step.code || ''}
-                                                />
-                                            ) : (
-                                                <div className="bg-secondary/20 dark:bg-secondary/5 p-6 rounded-2xl border border-black/10 dark:border-white/5">
-                                                    <h3 className="text-base font-bold text-foreground mb-3 flex items-center gap-2">
-                                                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-700 dark:bg-emerald-500" />
-                                                        {step.title}
-                                                    </h3>
-                                                    <p className="text-sm text-muted-foreground leading-relaxed">
-                                                        {step.code || step.cmd}
-                                                    </p>
-                                                </div>
-                                            )}
-                                        </div>
-                                    ))}
-                                </div>
-                            </section>
-                        )}
+
+
+
+
 
                     </div>
 
@@ -485,10 +379,10 @@ export function ProjectPageContent({ project, isLowPowerMode }: { project: Proje
                                 <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-6 pb-4 border-b border-black/25 dark:border-white/5">{t('sections.contents')}</h3>
                                 <ul className="space-y-3 text-sm text-muted-foreground">
                                     <li onClick={() => document.getElementById('mission')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground cursor-pointer transition-colors hover:translate-x-1 duration-200 block">• {t('sections.missionBrief')}</li>
-                                    {project.features && <li onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground cursor-pointer transition-colors hover:translate-x-1 duration-200 block">• {t('sections.keyFeatures')}</li>}
-                                    {project.challengesAndSolutions && <li onClick={() => document.getElementById('chronicles')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground cursor-pointer transition-colors hover:translate-x-1 duration-200 block">• {t('sections.engineeringChronicles')}</li>}
-                                    {project.galleryImages && <li onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground cursor-pointer transition-colors hover:translate-x-1 duration-200 block">• {t('sections.visualGallery')}</li>}
-                                    {project.installation && <li onClick={() => document.getElementById('installation')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground cursor-pointer transition-colors hover:translate-x-1 duration-200 block">• {t('sections.installation')}</li>}
+                                    {false && <li onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground cursor-pointer transition-colors hover:translate-x-1 duration-200 block">• {t('sections.keyFeatures')}</li>}
+                                    {false && <li onClick={() => document.getElementById('chronicles')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground cursor-pointer transition-colors hover:translate-x-1 duration-200 block">• {t('sections.engineeringChronicles')}</li>}
+                                    {false && <li onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground cursor-pointer transition-colors hover:translate-x-1 duration-200 block">• {t('sections.visualGallery')}</li>}
+                                    {false && <li onClick={() => document.getElementById('installation')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground cursor-pointer transition-colors hover:translate-x-1 duration-200 block">• {t('sections.installation')}</li>}
                                 </ul>
                             </div>
 
@@ -552,9 +446,9 @@ export function ProjectPageContent({ project, isLowPowerMode }: { project: Proje
                             >
                                 {/* Background Layer */}
                                 {p.image ? (
-                                    <img src={p.image} alt={p.title} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                                    <img src={p.image} alt={p.title.id} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                                 ) : (
-                                    <ProjectPlaceholder className="absolute inset-0" title={p.title} />
+                                    <ProjectPlaceholder className="absolute inset-0" title={p.title.id} />
                                 )}
 
                                 {/* Gradient Overlay */}
@@ -565,15 +459,15 @@ export function ProjectPageContent({ project, isLowPowerMode }: { project: Proje
                                     <div className="mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
                                         <span className={cn(
                                             "inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium backdrop-blur-md",
-                                            p.status === 'ongoing'
+                                            false
                                                 ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
                                                 : "border-blue-500/30 bg-blue-500/10 text-blue-400"
                                         )}>
-                                            {p.status === 'ongoing' ? 'In Progress' : 'Completed'}
+                                            'Completed'
                                         </span>
                                     </div>
                                     <h3 className="font-bold text-lg leading-tight text-white mb-1 group-hover:text-primary transition-colors line-clamp-1">
-                                        {p.title}
+                                        {p.title.id}
                                     </h3>
                                     <p className="text-sm text-zinc-400 line-clamp-1">
                                         {p.techStack[0]} • {p.category || "Development"}

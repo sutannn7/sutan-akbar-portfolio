@@ -21,7 +21,7 @@ export default function StatsSection({ scrollYProgress, showOnly }: { scrollYPro
     const [currentIndex, setCurrentIndex] = useState(0);
     const [direction, setDirection] = useState(0);
 
-    const blogs = portfolioData.blogs.slice(0, 6);
+    const blogs: any[] = [];
     const visibleCount = 3;
 
     useEffect(() => {

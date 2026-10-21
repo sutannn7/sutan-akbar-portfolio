@@ -8,9 +8,9 @@ import { Counter } from '@/components/ui/Counter';
 // Calculate metrics from portfolio data
 const calculateMetrics = () => {
     const totalProjects = portfolioData.projects?.length || 0;
-    const completedProjects = portfolioData.projects?.filter(p => p.status === 'completed').length || 0;
-    const totalTechStack = portfolioData.techStack?.length || 0;
-    const totalTools = portfolioData.tools?.length || 0;
+    const completedProjects = 0;
+    const totalTechStack = 0;
+    const totalTools = 0;
 
     // Calculate years of experience (assuming earliest project start date)
     const yearsExp = 2; // Hardcoded based on resume/experience

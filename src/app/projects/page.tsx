@@ -124,7 +124,7 @@ function ProjectListItem({
     const cursorX = useMotionValue(0);
     const cursorY = useMotionValue(0);
 
-    const isOngoing = project.status === 'ongoing';
+    const isOngoing = false;
     const displayIndex = String(index + 1).padStart(2, '0');
 
     const rafRef = useRef<number | null>(null);
@@ -222,7 +222,7 @@ function ProjectListItem({
                                 animate={{ x: isHovered ? 8 : 0 }}
                                 transition={{ duration: 0.3 }}
                             >
-                                {project.title}
+                                {project.title.id}
                             </motion.h3>
                             <span className={cn(
                                 "shrink-0 px-2 sm:px-3 py-1 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-wider",
@@ -234,10 +234,10 @@ function ProjectListItem({
                             </span>
                         </div>
                         <p className="text-muted-foreground text-sm sm:text-base truncate max-w-2xl hidden sm:block">
-                            {project.description}
+                            {project.description.id}
                         </p>
                         <p className="text-muted-foreground text-xs line-clamp-1 sm:hidden">
-                            {project.description}
+                            {project.description.id}
                         </p>
                     </div>
 
@@ -311,12 +311,12 @@ function ProjectListItem({
                                 {project.image ? (
                                     <img
                                         src={project.image}
-                                        alt={project.title}
+                                        alt={project.title.id}
                                         loading="lazy"
                                         className="absolute inset-0 w-full h-full object-cover opacity-90 block transition-transform duration-500 hover:scale-105"
                                     />
                                 ) : (
-                                    <ProjectPlaceholder className="pb-0" title={project.title} />
+                                    <ProjectPlaceholder className="pb-0" title={project.title.id} />
                                 )}
 
                                 {/* Overlay Gradient */}
@@ -372,7 +372,7 @@ function FeaturedCard({ project, onClick, index, isLowPowerMode }: { project: Pr
         };
     }, []);
 
-    const isOngoing = project.status === 'ongoing';
+    const isOngoing = false;
     const bgGradient = useMotionTemplate`radial-gradient(800px circle at ${pixelX}px ${pixelY}px, ${isOngoing ? 'rgba(16, 185, 129, 0.1)' : 'rgba(59, 130, 246, 0.1)'}, transparent 40%)`;
 
     return (
@@ -493,7 +493,7 @@ function FeaturedCard({ project, onClick, index, isLowPowerMode }: { project: Pr
                             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                         >
                             <span className="text-[14rem] sm:text-[18rem] md:text-[22rem] font-black text-black/[0.02] dark:text-white/[0.025] select-none leading-none">
-                                {project.title.charAt(0)}
+                                {project.title.id.charAt(0)}
                             </span>
                         </motion.div>
                     )}
@@ -532,7 +532,7 @@ function FeaturedCard({ project, onClick, index, isLowPowerMode }: { project: Pr
                             className="relative text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4"
                             animate={{ x: isHovered ? 6 : 0 }}
                         >
-                            {project.title}
+                            {project.title.id}
                             <motion.div
                                 className={cn(
                                     "absolute -bottom-1 left-0 h-1 rounded-full",
@@ -546,7 +546,7 @@ function FeaturedCard({ project, onClick, index, isLowPowerMode }: { project: Pr
 
                         {/* Description */}
                         <p className="text-zinc-600 dark:text-zinc-400 text-base sm:text-lg md:text-xl mb-6 max-w-2xl line-clamp-2">
-                            {project.description}
+                            {project.description.id}
                         </p>
 
                         {/* Tech Stack with stagger */}
@@ -630,7 +630,7 @@ function getBadgeColor(label: string, cardIndex: number) {
 }
 
 function ProjectCard({ project, onClick, index, isLowPowerMode }: { project: Project; onClick: () => void; index: number; isLowPowerMode?: boolean; }) {
-    const isOngoing = project.status === 'ongoing';
+    const isOngoing = false;
     const cardRef = useRef<HTMLElement>(null);
     const innerRef = useRef<HTMLDivElement>(null);
     const imageBoxRef = useRef<HTMLDivElement>(null);
@@ -798,13 +798,13 @@ function ProjectCard({ project, onClick, index, isLowPowerMode }: { project: Pro
                     {project.image ? (
                         <img
                             src={project.image}
-                            alt={project.title}
+                            alt={project.title.id}
                             loading="lazy"
                             className="w-full h-full object-cover"
                             draggable={false}
                         />
                     ) : (
-                        <ProjectPlaceholder className="absolute inset-0" title={project.title} />
+                        <ProjectPlaceholder className="absolute inset-0" title={project.title.id} />
                     )}
 
                     {/* Subtle overlay on hover */}
@@ -820,7 +820,7 @@ function ProjectCard({ project, onClick, index, isLowPowerMode }: { project: Pro
                     {/* Title & Badge Row */}
                     <div className="flex items-start justify-between gap-4 mb-3">
                         <h3 className="text-3xl sm:text-4xl font-serif-elegant text-foreground group-hover:text-primary transition-colors tracking-tight">
-                            {project.title}
+                            {project.title.id}
                         </h3>
                         <div className="shrink-0 mt-1 sm:mt-2">
                             {(() => {
@@ -844,7 +844,7 @@ function ProjectCard({ project, onClick, index, isLowPowerMode }: { project: Pro
 
                     {/* Description */}
                     <p className="text-muted-foreground/80 md:text-lg leading-relaxed mb-6 line-clamp-3">
-                        {project.description}
+                        {project.description.id}
                     </p>
 
                     {/* Footer Tech Badges */}
@@ -881,7 +881,7 @@ function ProjectCard({ project, onClick, index, isLowPowerMode }: { project: Pro
 
 function CompactCard({ project, onClick, index }: { project: Project; onClick: () => void; index: number }) {
     const [isHovered, setIsHovered] = useState(false);
-    const isOngoing = project.status === 'ongoing';
+    const isOngoing = false;
 
     return (
         <motion.article
@@ -925,12 +925,12 @@ function CompactCard({ project, onClick, index }: { project: Project; onClick: (
                         isHovered && (isOngoing ? "text-emerald-400" : "text-blue-400")
                     )}
                 >
-                    {project.title}
+                    {project.title.id}
                 </motion.h4>
 
                 {/* Description */}
                 <p className="text-zinc-500 text-sm line-clamp-2 mb-3 z-10 relative">
-                    {project.description}
+                    {project.description.id}
                 </p>
 
                 {/* Tech Preview */}
@@ -986,7 +986,7 @@ export default function ProjectsPage() {
         ];
 
         const baseProducts = portfolioData.projects.map((p, i) => ({
-            title: p.title,
+            title: p.title.id,
             link: p.repoUrl || p.demoUrl || '#',
             thumbnail: techImages[i % techImages.length]
         }));
@@ -995,8 +995,8 @@ export default function ProjectsPage() {
 
     // Generate Timeline Items - delay is calculated in component based on index
     const timelineItems: LogoItem[] = useMemo(() => {
-        const tech = portfolioData.techStack.map(t => t.name);
-        const tools = portfolioData.tools ? portfolioData.tools.map(t => t.name) : [];
+        const tech = [...new Set(portfolioData.projects.flatMap((p) => p.techStack))];
+        const tools: string[] = [];
         const allItems = [...tech, ...tools];
 
         // Distribute across 7 rows
@@ -1033,17 +1033,17 @@ export default function ProjectsPage() {
                 portfolioData.projects.map(async (project) => {
                     // Try to find dynamic images
                     try {
-                        const images = await getProjectImages(project.slug, project.title);
+                        const images = await getProjectImages(project.slug, project.title.id);
                         if (images.length > 0) {
                             return { ...project, image: images[0] }; // Use first image as cover
                         }
                     } catch (e) {
-                        console.error("Failed to load images for", project.title, e);
+                        console.error("Failed to load images for", project.title.id, e);
                     }
 
                     // Preload the placeholder image if no dynamic image is found
                     const img = new Image();
-                    img.src = getPlaceholderImageUrl(project.title);
+                    img.src = getPlaceholderImageUrl(project.title.id);
 
                     return project;
                 })
@@ -1068,11 +1068,9 @@ export default function ProjectsPage() {
         // Search Filter
         if (searchQuery) {
             const query = searchQuery.toLowerCase();
-            currentProjects = currentProjects.filter((p) => p.title.toLowerCase().includes(query) || p.description.toLowerCase().includes(query) || p.techStack.some((t) => t.toLowerCase().includes(query)));
+            currentProjects = currentProjects.filter((p) => p.title.id.toLowerCase().includes(query) || p.description.id.toLowerCase().includes(query) || p.techStack.some((t) => t.toLowerCase().includes(query)));
         }
 
-        // Status Filter
-        if (filter !== 'all') currentProjects = currentProjects.filter((p) => p.status === filter);
         return currentProjects;
     }, [searchQuery, filter, selectedCategory, projects]);
 

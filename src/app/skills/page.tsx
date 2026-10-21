@@ -174,6 +174,16 @@ export default function SkillsPage() {
     const yHeroSpline = useTransform(scrollY, [0, 1000], [0, 200]);
     const scaleSpline = useTransform(scrollY, [0, 800], [1, 1.05]);
 
+    // Tech showcase derived from portfolioData.skills (single source of truth;
+    // there is no top-level techStack anymore).
+    const techItems = portfolioData.skills.flatMap((group) =>
+        group.items.map((item) => ({
+            name: item.name,
+            icon: techLogos[item.name] || `https://cdn.simpleicons.org/${item.name.toLowerCase().replace(/[\s.]/g, '')}`,
+        }))
+    );
+    const techNames = techItems.map((t) => t.name);
+
     return (
         <div
             ref={containerRef}
@@ -309,7 +319,7 @@ export default function SkillsPage() {
                         <div className="relative w-full flex flex-col justify-center items-center mb-0">
                             <ArchedTechIconsInteractive
                                 key="arched-tech-icons-interactive"
-                                icons={portfolioData.techStack.map(t => techLogos[t.name] || (t.icon?.includes('http') ? t.icon : `https://cdn.simpleicons.org/${t.name.toLowerCase().replace(/[\s.]/g, '')}`))}
+                                icons={techNames.map((name) => techLogos[name] || `https://cdn.simpleicons.org/${name.toLowerCase().replace(/[\s.]/g, '')}`)}
                             />
 
                             <motion.div
@@ -345,10 +355,7 @@ export default function SkillsPage() {
                             className="mt-16 sm:mt-20 md:mt-24 w-full"
                         >
                             <KineticTechGrid
-                                items={portfolioData.techStack.map(t => ({
-                                    name: t.name,
-                                    icon: techLogos[t.name] || (t.icon?.includes('http') ? t.icon : `https://cdn.simpleicons.org/${t.name.toLowerCase().replace(/[\s.]/g, '')}`)
-                                }))}
+                                items={techItems}
                             />
                         </motion.div>
                     </div>

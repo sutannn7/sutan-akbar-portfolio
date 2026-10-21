@@ -6,7 +6,7 @@ import { useTheme } from 'next-themes';
 import { portfolioData } from '@/data/portfolio';
 import { cn } from '@/lib/utils';
 import { Cpu, Wrench, Zap, RefreshCw, ArrowDown, ChevronDown } from 'lucide-react';
-import { TechStack as TechStackType, Tool } from '@/types/index';
+
 
 // --- Types ---
 interface TechStackProps {
@@ -80,8 +80,7 @@ export function TechStack({ techStack, tools, isLowPowerMode }: TechStackProps &
             const startX = width / 2 + Math.cos(angle) * distance;
             const startY = height / 2 + Math.sin(angle) * distance;
 
-            const icon = portfolioData.techStack.find((t: TechStackType) => t.name.toLowerCase() === name.toLowerCase())?.icon ||
-                portfolioData.tools.find((t: Tool) => t.name.toLowerCase() === name.toLowerCase())?.icon;
+            const icon: string | undefined = undefined;
 
             return {
                 id: name + (isTool ? '-tool' : ''),
@@ -248,8 +247,7 @@ export function TechStack({ techStack, tools, isLowPowerMode }: TechStackProps &
                         <div className="absolute inset-0 flex items-center justify-center p-8">
                             <div className="grid grid-cols-4 sm:grid-cols-6 lg:grid-cols-8 gap-4 sm:gap-6 max-w-5xl mx-auto">
                                 {[...techStack, ...(tools || [])].map((item, idx) => {
-                                    const icon = portfolioData.techStack.find((t: TechStackType) => t.name.toLowerCase() === item.toLowerCase())?.icon ||
-                                        portfolioData.tools.find((t: Tool) => t.name.toLowerCase() === item.toLowerCase())?.icon;
+                                    const icon: string | undefined = undefined;
                                     const isHero = ['Next.js', 'React', 'TypeScript', 'Tailwind CSS', 'Three.js', 'Node.js', 'Go', 'Python'].includes(item);
 
                                     return (
@@ -346,9 +344,9 @@ export function TechStack({ techStack, tools, isLowPowerMode }: TechStackProps &
                         >
                             {/* Icon */}
                             <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-black/5 to-black/0 dark:from-white/10 dark:to-white/5 p-3 shrink-0 border border-black/5 dark:border-white/5 group-hover:scale-105 transition-transform shadow-inner">
-                                {portfolioData.techStack.find((t: TechStackType) => t.name.toLowerCase() === tech.toLowerCase())?.icon ? (
+                                {false ? (
                                     <img
-                                        src={portfolioData.techStack.find((t: TechStackType) => t.name.toLowerCase() === tech.toLowerCase())?.icon}
+                                        src={''}
                                         alt={tech}
                                         className={cn(
                                             "w-full h-full object-contain drop-shadow-lg",
@@ -361,7 +359,7 @@ export function TechStack({ techStack, tools, isLowPowerMode }: TechStackProps &
                                         }}
                                     />
                                 ) : null}
-                                <div className={cn("hidden w-full h-full flex items-center justify-center font-bold text-lg text-foreground/50", !portfolioData.techStack.find((t: TechStackType) => t.name.toLowerCase() === tech.toLowerCase())?.icon && "flex")}>
+                                <div className={cn("hidden w-full h-full flex items-center justify-center font-bold text-lg text-foreground/50", "flex")}>
                                     {tech[0]}
                                 </div>
                             </div>

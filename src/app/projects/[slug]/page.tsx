@@ -20,13 +20,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     }
 
     // Fetch dynamic images from public/project folder
-    const galleryImages = await getProjectImages(slug, project.title);
+    const galleryImages = await getProjectImages(slug, project.title.id);
 
     // If dynamic images found, override the project data
     const updatedProject = {
         ...project,
         image: galleryImages.length > 0 ? galleryImages[0] : project.image, // First image as Hero
-        galleryImages: galleryImages.length > 0 ? galleryImages : project.galleryImages // All images for gallery
     };
 
     return <ProjectPageContent project={updatedProject} />;

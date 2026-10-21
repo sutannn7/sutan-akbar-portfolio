@@ -64,9 +64,7 @@ function Marquee() {
     );
 }
 
-import { SocialLink } from '@/types/index';
-
-function SocialCard({ social }: { social: SocialLink }) {
+function SocialCard({ social }: { social: { label: string; url: string; icon: string } }) {
     const Icon = socialIcons[social.icon] || Github;
 
     return (
@@ -78,7 +76,7 @@ function SocialCard({ social }: { social: SocialLink }) {
             whileHover={{ y: -4, scale: 1.05 }}
         >
             <Icon className="w-7 h-7 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
-            <span className="text-sm md:text-base font-bold tracking-wide text-muted-foreground group-hover:text-foreground transition-colors">{social.platform}</span>
+            <span className="text-sm md:text-base font-bold tracking-wide text-muted-foreground group-hover:text-foreground transition-colors">{social.label}</span>
             {/* Subtle glow on hover */}
             <div className="absolute inset-0 rounded-full bg-primary/0 group-hover:bg-primary/5 transition-all duration-300" />
         </motion.a>
@@ -163,11 +161,9 @@ export function Footer() {
     const isBlogDetail = pathname?.includes('/blog/') && pathname.split('/blog/')[1]?.length > 0;
     const isGallery = pathname?.includes('/gallery');
 
-    const previewSocials = portfolioData.personal.socialLinks
-        .filter((s: SocialLink) => s.platform !== 'Discord' && s.platform !== 'Spotify')
-        .slice(0, 4);
+    const previewSocials = portfolioData.personal.links.slice(0, 4);
 
-    const expandedSocials = previewSocials.filter((s: SocialLink) => s.platform !== 'Twitter');
+    const expandedSocials = previewSocials.filter((s) => s.label !== 'Email');
 
     return (
         <>
@@ -216,11 +212,11 @@ export function Footer() {
                             <div className="flex items-center justify-end gap-4 md:gap-8 z-10 ml-auto">
                                 <div className="flex items-center gap-1.5 sm:gap-2">
                                     {/* Social Icons */}
-                                    {previewSocials.map((social: SocialLink) => {
-                                        const Icon = socialIcons[social.icon];
+                                    {previewSocials.map((social) => {
+                                        const Icon = socialIcons[social.icon] || Github;
                                         return (
-                                            <Fragment key={social.platform}>
-                                                {social.platform === 'Twitter' && (
+                                            <Fragment key={social.label}>
+                                                {social.label === 'Email' && (
                                                     <motion.a
                                                         href="https://arfazrllworkspace.vercel.app/"
                                                         target="_blank"
@@ -232,18 +228,13 @@ export function Footer() {
                                                     </motion.a>
                                                 )}
                                                 <motion.a
-                                                    key={social.platform}
-                                                    href={social.platform === 'Twitter' ? undefined : social.url}
-                                                    onClick={social.platform === 'Twitter' ? (e) => {
-                                                        e.preventDefault();
-                                                        window.dispatchEvent(new CustomEvent('portfolio:toggle-chatbot', {
-                                                            detail: { x: window.innerWidth / 2, y: window.innerHeight / 2 }
-                                                        }));
-                                                    } : undefined}
+                                                    key={social.label}
+                                                    href={social.url}
+                                                    onClick={undefined}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     className="p-1.5 rounded-full hover:bg-foreground/5 transition-all text-muted-foreground hover:text-foreground hover:scale-110 active:scale-95"
-                                                    aria-label={social.platform}
+                                                    aria-label={social.label}
                                                 >
                                                     {Icon && <Icon className="w-4 h-4" />}
                                                 </motion.a>
@@ -376,9 +367,9 @@ export function Footer() {
                                                     )}
                                                 </AnimatePresence>
                                             </div>
-                                            <FooterLink href={portfolioData.personal.socialLinks.find(s => s.platform === 'LinkedIn')?.url || '#'} target="_blank">LinkedIn</FooterLink>
-                                            <FooterLink href={portfolioData.personal.socialLinks.find(s => s.platform === 'Instagram')?.url || '#'} target="_blank">Instagram</FooterLink>
-                                            <FooterLink href={portfolioData.personal.socialLinks.find(s => s.platform === 'GitHub')?.url || '#'} target="_blank">GitHub</FooterLink>
+                                            <FooterLink href={portfolioData.personal.links.find(s => s.label === 'LinkedIn')?.url || '#'} target="_blank">LinkedIn</FooterLink>
+                                            <FooterLink href={portfolioData.personal.links.find(s => s.label === 'Instagram')?.url || '#'} target="_blank">Instagram</FooterLink>
+                                            <FooterLink href={portfolioData.personal.links.find(s => s.label === 'GitHub')?.url || '#'} target="_blank">GitHub</FooterLink>
                                         </FooterColumn>
 
                                         <FooterColumn title={t('localTime')}>

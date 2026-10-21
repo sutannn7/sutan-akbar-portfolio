@@ -53,7 +53,7 @@ export default function FeatureSection() {
             Engineering <br className="hidden md:block" /> the Future
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mb-10 max-w-xl text-base md:text-lg leading-relaxed transition-colors duration-500 group-hover/text:text-gray-900 dark:group-hover/text:text-gray-200">
-            {portfolioData.personal.subtitle}
+            {portfolioData.personal.subtitle.id}
           </p>
           <div className="flex flex-wrap items-center gap-3 md:gap-4 relative z-30">
             <MagneticEffect strength={0.8} stiffness={120} damping={10}>

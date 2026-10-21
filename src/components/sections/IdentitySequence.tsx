@@ -110,7 +110,7 @@ export const IdentitySequence = ({ scrollYProgress, isVisible }: IdentitySequenc
 
     const marqueeItems = [
         <span key="1" className="text-[10rem] md:text-[16rem] font-black uppercase tracking-tighter mx-12 text-black dark:text-white leading-none">
-            {portfolioData.personal.title}
+            {portfolioData.personal.title.id}
         </span>,
         <div key="icon" className="w-32 h-32 md:w-48 md:h-48 rounded-full bg-[#D1FF4D] flex items-center justify-center mx-12">
             <svg viewBox="0 0 100 100" className="w-20 h-20 md:w-32 md:h-32 fill-black dark:fill-zinc-900">

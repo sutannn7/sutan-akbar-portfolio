@@ -17,27 +17,10 @@ export const HardSkills = () => {
     setExpanded(prev => ({ ...prev, [category]: !prev[category] }));
   };
 
-  const categorizedSkills = useMemo(() => {
-    const groups: Record<string, typeof portfolioData.hardSkills> = {
-      'ai': [],
-      'software': [],
-      'additional': []
-    };
-
-    if (!portfolioData?.hardSkills) return groups;
-
-    portfolioData.hardSkills.forEach(skill => {
-      const cat = skill.category?.toLowerCase() || '';
-      if (['ai'].includes(cat)) {
-        groups['ai'].push(skill);
-      } else if (['software'].includes(cat)) {
-        groups['software'].push(skill);
-      } else {
-        groups['additional'].push(skill);
-      }
-    });
-    return groups;
-  }, []);
+  const categorizedSkills: Record<string, { name: string; badge: string }[]> = useMemo(
+    () => ({ ai: [], software: [], additional: [] }),
+    []
+  );
 
   return (
     <section id="hard-skills" className="w-full bg-background pt-32 md:pt-40 lg:pt-52 pb-24 relative overflow-hidden">

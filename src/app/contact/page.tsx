@@ -303,11 +303,12 @@ export default function ContactPage() {
     const { isLowPowerMode } = usePerformance();
 
     const getSocialItem = (platform: string) => {
-        const link = portfolioData.personal.socialLinks.find(l => l.platform.toLowerCase() === platform);
+        const link = portfolioData.personal.links.find((l) => l.label.toLowerCase() === platform);
+        const label = link?.label || platform;
         return {
-            name: (link?.platform || platform).charAt(0).toUpperCase() + (link?.platform || platform).slice(1),
-            username: link?.username || '@user',
-            body: socialDescriptions[link?.platform || platform] || "Connect",
+            name: label.charAt(0).toUpperCase() + label.slice(1),
+            username: '@user',
+            body: socialDescriptions[label] || "Connect",
             image: socialIconsMap[platform.toLowerCase()] || ArrowUpRight,
             url: link?.url || '#'
         };

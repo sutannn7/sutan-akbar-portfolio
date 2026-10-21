@@ -167,7 +167,7 @@ const Typewriter = ({ examples }: { examples: string[] }) => {
 
 export function ProjectDetail({ project, onClose, isLowPowerMode }: { project: Project; onClose: () => void; isLowPowerMode?: boolean }) {
     const t = useTranslations('projects');
-    const isOngoing = project.status === 'ongoing';
+    const isOngoing = false;
     const [activeSection, setActiveSection] = useState<'overview' | 'tech' | 'features' | 'gallery' | 'install'>('overview');
     const [selectedFeature, setSelectedFeature] = useState<number | null>(null);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -263,7 +263,7 @@ export function ProjectDetail({ project, onClose, isLowPowerMode }: { project: P
                         {project.image ? (
                             <motion.img
                                 src={project.image}
-                                alt={project.title}
+                                alt={project.title.id}
                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                 initial={{ scale: 1.1 }}
                                 animate={{ scale: 1 }}
@@ -300,7 +300,7 @@ export function ProjectDetail({ project, onClose, isLowPowerMode }: { project: P
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.3 }}
                         >
-                            {project.title}
+                            {project.title.id}
                         </motion.h1>
 
                         {/* Status Badge & Date */}
@@ -320,7 +320,7 @@ export function ProjectDetail({ project, onClose, isLowPowerMode }: { project: P
                             </span>
                             <span className="flex items-center gap-2">
                                 <Calendar className="w-3.5 h-3.5" />
-                                {formatDate(project.startDate)}
+                                {formatDate(project.year)}
                             </span>
                         </motion.div>
 
@@ -374,7 +374,7 @@ export function ProjectDetail({ project, onClose, isLowPowerMode }: { project: P
                         <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
                             {(['overview', 'tech', 'features', 'gallery', 'install'] as const).map((section) => {
                                 // Conditionally render tabs based on available data
-                                if (section === 'gallery' && (!project.galleryImages || project.galleryImages.length === 0)) return null;
+                                if (section === 'gallery') return null;
 
                                 return (
                                     <button
@@ -426,7 +426,7 @@ export function ProjectDetail({ project, onClose, isLowPowerMode }: { project: P
                                                 </div>
                                             </div>
                                             <p className="text-base md:text-lg leading-relaxed text-zinc-600 dark:text-muted-foreground font-light tracking-wide border-l-2 border-black/15 dark:border-white/10 pl-6">
-                                                {project.longDescription || project.description}
+                                                {project.longDescription.id || project.description.id}
                                             </p>
                                         </motion.div>
 
@@ -434,9 +434,9 @@ export function ProjectDetail({ project, onClose, isLowPowerMode }: { project: P
                                         <motion.div variants={itemVariants} className="flex flex-wrap justify-center gap-x-12 gap-y-8 py-10 border-y border-black/25 dark:border-white/5">
                                             {[
                                                 { label: 'Role', value: project.role || 'Full Stack Dev', icon: Code },
-                                                { label: 'Timeline', value: project.customTimeline || '3 Months', icon: Calendar },
+                                                { label: 'Timeline', value: project.year || '3 Months', icon: Calendar },
                                                 { label: 'Tech', value: project.techStack?.[0] || 'Next.js', icon: Cpu },
-                                                { label: 'Status', value: project.status === 'ongoing' ? 'Ongoing' : 'Finished', icon: Info },
+                                                { label: 'Status', value: 'Finished', icon: Info },
                                             ].map((item, idx) => (
                                                 <div key={idx} className="flex flex-col items-center gap-3">
                                                     <div className="flex items-center gap-2 text-slate-500 dark:text-muted-foreground">
@@ -448,31 +448,6 @@ export function ProjectDetail({ project, onClose, isLowPowerMode }: { project: P
                                             ))}
                                         </motion.div>
                                     </div>
-
-                                    {/* Challenges & Solutions (Timeline Flow) */}
-                                    {project.challengesAndSolutions && (
-                                        <motion.div variants={itemVariants} className="space-y-8">
-                                            <h3 className="text-xl font-bold flex items-center gap-3 text-foreground/90">
-                                                <Terminal className="w-5 h-5 text-amber-500" />
-                                                Engineering Chronicles
-                                            </h3>
-
-                                            <div className="relative border-l border-black/40 dark:border-white/10 ml-3 space-y-12 pl-8 pb-4">
-                                                {project.challengesAndSolutions.map((item, idx) => (
-                                                    <div key={idx} className="relative group">
-                                                        <div className="absolute -left-[37px] top-1 w-4 h-4 rounded-full bg-background border-2 border-black/40 dark:border-white/10 group-hover:border-amber-500 transition-colors z-10" />
-                                                        <h4 className="text-lg font-bold text-foreground mb-2 group-hover:text-amber-500 transition-colors">
-                                                            {item.problem}
-                                                        </h4>
-                                                        <div className="text-sm text-zinc-600 dark:text-muted-foreground pl-4 border-l border-black/30 dark:border-white/5">
-                                                            <span className="text-emerald-700 dark:text-emerald-500 font-bold text-xs uppercase tracking-wider block mb-1">{t('sections.solution')}</span>
-                                                            {item.solution}
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </motion.div>
-                                    )}
 
                                     {/* Support Section (Clean Call to Action) */}
                                     <motion.div variants={itemVariants} className="pt-12 border-t border-black/10 dark:border-white/5">
@@ -520,80 +495,16 @@ export function ProjectDetail({ project, onClose, isLowPowerMode }: { project: P
                                     exit={{ opacity: 0 }}
                                     className=""
                                 >
-                                    <TechStack techStack={project.techStack} tools={project.tools} />
+                                    <TechStack techStack={project.techStack} tools={project.techStack} />
                                 </motion.div>
                             )}
 
                             {/* FEATURES SECTION - Transparent & Connected */}
-                            {activeSection === 'features' && (
-                                <motion.div
-                                    key="features"
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.95 }}
-                                    className="h-full flex flex-col p-6"
-                                >
-                                    {project.features ? (
-                                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 h-full">
-                                            {project.features.map((group, idx) => (
-                                                <motion.div
-                                                    key={idx}
-                                                    initial={{ opacity: 0, y: 20 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    transition={{ delay: idx * 0.1 }}
-                                                    className="group relative flex flex-col p-6 rounded-3xl bg-zinc-100/80 dark:bg-zinc-900/40 backdrop-blur-md border border-black/25 dark:border-white/5 hover:bg-white dark:hover:bg-zinc-900/60 hover:border-emerald-500/30 shadow-md hover:shadow-xl transition-all duration-500 overflow-hidden"
-                                                >
-                                                    {/* Hover Gradient Effect */}
-                                                    <div className="absolute inset-0 bg-gradient-to-b from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-                                                    {/* Icon Header */}
-                                                    <div className="mb-6 relative z-10">
-                                                        <div className="w-12 h-12 rounded-2xl bg-black/10 dark:bg-white/5 border border-black/10 dark:border-white/10 flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-emerald-500/10 transition-all duration-500">
-                                                            {idx === 0 ? <Box className="w-6 h-6 text-emerald-700 dark:text-emerald-400" /> :
-                                                                idx === 1 ? <Terminal className="w-6 h-6 text-blue-700 dark:text-blue-400" /> :
-                                                                    <Zap className="w-6 h-6 text-amber-700 dark:text-amber-400" />}
-                                                        </div>
-                                                        <h3 className="text-xl font-black tracking-tight text-foreground group-hover:text-emerald-700 dark:group-hover:text-emerald-400 transition-colors">
-                                                            {group.title}
-                                                        </h3>
-                                                    </div>
-
-                                                    {/* Feature List */}
-                                                    <div className="space-y-4 relative z-10 font-normal">
-                                                        {group.items.map((item, i) => (
-                                                            <div key={i} className="flex gap-3 text-sm text-zinc-600 dark:text-muted-foreground group-hover:text-foreground transition-colors leading-relaxed">
-                                                                <div className="mt-1.5 w-1 h-1 rounded-full bg-emerald-500/50 group-hover:bg-emerald-400 shrink-0" />
-                                                                <span>{renderRichText(item)}</span>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </motion.div>
-                                            ))}
-                                        </div>
-                                    ) : (
-                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                            {project.highlights?.map((highlight, i) => (
-                                                <motion.div
-                                                    key={i}
-                                                    initial={{ opacity: 0, scale: 0.9 }}
-                                                    animate={{ opacity: 1, scale: 1 }}
-                                                    transition={{ delay: i * 0.1 }}
-                                                    className="flex items-center gap-4 p-6 rounded-2xl bg-zinc-100/80 dark:bg-white/5 border border-black/25 dark:border-white/5 hover:border-emerald-500/30 transition-all hover:bg-white dark:hover:bg-white/10 shadow-sm"
-                                                >
-                                                    <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-700 dark:text-emerald-500 border border-emerald-500/20">
-                                                        <CheckCircle2 className="w-6 h-6" />
-                                                    </div>
-                                                    <span className="text-lg text-foreground font-bold">{renderRichText(highlight)}</span>
-                                                </motion.div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </motion.div>
-                            )}
 
 
                             {/* GALLERY SECTION */}
-                            {activeSection === 'gallery' && project.galleryImages && (
+                            {false && (
                                 <motion.div
                                     key="gallery"
                                     initial={{ opacity: 0, x: 20 }}
@@ -602,48 +513,13 @@ export function ProjectDetail({ project, onClose, isLowPowerMode }: { project: P
                                     className="space-y-4 p-6"
                                 >
                                     <ProjectGallery
-                                        images={project.galleryImages || []}
+                                        images={[]}
                                         repoUrl={project.repoUrl}
                                         onImageClick={(img) => setSelectedImage(img)}
                                     />
                                 </motion.div>
                             )}
 
-                            {/* INSTALL SECTION */}
-                            {activeSection === 'install' && (
-                                <motion.div
-                                    key="install"
-                                    initial={{ opacity: 0, x: 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -20 }}
-                                    className="space-y-4 p-6"
-                                >
-                                    {project.installation ? (
-                                        project.installation.map((step, i) => (
-                                            <div key={i} className="bg-zinc-100/80 dark:bg-white/5 rounded-xl overflow-hidden border border-black/30 dark:border-white/5 shadow-sm">
-                                                <div className="bg-black/[0.05] dark:bg-white/5 px-4 py-2 flex items-center gap-2 border-b border-black/30 dark:border-white/5">
-                                                    <div className="w-4 h-4 rounded-full bg-emerald-600/20 dark:bg-emerald-500/20 flex items-center justify-center text-[10px] font-bold text-emerald-700 dark:text-emerald-400">{i + 1}</div>
-                                                    <h3 className="text-xs font-bold text-foreground/80">{step.title}</h3>
-                                                </div>
-                                                {step.type === 'code' ? (
-                                                    <div className="p-0">
-                                                        <TerminalBlock title={step.title} code={step.code || ''} />
-                                                    </div>
-                                                ) : (
-                                                    <div className="p-4 text-sm font-mono text-zinc-600 dark:text-muted-foreground whitespace-pre-wrap leading-relaxed">
-                                                        {step.code}
-                                                    </div>
-                                                )}
-                                            </div>
-                                        ))
-                                    ) : (
-                                        <TerminalBlock
-                                            title="Quick Start"
-                                            code={`git clone ${project.repoUrl}\ncd project\nnpm install\nnpm run dev`}
-                                        />
-                                    )}
-                                </motion.div>
-                            )}
                         </AnimatePresence>
                     </div>
                 </div>

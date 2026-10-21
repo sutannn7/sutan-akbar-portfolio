@@ -20,8 +20,8 @@ const toolLogos: Record<string, string> = {
 };
 
 export const ToolsSection = () => {
-    const topRow = portfolioData.tools.slice(0, 5);
-    const bottomRow = portfolioData.tools.slice(5, 10);
+    const topRow: { name: string; icon: string }[] = [];
+    const bottomRow: { name: string; icon: string }[] = [];
 
     return (
         <section

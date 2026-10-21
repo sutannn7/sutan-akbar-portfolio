@@ -38,10 +38,10 @@ const skillVisuals: Record<string, string> = {
 
 const allCards = portfolioData.softSkills.slice(0, 10).map((skill, index) => ({
   id: index + 1,
-  title: skill.name,
-  description: skill.description,
-  url: skillVisuals[skill.name] || 'https://illustrations.popsy.co/white/abstract-art-6.svg',
-  Icon: skillIcons[skill.name] || Users
+  title: skill,
+  description: '',
+  url: skillVisuals[skill] || 'https://illustrations.popsy.co/white/abstract-art-6.svg',
+  Icon: skillIcons[skill] || Users
 }));
 
 export const HorizontalScrollCarousel = () => {

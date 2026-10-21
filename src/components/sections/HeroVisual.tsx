@@ -181,7 +181,7 @@ export function HeroVisual({ isExiting = false }: { isExiting?: boolean }) {
             <div className="relative">
               <div ref={githubRef} className="absolute -top-4 right-0 md:right-2 text-primary/60 hover:text-primary z-20 opacity-0">
                 <a
-                  href={personal.socialLinks.find(s => s.platform === 'GitHub')?.url}
+                  href={personal.links.find(s => s.label === 'GitHub')?.url}
                   target="_blank"
                   className="block"
                 >
@@ -204,7 +204,7 @@ export function HeroVisual({ isExiting = false }: { isExiting?: boolean }) {
             <div className="relative">
               <div ref={linkedinRef} className="absolute -top-8 left-4 text-primary/60 hover:text-primary z-20 opacity-0">
                 <a
-                  href={personal.socialLinks.find(s => s.platform === 'LinkedIn')?.url}
+                  href={personal.links.find(s => s.label === 'LinkedIn')?.url}
                   target="_blank"
                   className="block"
                 >
@@ -213,7 +213,7 @@ export function HeroVisual({ isExiting = false }: { isExiting?: boolean }) {
               </div>
               <div ref={instagramRef} className="absolute -bottom-12 right-24 md:right-36 text-primary/60 hover:text-primary z-20 opacity-0">
                 <a
-                  href={personal.socialLinks.find(s => s.platform === 'Instagram')?.url}
+                  href={personal.links.find(s => s.label === 'Instagram')?.url}
                   target="_blank"
                   className="block"
                 >
@@ -350,9 +350,9 @@ export function HeroVisual({ isExiting = false }: { isExiting?: boolean }) {
                 title="AI Engineer & Software Engineer"
                 description={`${personal.name} is a dedicated AI & Software Engineer focused on building scalable, intelligent systems and robust software architectures. He specializes in bridging technical innovation with high-performance execution to deliver meaningful and impactful digital solutions.`}
                 imageUrl={personal.avatar}
-                githubUrl={personal.socialLinks.find(s => s.platform === 'GitHub')?.url}
-                linkedinUrl={personal.socialLinks.find(s => s.platform === 'LinkedIn')?.url}
-                instagramUrl={personal.socialLinks.find(s => s.platform === 'Instagram')?.url}
+                githubUrl={personal.links.find(s => s.label === 'GitHub')?.url}
+                linkedinUrl={personal.links.find(s => s.label === 'LinkedIn')?.url}
+                instagramUrl={personal.links.find(s => s.label === 'Instagram')?.url}
                 className="!max-w-4xl scale-[0.8] origin-left"
               />
             </motion.div>
