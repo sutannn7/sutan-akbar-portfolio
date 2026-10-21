@@ -442,6 +442,97 @@ git -c user.name="opencode" -c user.email="opencode@local" commit -m "chore: pru
 
 ---
 
+### Task 2c: Sapu sisa identitas fork (darurat)
+
+> **Kenapa task ini ada:** `src/proxy.ts` (middleware Next.js 16) **redirect SEMUA pengunjung HP ke `https://arfazrllworkspace.vercel.app/`** — situs milik penulis fork. Kalau rekrut'er membuka URL portofolio dari CV-nya di HP, dia melihat situs orang lain. Selain itu masih ada logo fork, metadata "Arfazrll | AI & Software Engineer", CV PDF orang lain, dan beberapa `href="#"`. Semua harus hilang **sebelum** Task 6/7/8 menulis ulang file yang sama — supaya tidak ada yang terlewat.
+
+**Files:**
+- Delete: `src/proxy.ts`
+- Delete: `public/Arfazrll_dark.svg`, `public/Arfazrll_light.svg`, `public/resume.pdf`
+- Modify: `src/app/layout.tsx` (metadata + icons)
+- Modify: `src/components/layout/Navbar.tsx`
+- Modify: `src/components/layout/Footer.tsx`
+- Modify: `src/components/sections/HeroVisual.tsx`
+- Modify: `src/components/sections/NavigationShortcuts.tsx`
+- Modify: `src/components/ui/argent-loop-infinite-slider.tsx`
+- Modify: `src/lib/portfolio.validate.test.ts` (tambah guard sumber)
+
+**Interfaces:**
+- Consumes: `portfolioData.personal.links` (Task 4)
+- Produces: **nol** referensi `arfazrll` / `arfazrllworkspace` / `syahrilarfianalmazril` di seluruh `src/` dan `public/`. Guard otomatis baru: `src/lib/fork-identity.test.ts`.
+
+- [ ] **Step 1: Hapus `src/proxy.ts`**
+
+File itu middleware Next.js 16 yang mendeteksi user-agent mobile lalu mengarahkan ke situs penulis fork. Untuk portofolio Sutan, **HP harus menampilkan portofolio yang sama** — tidak ada alasan redirect. Hapus seluruh filenya. `proxy.ts` opsional di Next.js; tanpa itu semua request lolos normal.
+
+Verifikasi tidak ada middleware lain yang meng-importnya.
+
+- [ ] **Step 2: Hapus aset fork di `public/`**
+
+```bash
+git rm public/Arfazrll_dark.svg public/Arfazrll_light.svg public/resume.pdf
+```
+`resume.pdf` adalah CV penulis fork. `public/cv.pdf` (CV Sutan) dibuat di Task 10 Step 5.
+
+- [ ] **Step 3: Perbaiki metadata `src/app/layout.tsx`**
+
+- `metadata.title.default` → `Sutan Akbar — Frontend Engineer`
+- `metadata.title.template` → `%s | Sutan Akbar`
+- `metadata.description` → `Frontend Engineer dari Palembang. Antarmuka yang ringan, kode yang rapi, dan produk yang jalan di HP orang.`
+- `metadata.authors` / `creator` → `Sutan Akbar Dwi Nugraha`
+- `metadata.keywords` → `frontend engineer, react, nextjs, tailwind, palembang`
+- `metadataBase` → `new URL('https://sutan-akbar.vercel.app')`
+- `openGraph` + `twitter`: isi dengan nilai yang sama, `twitter.creator` = `@sutannn7`
+- `icons` → `{ icon: '/favicon.svg' }` (hapus `/Arfazrll_light.svg` & `/Arfazrll_dark.svg`)
+- `viewport.themeColor` → dark `#08080C`, light `#FAFAFB`
+
+(Task 6 akan menyempurnakan metadata ini lagi — di sini tujuannya hanya membuang identitas fork.)
+
+- [ ] **Step 4: Buang link `arfazrllworkspace` di Navbar, Footer, HeroVisual**
+
+- `src/components/layout/Navbar.tsx:215` — `<Link href="https://arfazrllworkspace.vercel.app/">` → **hapus elemennya** (atau ganti ke `/projects` bila itu tombol CTA-nya).
+- `src/components/layout/Footer.tsx:221` — `href="https://arfazrllworkspace.vercel.app/"` → **hapus**.
+- `src/components/sections/HeroVisual.tsx:181` dan `:191` — `onClick={() => window.open('https://arfazrllworkspace.vercel.app/', '_blank')}` → **hapus handler-nya**, dan sekalian jangan render tombol yang jadi tanpa tujuan. Kalau tombolnya "Lihat Portofolio", arahkan ke `/projects`.
+
+- [ ] **Step 5: Buang `href="#"` di Footer dan NavigationShortcuts**
+
+- `src/components/layout/Footer.tsx:370-372` — `portfolioData.personal.links.find(s => s.label === 'LinkedIn')?.url || '#'`, `'Instagram'`, `'GitHub'`. `personal.links` = GitHub, LinkedIn, WhatsApp, Email — **tidak ada Instagram**. Render hanya link yang benar-benar ada; kalau tidak ada, **jangan render barisnya** (bukan `href="#"`).
+- `src/components/sections/NavigationShortcuts.tsx:242` — `href={item.href || '#'}` → kalau `item.href` kosong, **jangan render** item-nya.
+
+- [ ] **Step 6: Buang link GitHub fork dari slider**
+
+`src/components/ui/argent-loop-infinite-slider.tsx:357` — `href="https://github.com/Arfazrll"` → arahkan ke `https://github.com/sutannn7`, atau hapus elemen link-nya kalau tidak ada tujuan yang masuk akal.
+
+- [ ] **Step 7: Tambah guard sumber `src/lib/fork-identity.test.ts`**
+
+Test yang memindai **seluruh** file `.ts`/`.tsx`/`.svg`/`.json`/`.md` di bawah `src/` dan `public/` (kecuali file test itu sendiri) untuk pola berikut, case-insensitive:
+```
+/arfazrll/
+/arfazrllworkspace/
+/syahrilarfianalmazril/
+```
+**Harus nol match.** Test ini yang mencegah identitas fork merayap balik.
+
+Pengecualian yang sah: file test itu sendiri yang mendeklarasikan regex-nya, dan `src/lib/verify-build.test.ts` yang sengaja memakai kata "Arfazrll" sebagai contoh fixture — **kecualikan kedua file itu dari pemindaian**, dan buat daftar pengecualian itu sebagai konstanta yang jelas di dalam test.
+
+- [ ] **Step 8: Verifikasi**
+
+```bash
+npm.cmd run test
+npm.cmd run typecheck
+node scripts/find-unreachable.mjs
+```
+Expected: test hijau (termasuk test baru); typecheck **tetap 13** error (semua TS2307 di file milik Task 6–10 — cek bahwa menghapus `proxy.ts` dan aset public **tidak** menambah/mengurangi hitungan itu); jumlah file tak terjangkau tidak bertambah.
+
+- [ ] **Step 9: Commit**
+
+```bash
+git add -A
+git -c user.name="opencode" -c user.email="opencode@local" commit -m "fix: remove fork identity - mobile redirect to foreign site, fork logos, fork CV, dead # links"
+```
+
+---
+
 ### Task 3: Token desain, tema, dan konfigurasi Next
 
 **Files:**

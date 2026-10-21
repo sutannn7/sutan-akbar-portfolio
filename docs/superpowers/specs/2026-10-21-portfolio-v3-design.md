@@ -182,9 +182,10 @@ type PortfolioData = {
   softSkills: string[]
   milestones: { year: string; title: Localized; description: Localized; href?: string }[]
   journey: { year: string; title: Localized; org: Localized; points: Localized[] }[]
-  stats: { label: Localized; value: number; suffix?: string }[]
 }
 ```
+
+> **Catatan:** `stats` sengaja **tidak** ada di tipe data. Angka-angka statistik (jumlah proyek, jumlah demo live, jumlah mini project, jumlah teknologi) **dihitung dari data** saat render (§6.3) — bukan disimpan sebagai array yang bisa basi. Tidak ada field `stats` di `PortfolioData`.
 
 > EN untuk prosa panjang boleh lebih ringkas daripada ID. EN untuk judul, label, dan tombol harus lengkap.
 
@@ -208,7 +209,7 @@ type PortfolioData = {
 | 1 | LearnEase — Redesign UI/UX LMS POLSRI | UI/UX & Frontend | Developer, tim 5 orang | 2026 | github.com/sutannn7/polsri-lms-frontend | polsri-lms-frontend.vercel.app |
 | 2 | Website Profil Jurusan MI POLSRI | Web | Mandiri | 2026 | github.com/sutannn7/web-informatika-mi-polsri | — (tanpa demo) |
 | 3 | Nusantara Kopi | Frontend | Tim 4 orang, Event SINTAK | 2025 | — | nusantara-kopi.vercel.app |
-| 4 | Portofolio Pribadi (v3 ini) | Frontend | Mandiri | 2026 | github.com/sutannn7/sutan-akbar-portfolio | — |
+| 4 | Portofolio Pribadi (v3 ini) | Frontend | Mandiri | 2026 | github.com/sutannn7/sutan-akbar-portfolio | https://sutan-akbar.vercel.app |
 
 > Proyek #1 = centerpiece. `longDescription`-nya wajib memuat **proses**: audit 8 halaman → design token → dark mode → 7 halaman prototipe → test runner → verifikasi headless Chrome → usulan perubahan UI/UX ke moyar. Bukan cuma daftar teknologi.
 >
