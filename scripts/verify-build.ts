@@ -1,11 +1,8 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { findForbidden } from '../src/lib/verify-build.ts';
+import { findForbidden, isTextFile, parseForbidden } from '../src/lib/verify-build.ts';
 
-const forbidden = process.argv
-  .slice(2)
-  .filter((arg) => arg.startsWith('--forbidden='))
-  .map((arg) => arg.slice('--forbidden='.length));
+const forbidden = parseForbidden(process.argv.slice(2));
 
 const serverDir = '.next/server/app';
 if (!existsSync(serverDir)) {
@@ -24,7 +21,14 @@ const files = [serverDir, '.next/static'].filter(existsSync).flatMap(listFiles);
 let failed = false;
 
 for (const file of files) {
-  for (const match of findForbidden(readFileSync(file, 'utf8'), forbidden)) {
+  if (!isTextFile(file)) continue;
+  let text: string;
+  try {
+    text = readFileSync(file, 'utf8');
+  } catch {
+    continue;
+  }
+  for (const match of findForbidden(text, forbidden)) {
     console.error(`${file}: ${match}`);
     failed = true;
   }

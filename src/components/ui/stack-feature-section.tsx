@@ -3,13 +3,9 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {
-  FaPython, FaVuejs, FaReact, FaNodeJs, FaGithub,
-  FaDocker, FaAws, FaBrain
-} from "react-icons/fa";
-import {
-  SiVite, SiTypescript, SiTailwindcss, SiNextdotjs, 
-  SiFlask, SiJavascript, SiVercel
-} from "react-icons/si";
+  Atom, Box, Braces, BrainCircuit, Cloud, Code2, Component,
+  FileCode2, FlaskConical, Github, Layers, Server, Triangle, Wind, Zap
+} from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
 import MagneticEffect from "@/components/ui/MagneticEffect";
 
@@ -19,21 +15,21 @@ const fallbackUrls = [
 ];
 
 const iconConfigs = [
-  { Icon: FaPython, color: "#3776AB" },
-  { Icon: FaVuejs, color: "#4FC08D" },
-  { Icon: SiVite, color: "#646CFF" },
-  { Icon: SiTypescript, color: "#3178C6" },
-  { Icon: SiTailwindcss, color: "#06B6D4" },
-  { Icon: FaReact, color: "#61DAFB" },
-  { Icon: SiNextdotjs, color: "#000000", darkColor: "#ffffff" },
-  { Icon: FaNodeJs, color: "#339933" },
-  { Icon: SiFlask, color: "#000000", darkColor: "#ffffff" },
-  { Icon: FaGithub, color: "#181717", darkColor: "#ffffff" },
-  { Icon: FaDocker, color: "#2496ED" },
-  { Icon: FaAws, color: "#FF9900" },
-  { Icon: SiJavascript, color: "#F7DF1E" },
-  { Icon: SiVercel, color: "#000000", darkColor: "#ffffff" },
-  { Icon: FaBrain, color: "#FF69B4" },
+  { Icon: Code2, color: "#3776AB" },
+  { Icon: Component, color: "#4FC08D" },
+  { Icon: Zap, color: "#646CFF" },
+  { Icon: FileCode2, color: "#3178C6" },
+  { Icon: Wind, color: "#06B6D4" },
+  { Icon: Atom, color: "#61DAFB" },
+  { Icon: Triangle, color: "#000000", darkColor: "#ffffff" },
+  { Icon: Server, color: "#339933" },
+  { Icon: FlaskConical, color: "#000000", darkColor: "#ffffff" },
+  { Icon: Github, color: "#181717", darkColor: "#ffffff" },
+  { Icon: Box, color: "#2496ED" },
+  { Icon: Cloud, color: "#FF9900" },
+  { Icon: Braces, color: "#F7DF1E" },
+  { Icon: Layers, color: "#000000", darkColor: "#ffffff" },
+  { Icon: BrainCircuit, color: "#FF69B4" },
   { Icon: null, img: fallbackUrls[0] },
   { Icon: null, img: fallbackUrls[1] },
 ];
@@ -81,7 +77,7 @@ export default function FeatureSection() {
             {/* Center Circle */}
             <div className="w-16 h-16 md:w-28 md:h-28 rounded-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-white/10 shadow-lg flex items-center justify-center z-10 relative">
               <div className="center-spin">
-                <FaReact className="w-8 h-8 md:w-14 md:h-14 text-[#61DAFB]" />
+                <Atom className="w-8 h-8 md:w-14 md:h-14 text-[#61DAFB]" />
               </div>
             </div>
 
