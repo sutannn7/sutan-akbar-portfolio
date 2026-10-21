@@ -8,15 +8,10 @@ import Image from "next/image";
 
 const certificates = [
   "/certificate/Data Analytics on Google Cloud.webp",
-  "/certificate/Deep Learning Beginner.webp",
   "/certificate/Docker, Kubernetes dan DevOps.webp",
   "/certificate/Fullstack Programming Untuk Pemula.webp",
-  "/certificate/Introduction to Generative AI.webp",
-  "/certificate/Machine Learning Foundations.webp",
   "/certificate/Mastering Smart Contract.webp",
   "/certificate/Started with Databases.webp",
-  "/certificate/Supervised Machine Learning Regression and Classification.webp",
-  "/certificate/elevAIte with Dicoding Program 2025.webp",
 ];
 
 function ScrambleButton({ href }: { href: string }) {
@@ -167,9 +162,9 @@ export function CertificateShowcase() {
           className="relative box-border flex h-[100vh] md:h-[130vh] gap-4 md:gap-6 overflow-hidden rounded-none"
         >
           {/* Fill each column with more images so they don't run out during the scroll */}
-          <Column images={[certificates[0], certificates[1], certificates[2], certificates[3], certificates[4], certificates[5]]} y={y} />
-          <Column images={[certificates[5], certificates[6], certificates[7], certificates[8], certificates[9], certificates[0]]} y={y2} />
-          <Column images={[certificates[9], certificates[8], certificates[7], certificates[6], certificates[5], certificates[4]]} y={y3} />
+          <Column images={[certificates[0], certificates[1], certificates[2], certificates[3], certificates[4], certificates[0]]} y={y} />
+          <Column images={[certificates[1], certificates[2], certificates[3], certificates[4], certificates[0], certificates[1]]} y={y2} />
+          <Column images={[certificates[4], certificates[3], certificates[2], certificates[1], certificates[0], certificates[4]]} y={y3} />
         </div>
       </div>
       

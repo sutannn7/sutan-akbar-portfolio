@@ -168,8 +168,7 @@ const Typewriter = ({ examples }: { examples: string[] }) => {
 export function ProjectDetail({ project, onClose, isLowPowerMode }: { project: Project; onClose: () => void; isLowPowerMode?: boolean }) {
     const t = useTranslations('projects');
     const isOngoing = false;
-    const [activeSection, setActiveSection] = useState<'overview' | 'tech' | 'features' | 'gallery' | 'install'>('overview');
-    const [selectedFeature, setSelectedFeature] = useState<number | null>(null);
+    const [activeSection, setActiveSection] = useState<'overview' | 'tech'>('overview');
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
     // Parallax & Scroll Animations for Hero
@@ -372,10 +371,7 @@ export function ProjectDetail({ project, onClose, isLowPowerMode }: { project: P
                     {/* Tabs - Floating & Adaptive */}
                     <div className="sticky top-0 z-20 px-6 pt-6 pb-2 bg-gradient-to-b from-white to-transparent dark:from-zinc-950/95 dark:to-transparent backdrop-blur-sm lg:pl-12 transition-[padding]">
                         <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2">
-                            {(['overview', 'tech', 'features', 'gallery', 'install'] as const).map((section) => {
-                                // Conditionally render tabs based on available data
-                                if (section === 'gallery') return null;
-
+                            {(['overview', 'tech'] as const).map((section) => {
                                 return (
                                     <button
                                         key={section}
@@ -496,27 +492,6 @@ export function ProjectDetail({ project, onClose, isLowPowerMode }: { project: P
                                     className=""
                                 >
                                     <TechStack techStack={project.techStack} tools={project.techStack} />
-                                </motion.div>
-                            )}
-
-                            {/* FEATURES SECTION - Transparent & Connected */}
-
-
-
-                            {/* GALLERY SECTION */}
-                            {false && (
-                                <motion.div
-                                    key="gallery"
-                                    initial={{ opacity: 0, x: 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={{ opacity: 0, x: -20 }}
-                                    className="space-y-4 p-6"
-                                >
-                                    <ProjectGallery
-                                        images={[]}
-                                        repoUrl={project.repoUrl}
-                                        onImageClick={(img) => setSelectedImage(img)}
-                                    />
                                 </motion.div>
                             )}
 

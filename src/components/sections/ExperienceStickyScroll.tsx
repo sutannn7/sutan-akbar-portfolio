@@ -35,7 +35,7 @@ export default function ExperienceStickyScroll({ isLowPowerMode = false }: { isL
                         </div>
                         <h3 className="text-3xl font-black text-neutral-900 dark:text-white mb-4">Telkom University</h3>
                         <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
-                            Information Technology major with a GPV of 3.8/4.0. Focused on AI Engineering and Systems Research. Active in multiple high-impact research laboratories and national competitions.
+                            Information Technology major with a GPV of 3.8/4.0. Focused on software engineering and systems analysis. Active in multiple high-impact research laboratories and national competitions.
                         </p>
                     </div>
 

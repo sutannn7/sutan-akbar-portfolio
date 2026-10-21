@@ -987,7 +987,7 @@ export default function ProjectsPage() {
 
         const baseProducts = portfolioData.projects.map((p, i) => ({
             title: p.title.id,
-            link: p.repoUrl || p.demoUrl || '#',
+            link: (p.repoUrl || p.demoUrl)!,
             thumbnail: techImages[i % techImages.length]
         }));
         return [...baseProducts, ...baseProducts, ...baseProducts].slice(0, 10);
@@ -1020,7 +1020,6 @@ export default function ProjectsPage() {
 
     const categories = [
         { id: 'All', label: 'All Realms', icon: Globe },
-        { id: 'AI & Machine Learning', label: 'Artificial Intelligence', icon: Brain },
         { id: 'Software Engineering', label: 'Software Architecture', icon: Database },
         { id: 'More', label: 'More', icon: Layers },
     ];

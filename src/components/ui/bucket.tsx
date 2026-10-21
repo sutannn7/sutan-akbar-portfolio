@@ -8,9 +8,9 @@ import ImageTrail from "@/components/ImageTrail";
 const INITIAL_CHIPS = [
   {
     id: 1,
-    title: "AI Engineer",
-    description: "Architect intelligent systems",
-    icon: BrainCircuit,
+    title: "Frontend Engineer",
+    description: "Clean interfaces, mobile-ready",
+    icon: Code2,
   },
   {
     id: 2,

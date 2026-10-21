@@ -16,15 +16,15 @@ interface KineticTechGridProps {
 
 // Map tech names to descriptions that mimic the professional tone of Image 1
 const techDescriptions: Record<string, string> = {
-    'Python': 'High-performance AI modeling and automation.',
+    'Python': 'High-performance general-purpose programming and automation.',
     'TypeScript': 'Type-safe scalable application logic.',
     'JavaScript': 'Dynamic and interactive web development.',
     'Solidity': 'Immutable blockchain smart contracts.',
     'React': 'Interactive component-based user interfaces.',
     'Next.js': 'Production-grade React application framework.',
     'Node.js': 'Scalable asynchronous server-side execution.',
-    'TensorFlow': 'Deep learning and neural network architectures.',
-    'Scikit-learn': 'Predictive data analysis and machine learning.',
+    'TensorFlow': 'Numerical computation and dataflow graphs.',
+    'Scikit-learn': 'Predictive data analysis and statistical modeling.',
     'Pandas': 'High-performance data manipulation and analysis.',
     'NumPy': 'Fundamental scientific computing capabilities.',
     'Tailwind CSS': 'Rapid utility-first styling and design.',
@@ -33,8 +33,8 @@ const techDescriptions: Record<string, string> = {
     'Kubernetes': 'Automated container deployment and scaling.',
     'Docker': 'Standardized containerized environments.',
     'Terraform': 'Infrastructure as code provisioning.',
-    'LangChain': 'Large language model application orchestration.',
-    'PyTorch': 'Dynamic neural networks for research and production.',
+    'LangChain': 'Application orchestration and integration.',
+    'PyTorch': 'Dynamic computation for research and production.',
     'OpenCV': 'Real-time computer vision capabilities.',
 };
 

@@ -31,27 +31,6 @@ export function HeroVisual({ isExiting = false }: { isExiting?: boolean }) {
     if (!isExiting) return;
 
     const ctx = gsap.context(() => {
-      // Reveal + Loop for GitHub
-      gsap.fromTo(githubRef.current,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          onComplete: () => {
-            gsap.to(githubRef.current, {
-              y: -10,
-              duration: 2,
-              repeat: -1,
-              yoyo: true,
-              ease: "sine.inOut",
-              force3D: true
-            });
-          }
-        }
-      );
-
       // Reveal + Loop for LinkedIn
       gsap.fromTo(linkedinRef.current,
         { opacity: 0, y: 40 },
@@ -167,37 +146,6 @@ export function HeroVisual({ isExiting = false }: { isExiting?: boolean }) {
               </motion.div>
             )}
           </AnimatePresence>
-
-          {/* Line 1: AI & DATA */}
-          <div className="md:flex gap-8 items-center relative">
-            <motion.p
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-[10px] md:text-xs text-muted-foreground text-start md:text-right leading-relaxed max-w-[200px] md:max-w-[220px] font-medium uppercase tracking-[0.2em]"
-            >
-              Hi, I'm {personal.name}. I build scalable systems powered by intelligence.
-            </motion.p>
-            <div className="relative">
-              <div ref={githubRef} className="absolute -top-4 right-0 md:right-2 text-primary/60 hover:text-primary z-20 opacity-0">
-                <a
-                  href={personal.links.find(s => s.label === 'GitHub')?.url}
-                  target="_blank"
-                  className="block"
-                >
-                  <Github size={32} />
-                </a>
-              </div>
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={isExiting ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                className="text-[clamp(3rem,11vw,13rem)] font-black leading-[0.85] tracking-tighter text-shiny will-change-transform px-4"
-              >
-                AI & DATA
-              </motion.h1>
-            </div>
-          </div>
 
           {/* Line 2: SOFT [ICON] WARE */}
           <div className="md:flex gap-8 items-center relative">
@@ -347,8 +295,8 @@ export function HeroVisual({ isExiting = false }: { isExiting?: boolean }) {
             >
               <ProfileCard
                 name={personal.name}
-                title="AI Engineer & Software Engineer"
-                description={`${personal.name} is a dedicated AI & Software Engineer focused on building scalable, intelligent systems and robust software architectures. He specializes in bridging technical innovation with high-performance execution to deliver meaningful and impactful digital solutions.`}
+                title={personal.title.id}
+                description={personal.bio.id}
                 imageUrl={personal.avatar}
                 githubUrl={personal.links.find(s => s.label === 'GitHub')?.url}
                 linkedinUrl={personal.links.find(s => s.label === 'LinkedIn')?.url}

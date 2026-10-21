@@ -38,7 +38,7 @@ const showcaseMembers = [
         name: 'View more',
         role: 'Explore all experiences',
         image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1964&auto=format&fit=crop',
-        social: { website: '/experience' }
+        social: { website: '/about' }
     }
 ];
 
@@ -588,7 +588,7 @@ export default function AboutSection() {
                                     period: 'period' in member ? member.period : undefined,
                                     content: member.id === 'view-more' ? (
                                         <Link
-                                            href={member.social?.website || '/experience'}
+                                            href={member.social?.website || '/about'}
                                             className="relative flex items-center h-[140px] w-[250px] z-30"
                                         >
                                             <div className="flex items-center gap-4">

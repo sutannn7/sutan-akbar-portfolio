@@ -72,12 +72,12 @@ export const ProjectContact = ({ isLowPowerMode }: { isLowPowerMode?: boolean })
                         isLowPowerMode={isLowPowerMode}
                         text={
                             <>
-                                <strong><Hover3DFlipText text="Ready to build the extraordinary?" /></strong> <Hover3DFlipText text="From intelligent AI solutions to scalable software architectures, let's collaborate on your big idea." />
+                                <strong><Hover3DFlipText text="Ready to build the extraordinary?" /></strong> <Hover3DFlipText text="From clean interfaces to scalable software architectures, let's collaborate on your big idea." />
                             </>
                         }
                         examples={[
-                            "Looking for a Software & AI Engineer?",
-                            "Need an AI solution for your business?",
+                            "Looking for a Frontend Engineer?",
+                            "Need a frontend for your product?",
                             "Just want to say hi?",
                         ]}
                     />

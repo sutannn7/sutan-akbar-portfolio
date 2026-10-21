@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { portfolioData } from '@/data/portfolio';
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 const FORBIDDEN_CLAIMS = [
   /\bAI\b/,
@@ -9,11 +11,41 @@ const FORBIDDEN_CLAIMS = [
   /full-?stack engineer/i,
 ];
 
+// Component-layer guard: multi-word phrases only. Deliberately does NOT scan
+// for a bare `AI` substring (false positives on EMAIL, MAIN, DETAIL, ...).
+const FORBIDDEN_COMPONENT_CLAIMS = [
+  /\bAI Engineer\b/i,
+  /\bAI & DATA\b/i,
+  /\bMachine Learning\b/i,
+  /\bData Science\b/i,
+  /\bFull-?stack Engineer\b/i,
+  /scalable systems powered by intelligence/i,
+];
+
 function allStrings(value: unknown): string[] {
   if (typeof value === 'string') return [value];
   if (Array.isArray(value)) return value.flatMap(allStrings);
   if (value && typeof value === 'object') return Object.values(value).flatMap(allStrings);
   return [];
+}
+
+// Walk src/ recursively, returning every .ts/.tsx file. The test file itself
+// is excluded because it declares these very regexes as literals and would
+// self-match.
+function tsFiles(dir: string): string[] {
+  let out: string[] = [];
+  for (const ent of readdirSync(dir, { withFileTypes: true })) {
+    const full = join(dir, ent.name);
+    if (ent.isDirectory()) out.push(...tsFiles(full));
+    else if (
+      ent.isFile() &&
+      (full.endsWith('.ts') || full.endsWith('.tsx')) &&
+      !full.endsWith('portfolio.validate.test.ts')
+    ) {
+      out.push(full);
+    }
+  }
+  return out;
 }
 
 describe('portfolioData', () => {
@@ -59,5 +91,44 @@ describe('portfolioData', () => {
     expect(portfolioData.personal.name).toBeTruthy();
     expect(portfolioData.personal.email).toContain('@');
     expect(portfolioData.personal.location).toContain('Palembang');
+  });
+  it('proyek Website Jurusan kategori Web (bukan Full-stack)', () => {
+    const wj = portfolioData.projects.find((p) => p.title.id === 'Website Profil Jurusan MI POLSRI');
+    expect(wj).toBeDefined();
+    expect(wj?.category).toBe('Web');
+  });
+  it('lab kosong', () => {
+    expect(portfolioData.lab).toHaveLength(0);
+  });
+  it('LearnEase dan Portofolio v3 tidak punya image', () => {
+    const le = portfolioData.projects.find((p) => p.slug === 'learnease');
+    const p4 = portfolioData.projects.find((p) => p.slug === 'portofolio-v3');
+    expect(le?.image).toBeUndefined();
+    expect(p4?.image).toBeUndefined();
+  });
+  it('longDescription LearnEase mengikuti urutan proses', () => {
+    const le = portfolioData.projects.find((p) => p.slug === 'learnease');
+    expect(le).toBeDefined();
+    const ld = le!.longDescription.id;
+    const order = ['audit', 'token desain', 'mode gelap', 'prototipe', 'pengujian otomatis', 'Chrome headless', 'usulan'];
+    const indices = order.map((term) => ld.indexOf(term));
+    indices.forEach((idx, i) => {
+      expect(idx, `term '${order[i]}' ditemukan di longDescription LearnEase`).toBeGreaterThanOrEqual(0);
+    });
+    for (let i = 1; i < indices.length; i++) {
+      expect(indices[i], `${order[i - 1]} harus sebelum ${order[i]}`).toBeGreaterThan(indices[i - 1]);
+    }
+  });
+});
+
+describe('portfolioData komponen', () => {
+  it('tidak ada klaim terlarang di berkas komponen', () => {
+    const files = tsFiles(join(process.cwd(), 'src'));
+    for (const file of files) {
+      const content = readFileSync(file, 'utf8');
+      for (const re of FORBIDDEN_COMPONENT_CLAIMS) {
+        expect(content, `${file}: ${re}`).not.toMatch(re);
+      }
+    }
   });
 });

@@ -302,20 +302,17 @@ export default function ContactPage() {
     const t = useTranslations('contact');
     const { isLowPowerMode } = usePerformance();
 
-    const getSocialItem = (platform: string) => {
-        const link = portfolioData.personal.links.find((l) => l.label.toLowerCase() === platform);
-        const label = link?.label || platform;
-        return {
-            name: label.charAt(0).toUpperCase() + label.slice(1),
-            username: '@user',
-            body: socialDescriptions[label] || "Connect",
-            image: socialIconsMap[platform.toLowerCase()] || ArrowUpRight,
-            url: link?.url || '#'
-        };
-    };
+    const linkItems = portfolioData.personal.links.map((l) => ({
+        name: l.label.charAt(0).toUpperCase() + l.label.slice(1),
+        username: '@user',
+        body: socialDescriptions[l.label] || "Connect",
+        image: socialIconsMap[l.label.toLowerCase()] || ArrowUpRight,
+        url: l.url
+    }));
 
-    const row1Real = ['linkedin', 'github', 'instagram'].map(getSocialItem);
-    const row2Real = ['twitter', 'discord', 'spotify'].map(getSocialItem);
+    const mid = Math.ceil(linkItems.length / 2);
+    const row1Real = linkItems.slice(0, mid);
+    const row2Real = linkItems.slice(mid);
 
     const containerRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
