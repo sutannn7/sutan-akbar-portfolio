@@ -533,6 +533,84 @@ git -c user.name="opencode" -c user.email="opencode@local" commit -m "fix: remov
 
 ---
 
+### Task 2d: Matici dead link ke route yang sudah dihapus
+
+> **Kenapa task ini ada:** Task 2 menghapus route `/blog`, `/gallery`, `/achievements`, `/experience`. Tapi 7 file masih menautkan ke sana — sehingga klik di situsDcobaUNTUK membuka 404. Spec §2 anti-goal: "Dead link. Tidak ada tombol demo/proyek yang mengarah ke 404." Task 6/7/8 akan menulis ulang Navbar/Footer/StatsSection, tapi 4 file lain **tidak dimiliki task mana pun** — jadi harus dibersihkan sekarang.
+
+**Files:**
+- Modify: `src/components/layout/Navbar.tsx`
+- Modify: `src/components/layout/Footer.tsx`
+- Modify: `src/components/sections/StatsSection.tsx`
+- Modify: `src/components/sections/NavigationShortcuts.tsx`
+- Modify: `src/components/ui/CardNav.tsx`
+- Modify: `src/components/ui/arc-preloader-hero.tsx`
+- Modify: `src/components/ui/certificate-marquee.tsx`
+- Modify: `src/components/ui/testimonial-1.tsx`
+
+**Interfaces:**
+- Consumes: `portfolioData` (Task 4), `messages` (Task 5)
+- Produces: **nol** referensi ke `/blog`, `/gallery`, `/achievements`, `/experience` di seluruh `src/`.
+
+**Route yang valid (dan HANYA itu):** `/`, `/projects`, `/skills`, `/contact`, `/resume`.
+`/about` **belum ada** (Task 6 yang membuatnya) dan `/lab` juga belum (Plan 5) — jadi keduanya **tidak boleh** dipakai sebagai target.
+
+- [ ] **Step 1: `src/components/layout/Navbar.tsx`**
+
+Dropdown "About" memuat `achievements` (`:52`), `experience` (`:54`), `blog` (`:56`) — ketiganya route yang sudah dihapus. **Hapus entri-entri itu** beserta label/deskripsinya. Sisakan entri yang route-nya masih hidup (`/skills`, `/projects`).
+
+- [ ] **Step 2: `src/components/layout/Footer.tsx`**
+
+- `:159` `const isBlog = pathname?.includes('/blog')` dan `:161` `const isGallery = ...` — hapus variabelnya **dan** semua tempat yang memakainya (cek dengan grep di file itu).
+- `:443` `/achievements`, `:445` `/experience`, `:447` `/blog`, `:448` `/gallery` — hapus baris link tersebut dari grup footer.
+
+- [ ] **Step 3: `src/components/sections/StatsSection.tsx`**
+
+`:105` `href="/gallery"`, `:126` dan `:229` `href="/blog"` — hapus elemen link-nya (atau arahkan ke `/projects` kalau itu tombol CTA stats; pilih yang paling masuk akal, tapi jangan pakai route yang tidak ada).
+
+- [ ] **Step 4: `src/components/sections/NavigationShortcuts.tsx`**
+
+`:95` dan `:96` → `/experience`; `:98` → `/achievements`; `:112` → `/blog`; `:113` → `/gallery`. **Hapus item-item ini** dari array shortcut. Item yang tersisa harus punya `href` yang valid.
+
+- [ ] **Step 5: `src/components/ui/CardNav.tsx`**
+
+`:229` array `allHrefs` memuat `/experience`, `/achievements`, `/blog`, `/gallery` — hapus dari array. `:294` `/experience`, `:299` `/achievements`, `:300` `/blog`, `:309` `/gallery` — hapus elemen menu tersebut.
+
+- [ ] **Step 6: `src/components/ui/arc-preloader-hero.tsx`**
+
+`:66` `const isBackToBlog = prevPathname.startsWith('/blog/') && pathname === '/blog'` — hapus variabel itu dan percabangan yang memakainya.
+
+- [ ] **Step 7: `src/components/ui/certificate-marquee.tsx` dan `src/components/ui/testimonial-1.tsx`**
+
+`certificate-marquee.tsx:153` `<ScrambleButton href="/achievements" />` — hapus (atau arahkan ke `/about` **hanya kalau** file `src/app/about/page.tsx` sudah ada; kalau belum, hapus).
+`testimonial-1.tsx:58` `href: "/experience"` — hapus entri testimonial itu atau arahkan ke route yang valid.
+
+- [ ] **Step 8: Hapus message key yang jadi yatim**
+
+Setelah penghapusan di atas, beberapa kunci `t('achievements')`, `t('experience')`, `t('blog')`, `t('gallery')`, `t('achievementsDesc')`, `t('experienceDesc')`, `t('blogDesc')`, `t('galleryDesc')`, `t('menu.experience')` mungkin tidak lagi dipakai. Grep `src/` untuk tiap kunci itu; yang tidak terpakai **hapus dari `messages/id.json` DAN `messages/en.json`** (dua file harus tetap punya key set identik).
+
+- [ ] **Step 9: Verifikasi**
+
+```bash
+npm.cmd run test
+npm.cmd run typecheck
+```
+Lalu grep untuk memastikan nol sisa:
+```bash
+grep -rn "/blog\|/gallery\|/achievements\|/experience" src/
+```
+Expected: tidak ada **link** ke route itu. String yang tersisa hanya boleh di `messages/*.json` kalau masih dipakai, atau di dalam `src/lib/*.test.ts` sebagai fixture.
+
+`npm.cmd run typecheck` harus tetap **13** error. `npm.cmd run test` harus hijau.
+
+- [ ] **Step 10: Commit**
+
+```bash
+git add -A
+git -c user.name="opencode" -c user.email="opencode@local" commit -m "fix: remove links to deleted routes - blog, gallery, achievements, experience"
+```
+
+---
+
 ### Task 3: Token desain, tema, dan konfigurasi Next
 
 **Files:**
@@ -1493,6 +1571,7 @@ Task 6 sudah membuat halaman ini. Sekarang lengkapi: pendidikan (POLSRI D-IV Man
 
 - [ ] **Step 4: Sederhanakan `/resume`**
 
+- `src/app/resume/page.tsx:56` masih mereferensikan `/resume.pdf` — file itu **sudah dihapus** di Task 2c (itu CV penulis fork). Arahkan ke `/cv.pdf`.
 - Tombol unduh `public/cv.pdf` (atribut `download`).
 - Embed ringan: `<object data="/cv.pdf" type="application/pdf" class="w-full h-[80vh]">` dengan fallback link unduh. **Bukan** `pdf-viewer.tsx` / react-pdf (sudah dihapus di Task 2).
 - Tombol "Salin email" (clipboard API) sebagai alternatif.
