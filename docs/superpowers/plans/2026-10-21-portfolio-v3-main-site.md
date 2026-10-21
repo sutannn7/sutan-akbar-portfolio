@@ -115,6 +115,14 @@ npm.cmd install
 ```
 Expected: `npm install` selesai tanpa error; `node_modules/` berisi `next`, `react`, `tailwindcss`.
 
+Lalu salin dua screenshot yang sudah ada ke `public/projects/`:
+```bash
+mkdir -p public\projects
+copy "C:\Users\lenovo\portofolio-nextjs\public\projects\polsri.jpg" public\projects\
+copy "C:\Users\lenovo\portofolio-nextjs\public\projects\kopi.jpg" public\projects\
+```
+Verified: kedua file ada di `public/projects/`. (`learnease.jpg` dan screenshot portofolio v3 menyusul di Task 11; sampai itu, kartu proyek itu merender tanpa gambar — bukan dengan gambar placeholder.)
+
 - [ ] **Step 2: Tambah vitest sebagai satu-satunya dev dependency baru**
 
 ```bash
@@ -125,9 +133,10 @@ Tambahkan ke `package.json`:
 "scripts": {
   "test": "vitest run",
   "typecheck": "tsc --noEmit",
-  "verify": "node scripts/verify-build.mjs"
+  "verify": "node --experimental-strip-types scripts/verify-build.ts"
 }
 ```
+Tambahkan juga ke `tsconfig.json` pada array `exclude`: `"scripts"` (agar `tsc --noEmit` tidak mengecek import berekstensi `.ts` di dalam `scripts/`).
 
 - [ ] **Step 3: Buat `vitest.config.ts`**
 
@@ -177,7 +186,7 @@ export function findForbidden(text: string, forbidden: string[]): string[] {
   return forbidden.filter((f) => lower.includes(f.toLowerCase()));
 }
 ```
-Buat `scripts/verify-build.mjs` yang: membaca semua file teks di `.next/server/app` dan `.next/static`, memanggil `findForbidden` dengan daftar dari argumen `--forbidden=`, mencetak offending file + string, dan `process.exit(1)` kalau ada yang kena. Kalau `.next/server/app` belum ada, keluar 0 dengan pesan "no build output — jalankan npm run build dulu".
+Buat `scripts/verify-build.ts` yang: meng-import `findForbidden` dari `../src/lib/verify-build.ts` (satu-satunya implementasi — jangan duplikasi logikanya), membaca semua file teks di `.next/server/app` dan `.next/static`, mengumnikan string forbidden dari argumen `--forbidden=`, mencetak offending file + string, dan `process.exit(1)` kalau ada yang kena. Kalau `.next/server/app` belum ada, keluar 0 dengan pesan "no build output - jalankan npm run build dulu".
 
 - [ ] **Step 7: Jalankan test untuk memastikan lulus**
 
@@ -213,14 +222,14 @@ git commit -m "chore: bootstrap repo - vitest, verify-build script, spec, env ex
 
 **Files:**
 - Delete: `src/app/api/` (seluruhnya: chat, contact, gallery, github-languages, github-stats, kaggle-stats, wakatime, wakatime-stats, downloadlanyard)
-- Delete: `src/app/blog/`, `src/app/gallery/`, `src/app/achievements/`
+- Delete: `src/app/blog/`, `src/app/gallery/`, `src/app/achievements/`, `src/app/experience/` (rute `/experience` tidak ada di spec §5.1; perannya pindah ke section journey di homepage dan ke `/about`)
 - Delete: `src/app/actions/getGalleryImages.ts`, `src/app/actions/getJourneyImages.ts`, `src/app/actions/getProjectImages.ts`
 - Delete: `src/components/layout/ChatBot.tsx`
 - Delete: `src/components/stats/WakaTimeCard.tsx`, `src/components/stats/WakaTimeStats.tsx`
 - Delete: `src/components/sections/CertificateHeroScroll.tsx`
 - Delete: `src/components/sections/gallery/`, `src/components/sections/blog/`
 - Delete: `src/components/ui/kaggle-showcase.tsx`, `src/components/ui/wakatime-showcase.tsx`, `src/components/ui/SkillRadar.tsx`, `src/components/ui/SplineScene.tsx`, `src/components/ui/Hyperspeed.tsx`, `src/components/ui/retro-space-shooter-git-hub-calendar.tsx`, `src/components/ui/pdf-viewer.tsx`, `src/components/ui/DesignTestimonials.tsx`
-- Delete: `src/components/three/Lanyard.tsx`, `src/components/three/index.ts`
+- Delete: `src/components/three/Lanyard.tsx`, `src/components/three/Scene3D.tsx`, `src/components/three/index.ts` (hero digantikan `NamePlate.tsx` di Task 7)
 - Modify: `package.json` (buang dependency yang tidak lagi terpakai)
 
 **Interfaces:**
@@ -911,7 +920,7 @@ git commit -m "feat: hero - split headline, 3D name plate, grid background, redu
 **Interfaces:**
 - Consumes: `portfolioData` (Task 4), `messages` (Task 5), `usePerformance` + `usePrefersReducedMotion` (Task 7)
 - Produces:
-  - `computeStats(data: PortfolioData): { projectsCount: number; liveCount: number; labCount: number; techCount: number }` dari `src/lib/stats.ts`
+  - `computeStats(data: { projects: { demoUrl?: string; techStack?: string[] }[]; lab: unknown[] }): { projectsCount: number; liveCount: number; labCount: number; techCount: number }` dari `src/lib/stats.ts` — `techCount` dihitung dari gabungan `techStack` unik semua proyek (tidak ada field `techStack` top-level di `PortfolioData`)
   - `fetchRepos(username: string): Promise<{ repos: Repo[]; failed: boolean }>` dari `src/lib/github.ts`, dengan `Repo = { name: string; description: string; htmlUrl: string; stargazersCount: number; language: string | null; pushedAt: string }`
 
 - [ ] **Step 1: Tulis test stats yang gagal**
@@ -939,6 +948,9 @@ describe('computeStats', () => {
     expect(stats.projectsCount).toBe(portfolioData.projects.length);
     expect(stats.liveCount).toBe(portfolioData.projects.filter((p) => p.demoUrl).length);
     expect(stats.labCount).toBe(portfolioData.lab.length);
+    expect(stats.techCount).toBe(
+      new Set(portfolioData.projects.flatMap((p) => p.techStack)).size
+    );
   });
   it('tidak menghitung URL yang bukan link demo', () => {
     const stats = computeStats({ projects: [{ demoUrl: '' }], lab: [] } as any);
