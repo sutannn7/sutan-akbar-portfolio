@@ -20,7 +20,7 @@
 - Standar minimal (spec §5.4 #3): **satu keputusan teknis fokus** = live token editing via CSS variables. Yang **tidak** dikerjakan: multi-preset/tema bawaan, ekspor file, riwayat undo, sinkronisasi ke backend, menyimpan token ke localStorage.
 - Tidak boleh ada API key, token, atau layanan berbayar.
 - README wajib: 1 paragraf masalah → 1 paragraf keputusan teknis → cara run → link demo.
-- Deploy: Vercel, repo sendiri `sutannn7/token-playground`.
+- Deploy: Vercel, repo sendiri `sutannn7/sutan-token-playground`.
 
 ## Review Focus
 
@@ -358,7 +358,7 @@ git -c user.name="opencode" -c user.email="opencode@local" commit -m "feat: live
 
 **Interfaces:**
 - Consumes: Task 1–3
-- Produces: repo publik `sutannn7/token-playground` + demo live.
+- Produces: repo publik `sutannn7/sutan-token-playground` + demo live.
 
 - [ ] **Step 1: Tulis `README.md`**
 
@@ -369,8 +369,8 @@ git -c user.name="opencode" -c user.email="opencode@local" commit -m "feat: live
 
 **Keputusan teknis.** Token diubah jadi CSS variables di level `document.documentElement`, jadi preview yang membaca variable yang sama ikut berubah seketika. Nilai input divalidasi sebelum ditulis, sehingga nilai yang tidak valid tidak bisa merusak CSS.
 
-**Demo:** https://token-playground.vercel.app
-**Source:** https://github.com/sutannn7/token-playground
+**Demo:** https://sutan-token-playground.vercel.app
+**Source:** https://github.com/sutannn7/sutan-token-playground
 
 ## Menjalankan
 npm install
@@ -380,12 +380,14 @@ npm run dev
 - [ ] **Step 2: Bikin repo dan push**
 
 ```bash
-gh repo create sutannn7/token-playground --public --source=. --remote=origin --push --description "Live design token editor dengan CSS variables dan preview real-time"
+gh repo create sutannn7/sutan-token-playground --public --source=. --remote=origin --push --description "Live design token editor dengan CSS variables dan preview real-time"
 ```
 
-- [ ] **Step 3: Deploy ke Vercel (manual oleh Sutan)**
+- [ ] **Step 3: Hubungkan ke project Vercel yang sudah ada (manual oleh Sutan)**
 
-Import repo, preset Next.js, build command default, project name `token-playground`, deploy. **Jangan** tambah environment variable apa pun.
+> Project Vercel `sutan-token-playground` **sudah dibuat Sutan** (21/10/2026) dengan domain `sutan-token-playground.vercel.app`, tapi belum ada deployment (masih 404). **Jangan** bikin project baru — namanya sudah dipakai.
+
+Dashboard Vercel → project `sutan-token-playground` → **Settings → Git** → **Connect Git Repository** → pilih `sutannn7/sutan-token-playground`, branch `main` → **Deployments → Redeploy**. Framework preset Next.js, build command default. **Jangan** tambah environment variable apa pun.
 
 - [ ] **Step 4: Verifikasi**
 

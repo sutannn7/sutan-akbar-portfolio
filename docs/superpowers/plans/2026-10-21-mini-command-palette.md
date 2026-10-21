@@ -20,7 +20,7 @@
 - Standar minimal untuk setiap mini project (spec §5.4 #3): **satu keputusan teknis fokus** — command palette ini = keyboard navigation + fuzzy match + ARIA combobox. Yang **tidak** dikerjakan: indeks data besar, fuzzy scoring rumit, cmd+C registry, riwayat pencarian, multi-command-source.
 - Tidak boleh ada API key, token, atau layanan berbayar.
 - README wajib berisi: 1 paragraf masalah → 1 paragraf keputusan teknis → cara run → link demo.
-- Deploy: Vercel, satu repo sendiri `sutannn7/command-palette`.
+- Deploy: Vercel, satu repo sendiri `sutannn7/sutan-command-palette`.
 
 ## Review Focus
 
@@ -489,7 +489,7 @@ git -c user.name="opencode" -c user.email="opencode@local" commit -m "feat: comm
 
 **Interfaces:**
 - Consumes: Task 1–3
-- Produces: repo publik `sutannn7/command-palette` + demo live.
+- Produces: repo publik `sutannn7/sutan-command-palette` + demo live.
 
 - [ ] **Step 1: Tulis `README.md`**
 
@@ -500,8 +500,8 @@ Struktur wajib:
 **Masalah.** Di UI yang padat, mencari aksi lewat mouse itu lambat — pengguna harus hafal nama tombolnya sebelum bisa menekan.
 
 **Keputusan teknis.** ...
-**Demo:** https://command-palette.vercel.app
-**Source:** https://github.com/sutannn7/command-palette
+**Demo:** https://sutan-command-palette.vercel.app
+**Source:** https://github.com/sutannn7/sutan-command-palette
 
 ## Menjalankan
 npm install
@@ -512,20 +512,22 @@ Isi 1 paragraf masalah dan 1 paragraf keputusan teknis, jujur (keyboard nav + fu
 - [ ] **Step 2: Bikin repo GitHub dan push**
 
 ```bash
-gh repo create sutannn7/command-palette --public --source=. --remote=origin --push --description "Command palette keyboard-first dengan fuzzy match dan ARIA combobox"
+gh repo create sutannn7/sutan-command-palette --public --source=. --remote=origin --push --description "Command palette keyboard-first dengan fuzzy match dan ARIA combobox"
 ```
 
-- [ ] **Step 3: Deploy ke Vercel (manual oleh Sutan)**
+- [ ] **Step 3: Hubungkan ke project Vercel yang sudah ada (manual oleh Sutan)**
 
-Dashboard Vercel → Add New → Project → import `sutannn7/command-palette` → framework preset Next.js → biarkan build command default → project name `command-palette` → deploy. **Jangan** tambahkan environment variable apa pun.
+> Project Vercel `sutan-command-palette` **sudah dibuat Sutan** (21/10/2026) dengan domain `sutan-command-palette.vercel.app`, tapi belum ada deployment (masih 404). **Jangan** bikin project baru — namanya sudah dipakai.
+
+Dashboard Vercel → project `sutan-command-palette` → **Settings → Git** → **Connect Git Repository** → pilih `sutannn7/sutan-command-palette`, branch `main` → **Deployments → Redeploy**. Framework preset Next.js, build command default. **Jangan** tambah environment variable apa pun.
 
 - [ ] **Step 4: Verifikasi**
 
-Buka `https://command-palette.vercel.app`: tekan Ctrl+K, ketik, arrow, Enter — semua harus jalan. Cek juga tampilan mobile (bukan syarat, tapi tidak boleh rusak total).
+Buka `https://sutan-command-palette.vercel.app`: tekan Ctrl+K, ketik, arrow, Enter — semua harus jalan. Cek juga tampilan mobile (bukan syarat, tapi tidak boleh rusak total).
 
 - [ ] **Step 5: Kembalikan demoUrl ke plan utama**
 
-Tambah entri ke array `lab` di `src/data/portfolio.ts` repo `sutannn7/portofolio-v3` (dikerjakan di Plan 5, bukan di plan ini):
+Tambah entri ke array `lab` di `src/data/portfolio.ts` repo `sutannn7/sutan-akbar-portfolio` (dikerjakan di Plan 5, bukan di plan ini):
 ```ts
 {
   slug: 'command-palette',
@@ -534,8 +536,8 @@ Tambah entri ke array `lab` di `src/data/portfolio.ts` repo `sutannn7/portofolio
   problem: { ... },
   decision: { ... },
   techStack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Vitest'],
-  repoUrl: 'https://github.com/sutannn7/command-palette',
-  demoUrl: 'https://command-palette.vercel.app',
+  repoUrl: 'https://github.com/sutannn7/sutan-command-palette',
+  demoUrl: 'https://sutan-command-palette.vercel.app',
   year: '2026',
   image: '/projects/command-palette.png',
 }

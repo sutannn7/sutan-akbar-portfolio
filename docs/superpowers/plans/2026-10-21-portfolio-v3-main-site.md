@@ -14,10 +14,10 @@
 
 | Plan | Isi | Repo |
 |---|---|---|
-| 2 | Mini project `command-palette` | `sutannn7/command-palette` |
-| 3 | Mini project `token-playground` | `sutannn7/token-playground` |
-| 4 | Mini project `onboarding-flow` | `sutannn7/onboarding-flow` |
-| 5 | Menambahkan rute `/lab` + section lab ke situs utama | `sutannn7/portofolio-v3` |
+| 2 | Mini project `command-palette` | `sutannn7/sutan-command-palette` |
+| 3 | Mini project `token-playground` | `sutannn7/sutan-token-playground` |
+| 4 | Mini project `onboarding-flow` | `sutannn7/sutan-onboarding-flow` |
+| 5 | Menambahkan rute `/lab` + section lab ke situs utama | `sutannn7/sutan-akbar-portfolio` |
 
 Plan 2–4 saling independen. Plan 5 bergantung pada Plan 2–4 selesai **dan** mini project-nya sudah live di Vercel. Kalau tenggat mepet: Plan 5 di-drop, bukan dikirim dengan halaman kosong.
 
@@ -110,7 +110,7 @@ portofolio-v3/
 ```bash
 cd C:\Users\lenovo\portofolio-v3
 git remote rename origin upstream
-git remote add origin https://github.com/sutannn7/portofolio-v3.git
+git remote add origin https://github.com/sutannn7/sutan-akbar-portfolio.git
 npm.cmd install
 ```
 Expected: `npm install` selesai tanpa error; `node_modules/` berisi `next`, `react`, `tailwindcss`.
@@ -678,7 +678,7 @@ Ganti seluruh isi dengan bentuk di blok Interfaces. Hapus `Experience`, `Educati
 
 Isi dengan konten persis dari spec §6.3. Wajib memuat:
 - `personal.name` = `Sutan Akbar Dwi Nugraha`; `title` = `{ id: 'Frontend Engineer', en: 'Frontend Engineer' }`; `location` = `Palembang, Indonesia`; `email` = `Akbarcool998@gmail.com`; `phone` = `0857-5829-2876`; `avatar` = `/avatar.svg`; `resumeUrl` = `/cv.pdf`; `links` = GitHub `https://github.com/sutannn7`, LinkedIn `https://linkedin.com/in/sutan-akbar-dwi-nugraha-193010442`, WhatsApp `https://wa.me/6285758292876`, Email `mailto:Akbarcool998@gmail.com`; `languages` = Indonesia (Aktif), Inggris (Pasif).
-- `projects` — 4 proyek sesuai spec §6.3, urutannya LearnEase, Website Jurusan, Nusantara Kopi, Portofolio v3. `category` untuk Website Jurusan = `Web` (bukan `Full-stack`). `demoUrl` Website Jurusan **tidak ada**. `demoUrl` Portofolio v3 = `https://sutannn7.vercel.app`. `image` tiap proyek = path lokal di `public/projects/`.
+- `projects` — 4 proyek sesuai spec §6.3, urutannya LearnEase, Website Jurusan, Nusantara Kopi, Portofolio v3. `category` untuk Website Jurusan = `Web` (bukan `Full-stack`). `demoUrl` Website Jurusan **tidak ada**. `demoUrl` Portofolio v3 = `https://sutan-akbar.vercel.app`. `image` tiap proyek = path lokal di `public/projects/`.
 - `longDescription` LearnEase memuat urutan: audit 8 halaman → design token → dark mode → 7 halaman prototipe → test runner → verifikasi headless Chrome → usulan ke moyar.
 - `skills` — 5 grup dari spec §6.3 dengan badge: `dasar` untuk TypeScript, Oracle, C++, Java, Python; `nanodua` untuk yang lain; `mahir` untuk HTML, CSS, JavaScript, PHP, MySQL, Git, Bootstrap, Tailwind CSS, React, Next.js, Vite, GitHub, VS Code, Node.js, XAMPP, phpMyAdmin, Android Studio, UML, ERD, DFD.
 - `softSkills` — 6 butir dari spec §6.3.
@@ -889,7 +889,7 @@ Halaman yang langsung merender `portfolioData.personal.bio` + `personal.links` +
 - [ ] **Step 4: Rewrite `src/app/layout.tsx`**
 
 - Font: hanya `Inter` + `JetBrains_Mono`. Hapus `Playfair_Display` dan `Alex_Brush`.
-- `metadata`: `title.default` = `Sutan Akbar — Frontend Engineer`, `title.template` = `%s | Sutan Akbar`, `description` = `Frontend Engineer dari Palembang. Antarmuka yang ringan, kode yang rapi, dan produk yang jalan di HP orang.`, `keywords` = `frontend engineer, react, nextjs, tailwind, palembang`, `authors`/`creator` = `Sutan Akbar Dwi Nugraha`, `metadataBase` = `new URL('https://sutannn7.vercel.app')`, `openGraph` dan `twitter` diisi dengan nilai yang sama.
+- `metadata`: `title.default` = `Sutan Akbar — Frontend Engineer`, `title.template` = `%s | Sutan Akbar`, `description` = `Frontend Engineer dari Palembang. Antarmuka yang ringan, kode yang rapi, dan produk yang jalan di HP orang.`, `keywords` = `frontend engineer, react, nextjs, tailwind, palembang`, `authors`/`creator` = `Sutan Akbar Dwi Nugraha`, `metadataBase` = `new URL('https://sutan-akbar.vercel.app')`, `openGraph` dan `twitter` diisi dengan nilai yang sama.
 - `icons`: `icon: '/favicon.svg'`.
 - `viewport.themeColor`: dark = `#08080C`, light = `#FAFAFB`.
 - Hapus `<ChatBot headless />` (sudah dihapus di Task 2) dan `ThemeAwareClickSpark` kalau bermasalah — biarkan dulu, nanti Task 7 yang mengatur.
@@ -1267,6 +1267,15 @@ Urutan section:
 8. `Milestones`
 9. `CTASection`
 
+- [ ] **Step 12b: Rapi sisa palet neon di `tailwind.config.ts`**
+
+Fork lama masih menyisakan `boxShadow.glow-sm/glow-md/glow-lg` dengan `#00FFFF` dan `backgroundImage.glass-gradient` / `mesh-gradient` bergradien neon. Semuanya harus mengikuti palet baru:
+- `glow-sm` → `0 0 10px rgba(200,242,70,0.20)`
+- `glow-md` → `0 0 20px rgba(200,242,70,0.28)`
+- `glow-lg` → `0 0 40px rgba(200,242,70,0.34)`
+- `glow-cyan` → `0 0 24px rgba(51,214,255,0.24)`
+- hapus `mesh-gradient`; ganti `glass-gradient` jadi `linear-gradient(135deg, rgba(200,242,70,0.06) 0%, rgba(255,255,255,0.03) 100%)`
+
 - [ ] **Step 13: Jalankan test dan build**
 
 Run: `npm.cmd run test && npm.cmd run build`
@@ -1435,7 +1444,7 @@ git commit -m "feat: skills, about, contact and resume routes"
 
 **Interfaces:**
 - Consumes: seluruh Task 1–10
-- Produces: situs live di `https://sutannn7.vercel.app`, `public/cv.pdf` yang cocok dengan CV yang diajukan, dan CV baru yang menyebut URL baru.
+- Produces: situs live di `https://sutan-akbar.vercel.app`, `public/cv.pdf` yang cocok dengan CV yang diajukan, dan CV baru yang menyebut URL baru.
 
 - [ ] **Step 1: Jalankan build + audit string terlarang**
 
@@ -1468,18 +1477,34 @@ Plus catatan "Forked and re-skinned; all content is original to Sutan Akbar Dwi 
 
 - [ ] **Step 5: Push ke GitHub**
 
+Repo `sutannn7/sutan-akbar-portfolio` **sudah dibuat Sutan** (21/10/2026, publik, masih kosong) dan remote `origin` sudah mengarah ke sana. **Jangan** jalankan `gh repo create` — itu akan gagal dengan "repository already exists". Cukup:
+
 ```bash
-gh repo create sutannn7/portofolio-v3 --public --source=. --remote=origin --push --description "Portofolio pribadi Sutan Akbar Dwi Nugraha - Frontend Engineer"
+git push -u origin feature/v3-reskin
 ```
-Kalau repo sudah ada: `git push -u origin main`.
 
-- [ ] **Step 6: Deploy ke Vercel (manual oleh Sutan)**
+Lalu rename branch itu jadi `main` supaya jadi default branch repo:
+```bash
+git branch -M main
+git push -u origin main
+```
+Atau, kalau kamu ingin branch `main` tetap berisi history upstream (fork), cukup push `main` juga:
+```bash
+git push -u origin main
+```
 
-1. Buka dashboard Vercel → **Add New → Project** → import `sutannn7/portofolio-v3`.
-2. Framework preset: **Next.js**. Build command & output otomatis — biarkan default.
-3. Environment variables: `NEXT_PUBLIC_GITHUB_USERNAME` = `sutannn7`. **Jangan** tambah token atau API key apa pun.
-4. Project name: `sutannn7` → domain `https://sutannn7.vercel.app`.
-5. Deploy. Tunggu preview hijau, lalu cek domain utama (bukan preview).
+> Catatan: branch kerja kita bernama `feature/v3-reskin`. Kalau kamu push itu sebagai default, repo GitHub akan menampilkan branch itu sebagai "main"-nya — itu tidak ideal untuk portofolio publik. Pilih salah satu:
+> **Opsi A (disarankan)** — rename `feature/v3-reskin` → `main`, lalu push `main`. Branch `main` upstream tetap ada di repo lokal dan bisa di-push juga sebagai `upstream-main` kalau mau.
+> **Opsi B** — push `feature/v3-reskin` dan rename default branch di GitHub ke `main` setelahnya.
+
+- [ ] **Step 6: Hubungkan ke project Vercel yang sudah ada (manual oleh Sutan)**
+
+> Project Vercel `sutan-akbar` **sudah dibuat Sutan** (21/10/2026) dengan domain `sutan-akbar.vercel.app`, tapi belum ada deployment (masih 404). Jadi **jangan** bikin project baru — namanya sudah dipakai dan itu akan gagal. Cukup hubungkan repo yang sudah ada.
+
+1. Buka dashboard Vercel → project **`sutan-akbar`** → **Settings → Git** → **Connect Git Repository** → pilih `sutannn7/sutan-akbar-portfolio`, branch `main`.
+2. **Settings → Environment Variables** → tambah `NEXT_PUBLIC_GITHUB_USERNAME` = `sutannn7`. **Jangan** tambah token atau API key apa pun.
+3. **Deployments → Redeploy** (atau push baru ke `main` untuk memicu deploy otomatis).
+4. Tunggu preview hijau, lalu cek `https://sutan-akbar.vercel.app` (bukan URL preview).
 
 - [ ] **Step 7: Patch CV**
 
@@ -1487,7 +1512,7 @@ Buat `C:\Users\lenovo\Documents\Proyek Bawaan\update_cv_v3.py` mengikuti pola `u
 
 | Bagian | Dari | Jadi |
 |---|---|---|
-| Baris kontak | `https://portofolio-nextjs-ecru.vercel.app` | `https://sutannn7.vercel.app` |
+| Baris kontak | `https://portofolio-nextjs-ecru.vercel.app` | `https://sutan-akbar.vercel.app` |
 | Skill web | `Next.js (dasar)` | `Next.js` |
 | Skill bahasa | `TypeScript (dasar)` | `TypeScript` |
 | Tools | `Visual Studio Code, Vite, Node.js, XAMPP, phpMyAdmin, Git, GitHub` | tambah `Node.js test runner, Chrome headless` |
@@ -1506,7 +1531,7 @@ npm.cmd run verify -- --forbidden=portofolio-nextjs-ecru
 ```
 Expected: exit 0 — tidak ada lagi URL lama di build output.
 
-Buka `https://sutannn7.vercel.app` di browser: cek hero, 4 proyek, filter tech, repo GitHub, halaman `/contact` (WA/email/LinkedIn berfungsi), `/resume` (PDF ter-render + bisa diunduh).
+Buka `https://sutan-akbar.vercel.app` di browser: cek hero, 4 proyek, filter tech, repo GitHub, halaman `/contact` (WA/email/LinkedIn berfungsi), `/resume` (PDF ter-render + bisa diunduh).
 
 - [ ] **Step 10: Commit**
 

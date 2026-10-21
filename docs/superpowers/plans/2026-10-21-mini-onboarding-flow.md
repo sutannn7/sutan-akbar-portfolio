@@ -20,7 +20,7 @@
 - Standar minimal (spec §5.4 #3): **satu keputusan teknis fokus** = multi-step + validasi per langkah + error UX. Yang **tidak** dikerjakan: draft persistence/localStorage, autentikasi, server action, upload file, analytics.
 - Tidak boleh ada API key, token, atau layanan berbayar.
 - README wajib: 1 paragraf masalah → 1 paragraf keputusan teknis → cara run → link demo.
-- Deploy: Vercel, repo sendiri `sutannn7/onboarding-flow`.
+- Deploy: Vercel, repo sendiri `sutannn7/sutan-onboarding-flow`.
 
 ## Review Focus
 
@@ -377,7 +377,7 @@ git -c user.name="opencode" -c user.email="opencode@local" commit -m "feat: mult
 
 **Interfaces:**
 - Consumes: Task 1–3
-- Produces: repo publik `sutannn7/onboarding-flow` + demo live.
+- Produces: repo publik `sutannn7/sutan-onboarding-flow` + demo live.
 
 - [ ] **Step 1: Tulis `README.md`**
 
@@ -388,8 +388,8 @@ git -c user.name="opencode" -c user.email="opencode@local" commit -m "feat: mult
 
 **Keputusan teknis.** Form dipecah jadi langkah-langkah, divalidasi per langkah, dan pesan error menyebut nama field secara spesifik. Error dihapus begitu field diperbaiki, bukan menunggu pengguna menekan tombol lagi, supaya umpan balik terasa langsung.
 
-**Demo:** https://onboarding-flow.vercel.app
-**Source:** https://github.com/sutannn7/onboarding-flow
+**Demo:** https://sutan-onboarding-flow.vercel.app
+**Source:** https://github.com/sutannn7/sutan-onboarding-flow
 
 ## Menjalankan
 npm install
@@ -399,12 +399,14 @@ npm run dev
 - [ ] **Step 2: Bikin repo dan push**
 
 ```bash
-gh repo create sutannn7/onboarding-flow --public --source=. --remote=origin --push --description "Alur onboarding bertahap dengan validasi per langkah dan pesan error yang bisa ditindaklanjuti"
+gh repo create sutannn7/sutan-onboarding-flow --public --source=. --remote=origin --push --description "Alur onboarding bertahap dengan validasi per langkah dan pesan error yang bisa ditindaklanjuti"
 ```
 
-- [ ] **Step 3: Deploy ke Vercel (manual oleh Sutan)**
+- [ ] **Step 3: Hubungkan ke project Vercel yang sudah ada (manual oleh Sutan)**
 
-Import repo, preset Next.js, build command default, project name `onboarding-flow`, deploy. **Jangan** tambah environment variable apa pun.
+> Project Vercel `sutan-onboarding-flow` **sudah dibuat Sutan** (21/10/2026) dengan domain `sutan-onboarding-flow.vercel.app`, tapi belum ada deployment (masih 404). **Jangan** bikin project baru — namanya sudah dipakai.
+
+Dashboard Vercel → project `sutan-onboarding-flow` → **Settings → Git** → **Connect Git Repository** → pilih `sutannn7/sutan-onboarding-flow`, branch `main` → **Deployments → Redeploy**. Framework preset Next.js, build command default. **Jangan** tambah environment variable apa pun.
 
 - [ ] **Step 4: Verifikasi**
 

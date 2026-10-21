@@ -67,7 +67,7 @@ Maka strateginya: **fork + re-skin**, bukan tulis dari nol. Ambil engine visualn
 
 ```
 1. git clone  https://github.com/Arfazrll/PersonalBlog.git  →  C:\Users\lenovo\portofolio-v3
-2. Ganti git remote origin → repo baru milik Sutan (github.com/sutannn7/portofolio-v3)
+2. Ganti git remote origin → repo baru milik Sutan (github.com/sutannn7/sutan-akbar-portfolio)
 3. Hapus konten & rute yang tidak dipakai (§5)
 4. Tulis ulang data: src/data/portfolio.ts (§6)
 5. Tulis ulang i18n: messages/id.json, messages/en.json (§7)
@@ -208,7 +208,7 @@ type PortfolioData = {
 | 1 | LearnEase — Redesign UI/UX LMS POLSRI | UI/UX & Frontend | Developer, tim 5 orang | 2026 | github.com/sutannn7/polsri-lms-frontend | polsri-lms-frontend.vercel.app |
 | 2 | Website Profil Jurusan MI POLSRI | Web | Mandiri | 2026 | github.com/sutannn7/web-informatika-mi-polsri | — (tanpa demo) |
 | 3 | Nusantara Kopi | Frontend | Tim 4 orang, Event SINTAK | 2025 | — | nusantara-kopi.vercel.app |
-| 4 | Portofolio Pribadi (v3 ini) | Frontend | Mandiri | 2026 | github.com/sutannn7/portofolio-v3 | — |
+| 4 | Portofolio Pribadi (v3 ini) | Frontend | Mandiri | 2026 | github.com/sutannn7/sutan-akbar-portfolio | — |
 
 > Proyek #1 = centerpiece. `longDescription`-nya wajib memuat **proses**: audit 8 halaman → design token → dark mode → 7 halaman prototipe → test runner → verifikasi headless Chrome → usulan perubahan UI/UX ke moyar. Bukan cuma daftar teknologi.
 >
@@ -433,7 +433,7 @@ Setiap mini project wajib punya:
 1. **Siklus & tenggat** — magang Februari–Mei (2027). **URL portofolio dicetak di CV yang diajukan.**
    - Konsekuensi: deploy harus selesai sebelum CV dibekukan (fase 5 → 6). `/lab` tidak boleh dikirim kosong; kalau tenggat mepet, `/lab` dibuang dan ditambahkan belakangan.
    - Sumber CV: `CV_Sutan_Akbar_Dwi_Nugraha_Update_LearnEase.docx` (21/10/2026) sebagai basis, diedit pakai pola `update_cv.py` yang sudah ada di repo `Proyek Bawaan`.
-2. **Domain** — tetap Vercel. Proyek baru: `sutannn7` → `sutannn7.vercel.app` (fallback `sutan-akbar`). Nama bisa diganti kapan saja di dashboard Vercel. **Situs lama tetap online** sampai v3 terverifikasi.
+2. **Domain — FINAL (keputusan Sutan, 21/10/2026):** `https://sutan-akbar.vercel.app`. Tetap Vercel, tanpa domain sendiri. Project Vercel `sutan-akbar` sudah dibuat Sutan; URL ini yang dicetak di CV. **Situs lama tetap online** sampai v3 terverifikasi.
 3. **Chatbot AI — tidak dibangun.** *(disetujui Sutan 2026-10-21)* Komponen `ChatBot` + `/api/chat` dihapus saat cleanup. Kalau nanti mau, bisa di-*cherry-pick* dari `upstream` tanpa ganggu bagian lain. Efeknya: tidak pernah ada `GROQ_API_KEY`/`GEMINI_API_KEY` yang harus dikelola, dan tidak ada biaya API.
 4. **Form kontak — tidak ada form.** `/contact` = WhatsApp + email + LinkedIn + GitHub. Route `/api/contact` (nodemailer) dan dependency `nodemailer` dihapus. Nol secret yang harus dikelola.
 
