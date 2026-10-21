@@ -225,7 +225,9 @@ git commit -m "chore: bootstrap repo - vitest, verify-build script, spec, env ex
 - Delete: `src/app/blog/`, `src/app/gallery/`, `src/app/achievements/`, `src/app/experience/` (rute `/experience` tidak ada di spec §5.1; perannya pindah ke section journey di homepage dan ke `/about`)
 - Delete: `src/app/actions/getGalleryImages.ts`, `src/app/actions/getJourneyImages.ts`, `src/app/actions/getProjectImages.ts`
 - Delete: `src/components/layout/ChatBot.tsx`
-- Delete: `src/components/stats/WakaTimeCard.tsx`, `src/components/stats/WakaTimeStats.tsx`
+- Delete: `src/components/layout/SocialCorner.tsx` (widget sosial Arfazrll; meng-import ChatBot)
+- Delete: `src/components/stats/WakaTimeCard.tsx`, `src/components/stats/WakaTimeStats.tsx`, `src/components/stats/GitHubStats.tsx`, `src/components/stats/StatsCard.tsx` (fetch ke `/api/github-stats` yang dihapus; tidak ada importer lain)
+- Delete: `src/components/ui/github-showcase.tsx` (memakai `retro-space-shooter-git-hub-calendar`; digantikan blok Repo GitHub baru di Task 8)
 - Delete: `src/components/sections/CertificateHeroScroll.tsx`
 - Delete: `src/components/sections/gallery/`, `src/components/sections/blog/`
 - Delete: `src/components/ui/kaggle-showcase.tsx`, `src/components/ui/wakatime-showcase.tsx`, `src/components/ui/SkillRadar.tsx`, `src/components/ui/SplineScene.tsx`, `src/components/ui/Hyperspeed.tsx`, `src/components/ui/retro-space-shooter-git-hub-calendar.tsx`, `src/components/ui/pdf-viewer.tsx`, `src/components/ui/DesignTestimonials.tsx`
@@ -257,9 +259,22 @@ Remove-Item -Recurse -Force src/components/layout/ChatBot.tsx, src/components/st
 - [ ] **Step 4: Cari sisa import dari file yang dihapus**
 
 ```bash
-grep -rn "ChatBot\|WakaTime\|kaggle-showcase\|SkillRadar\|SplineScene\|Hyperspeed\|pdf-viewer\|Lanyard\|getProjectImages\|getGalleryImages\|getJourneyImages" src/
+grep -rn "ChatBot\|WakaTime\|kaggle-showcase\|SkillRadar\|SplineScene\|Hyperspeed\|pdf-viewer\|Lanyard\|Scene3D\|getProjectImages\|getGalleryImages\|getJourneyImages\|SocialCorner\|GitHubStats\|github-showcase\|retro-space-shooter" src/
 ```
-Expected: hanya sisa di file yang **juga** akan diganti di Task 6–10 (Navbar, Footer, layout.tsx, app/page.tsx, app/projects/page.tsx). Catat setiap lokasi; semuanya harus hilang di Task 6–10. Kalau ada di file lain, hapus import-nya sekarang.
+
+**Peta kerusakan yang sudah dipetakan sebelum task ini (verifikasi ulang, jangan percaya buta):**
+
+| File yang tersisa | Yang di-import | Tetap rusak sampai |
+|---|---|---|
+| `src/app/page.tsx` | `SocialCorner`, `Hyperspeed` (dynamic), `Scene3D` (dynamic) | Task 7 |
+| `src/app/layout.tsx` | `ChatBot` | Task 6 |
+| `src/app/skills/page.tsx` | `SplineScene` | Task 10 |
+| `src/app/resume/page.tsx` | `PdfViewer` | Task 10 |
+| `src/app/projects/page.tsx`, `src/app/projects/[slug]/page.tsx` | `getProjectImages` | Task 9 |
+| `src/app/contact/page.tsx` | `fetch('/api/contact')` | Task 10 |
+| `src/components/sections/AboutSection.tsx` | `KaggleShowcase`, `WakaTimeShowcase`, `GitHubShowcase`, `SocialCorner` | Task 8 |
+
+Semua file di tabel itu **akan** ditulis ulang oleh task yang disebut. Kalau hasil grep menunjukkan file lain yang tidak ada di tabel, hapus import-nya sekarang juga dan catat di commit body.
 
 - [ ] **Step 5: Buang dependency yang tidak terpakai**
 
@@ -1181,6 +1196,7 @@ describe('PROJECT_FILTERS', () => {
 - [ ] **Step 4: Adaptasi `ProjectDetail.tsx`, `ProjectPageContent.tsx`, `TechStack.tsx`**
 
 - Hapus `getProjectImages` (server action sudah dihapus di Task 2) — pakai field `image` eksplisit dari data.
+- Hapus `getPlaceholderImageUrl` **dan** `ProjectPlaceholder` sepenuhnya — placeholder image dilarang (§2 anti-goal "halaman kosong"). Kartu tanpa `image` merender tanpa `<img>`, bukan dengan gambar generik.
 - Hapus `galleryImages` (tidak ada di model baru).
 - Pastikan `demoUrl` yang undefined **tidak** menghasilkan `<a href="#">`.
 
