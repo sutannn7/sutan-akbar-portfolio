@@ -26,7 +26,9 @@ export default function ExperienceStickyScroll() {
                   <div>
                     <span className="font-mono text-primary">{entry.year}</span>
                     <h3 className="font-bold mt-1">{entry.title[locale]}</h3>
-                    <p className="text-sm text-muted-foreground">{entry.org[locale]}</p>
+                    {entry.org[locale] !== entry.title[locale] && (
+                      <p className="text-sm text-muted-foreground">{entry.org[locale]}</p>
+                    )}
                   </div>
                   <ul className="space-y-1 text-sm text-muted-foreground">
                     {entry.points.map((p) => (
@@ -52,7 +54,9 @@ export default function ExperienceStickyScroll() {
                   {entry.year}
                 </span>
                 <h3 className="font-bold">{entry.title[locale]}</h3>
-                <p className="text-sm text-muted-foreground">{entry.org[locale]}</p>
+                {entry.org[locale] !== entry.title[locale] && (
+                  <p className="text-sm text-muted-foreground">{entry.org[locale]}</p>
+                )}
                 <ul className="mt-3 space-y-1 text-sm text-muted-foreground">
                   {entry.points.map((p) => (
                     <li key={p.id}>• {p[locale]}</li>
