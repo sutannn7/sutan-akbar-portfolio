@@ -38,7 +38,7 @@ export default function ExperienceStickyScroll() {
             ))}
           </ul>
         ) : (
-          <div className="relative border-l border-border/50 pl-12 space-y-16">
+          <div className="relative border-l border-border/50 pl-[124px] space-y-16">
             {portfolioData.journey.map((entry) => (
               <motion.div
                 key={entry.title.id}
@@ -47,7 +47,8 @@ export default function ExperienceStickyScroll() {
                 viewport={{ once: true }}
                 className="relative pb-8"
               >
-                <span className="absolute -left-[24px] top-2 font-mono text-primary font-medium">
+                {/* Tahun duduk di kolom sendiri di kiri garis, tidak menimpa judul. */}
+                <span className="absolute -left-[112px] top-0 w-[96px] text-right font-mono text-primary font-medium">
                   {entry.year}
                 </span>
                 <h3 className="font-bold">{entry.title[locale]}</h3>
