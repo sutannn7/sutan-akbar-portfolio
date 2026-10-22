@@ -11,13 +11,13 @@ export function HeroGrid() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 z-[-10]"
+      className="pointer-events-none absolute inset-0 z-0"
       style={{
         backgroundImage: [
-          `linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px)`,
-          `linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px)`,
+          `linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px)`,
+          `linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px)`,
           `url("data:image/svg+xml,${GRAIN_SVG}")`,
-          `radial-gradient(600px circle at 20% 80%, rgba(200, 242, 70, 0.10), transparent)`,
+          `radial-gradient(600px circle at 20% 80%, rgba(200, 242, 70, 0.12), transparent)`,
         ].join(', '),
         backgroundSize: '48px 48px, 48px 48px, auto, 600px 600px',
         backgroundRepeat: 'repeat, repeat, repeat, no-repeat',

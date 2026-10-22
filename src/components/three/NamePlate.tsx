@@ -45,12 +45,16 @@ function PlateMesh({ pointer }: { pointer: { current: Pointer } }) {
       <RoundedBox args={[3.2, 1.8, 0.12]} radius={0.12} smoothness={4} />
       <meshPhysicalMaterial
         color="#C8F246"
-        transmission={0.9}
+        transmission={0.35}
         thickness={0.4}
-        roughness={0.15}
+        roughness={0.12}
         ior={1.3}
+        attenuationColor="#C8F246"
+        attenuationDistance={1.2}
         transparent
-        opacity={0.35}
+        opacity={0.78}
+        emissive="#C8F246"
+        emissiveIntensity={0.14}
       />
     </mesh>
   );
@@ -77,11 +81,11 @@ export function NamePlate({ name, role }: NamePlateProps) {
   return (
     <div className="relative w-full max-w-[560px] h-[320px]">
       {/* Nama dan peran sebagai HTML: tajam, dapat disalin, dan terbaca screen reader.
-           Teks putih (bukan foreground) agar kontras baik di kedua tema
-           atas warna slab lime yang tetap. */}
+           Teks hitam mendekat (#0A0A0C, bukan token tema) kontras tinggi terhadap
+           slab lime #C8F246 di kedua tema; tetap legis whatever the slab renders. */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 text-center">
-        <span className="font-sans font-medium text-white drop-shadow-lg">{name}</span>
-        <span className="font-mono text-sm text-white/80 mt-2">{role}</span>
+        <span className="font-sans font-medium text-[#0A0A0C] drop-shadow-[0_0_10px_rgba(255,255,255,0.85)]">{name}</span>
+        <span className="font-mono text-sm text-[#0A0A0C]/85 mt-2">{role}</span>
       </div>
       <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 5], fov: 45 }}>
         {/* Lingkungan dihasilkan secara lokal (tanpa preset CDN, tanpa fetch):
@@ -92,11 +96,11 @@ export function NamePlate({ name, role }: NamePlateProps) {
         <Environment frames={1} background={false} environmentIntensity={1.2}>
           <mesh position={[-3, 2, 0]}>
             <planeGeometry args={[4, 2]} />
-            <meshBasicMaterial color="white" />
+            <meshBasicMaterial color="#C8F246" />
           </mesh>
           <mesh position={[3, 1, 2]}>
             <planeGeometry args={[2, 1]} />
-            <meshBasicMaterial color="white" />
+            <meshBasicMaterial color="#7BA316" />
           </mesh>
         </Environment>
         <ambientLight intensity={0.6} />
