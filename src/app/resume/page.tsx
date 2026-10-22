@@ -1,57 +1,55 @@
-'use client';
-import { motion } from 'framer-motion';
+import { getTranslations } from 'next-intl/server';
 import { ArrowLeft, Download, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
-import { useTranslations } from 'next-intl';
-import { usePerformance } from '@/hooks/usePerformance';
+import { portfolioData } from '@/data/portfolio';
 
-export default function ResumePage() {
-    const { isLowPowerMode } = usePerformance();
-    // File ID: 1mfYs2MOHpwEFLe-Ld4OCcgS1Lbo6wW7O
-    const fileId = "1mfYs2MOHpwEFLe-Ld4OCcgS1Lbo6wW7O";
-    const resumeUrl = `https://drive.google.com/file/d/${fileId}/view?usp=sharing`;
+export default async function ResumePage() {
+  const t = await getTranslations('resume');
+  const tCommon = await getTranslations('common');
+  const { resumeUrl } = portfolioData.personal;
 
-    // Standard preview URL with sharing context
-    const previewUrl = `https://drive.google.com/file/d/${fileId}/preview?usp=sharing`;
+  return (
+    <main className="mx-auto max-w-5xl px-6 py-24 md:px-10 md:py-32">
+      <Link
+        href="/"
+        className="group inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
+      >
+        <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+        {tCommon('back')}
+      </Link>
 
-    return (
-        <div className="h-screen bg-background relative flex flex-col pt-24 pb-4 overflow-hidden">
-
-            {/* Header / Controls */}
-            <motion.div
-                initial={isLowPowerMode ? { opacity: 0 } : { opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="container-creative px-6 mb-4 flex-none flex flex-col md:flex-row justify-between items-center gap-4"
-            >
-                <Link
-                    href="/"
-                    className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
-                >
-                    <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                    <span>Back to Portfolio</span>
-                </Link>
-
-                <div className="flex items-center gap-4">
-                    <a
-                        href={resumeUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-primary/10 text-primary font-medium hover:bg-primary/20 transition-all active:scale-95 shadow-sm"
-                    >
-                        <ExternalLink className="w-4 h-4" />
-                        <span>Open in New Tab</span>
-                    </a>
-                </div>
-            </motion.div>
-
-            {/* Resume Viewer */}
-            <motion.div
-                initial={isLowPowerMode ? { opacity: 0 } : { opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-                className="flex-1 w-full max-w-[1400px] mx-auto px-4 md:px-6 min-h-0 pb-4 relative"
-            >
-            </motion.div>
+      <div className="mt-8 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+        <div>
+          <h1 className="text-4xl font-black tracking-tight text-foreground md:text-5xl">{t('title')}</h1>
+          <p className="mt-3 text-muted-foreground">{t('subtitle')}</p>
         </div>
-    );
+        <div className="flex flex-wrap gap-3">
+          <a
+            href={resumeUrl}
+            download
+            className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            <Download className="h-4 w-4" />
+            {t('download')}
+          </a>
+          <a
+            href={resumeUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-2.5 text-sm font-medium text-foreground transition-colors hover:border-primary hover:text-primary"
+          >
+            <ExternalLink className="h-4 w-4" />
+            {t('openInNewTab')}
+          </a>
+        </div>
+      </div>
+
+      <iframe
+        src={resumeUrl}
+        title={t('title')}
+        className="mt-10 h-[80vh] w-full rounded-2xl border border-border bg-card"
+      />
+      <p className="mt-4 text-sm text-muted-foreground">{t('fallback')}</p>
+    </main>
+  );
 }

@@ -96,22 +96,9 @@
         "linkedin": "LinkedIn",
         "github": "GitHub",
         "repliesIn": "Balasan dalam 24 jam",
-        "form": {
-            "name": "Nama Anda",
-            "email": "Email Anda",
-            "subject": "Subjek",
-            "messagePlaceholder": "Ceritakan tentang proyek Anda...",
-            "sending": "Mengirim...",
-            "sent": "Terkirim!",
-            "submit": "Kirim Pesan"
-        },
         "hero": {
             "title": "Mari Bicara",
-            "subtitle": "Ada proyek yang ingin dibahas? Mari kita bicarakan.",
-            "ticker": {
-                "build": "Mari bangun sesuatu bersama · ",
-                "freelance": "Tersedia untuk freelance · "
-            }
+            "subtitle": "Ada proyek yang ingin dibahas? Mari kita bicarakan."
         },
         "faqData": [
             {
@@ -120,7 +107,7 @@
             },
             {
                 "q": "Apakah Anda tersedia untuk magang atau kolaborasi?",
-                "a": "Ya. Saya terbuka untuk magang, freelance, dan kolaborasi teknis. Hubungi saya melalui formulir kontak atau email; saya biasanya merespons dalam 24 jam."
+                "a": "Ya. Saya terbuka untuk magang, freelance, dan kolaborasi teknis. Hubungi saya lewat WhatsApp atau email; biasanya saya merespons dalam 24 jam."
             },
             {
                 "q": "Apa tech stack yang Anda gunakan?",
@@ -132,12 +119,22 @@
             },
             {
                 "q": "Bagaimana cara memulai kerja sama atau proyek?",
-                "a": "Gunakan formulir kontak di atas atau hubungi langsung via email. Saya biasanya merespons dalam 24 jam."
+                "a": "Hubungi saya langsung lewat WhatsApp atau email di atas. Saya biasanya merespons dalam 24 jam."
             }
-        ]
+        ],
+        "faqTitle": "Pertanyaan Umum"
     },
     "skills": {
-        "subtitle": "Teknologi dan tools yang saya gunakan"
+        "subtitle": "Teknologi dan tools yang saya gunakan",
+        "title": "Keahlian",
+        "levels": {
+            "mahir": "Mahir",
+            "nanodua": "Nanodua",
+            "dasar": "Dasar"
+        },
+        "levelsHint": "Mahir = dipakai di proyek nyata. Nanodua = sudah pernah dipakai. Dasar = sedang dipelajari.",
+        "softTitle": "Soft Skills",
+        "toolsTitle": "Tools"
     },
     "projectHeader": {
         "title": "Merancang Realitas Digital",
@@ -180,5 +177,12 @@
         "live": "Live",
         "lab": "Lab",
         "tech": "Teknologi"
+    },
+    "resume": {
+        "title": "Resume",
+        "subtitle": "CV terbaru dalam format PDF.",
+        "download": "Unduh CV",
+        "openInNewTab": "Buka di Tab Baru",
+        "fallback": "Browser Anda tidak menampilkan PDF? Gunakan tombol Unduh CV di atas."
     }
 }

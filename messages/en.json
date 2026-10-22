@@ -96,22 +96,9 @@
         "linkedin": "LinkedIn",
         "github": "GitHub",
         "repliesIn": "Replies within 24 hours",
-        "form": {
-            "name": "Your Name",
-            "email": "Your Email",
-            "subject": "Subject",
-            "messagePlaceholder": "Tell me about your project...",
-            "sending": "Sending...",
-            "sent": "Sent!",
-            "submit": "Send Message"
-        },
         "hero": {
             "title": "Let's Talk",
-            "subtitle": "Have a project to discuss? Let's talk.",
-            "ticker": {
-                "build": "Let's build something together · ",
-                "freelance": "Available for freelance · "
-            }
+            "subtitle": "Have a project to discuss? Let's talk."
         },
         "faqData": [
             {
@@ -120,7 +107,7 @@
             },
             {
                 "q": "Are you available for an internship or collaboration?",
-                "a": "Yes. I am open to internships, freelance work, and technical collaborations. Reach me via the contact form or email; I usually respond within 24 hours."
+                "a": "Yes. I am open to internships, freelance work, and technical collaborations. Reach me on WhatsApp or by email; I usually respond within 24 hours."
             },
             {
                 "q": "What tech stack do you use?",
@@ -132,12 +119,22 @@
             },
             {
                 "q": "How do we start a partnership or project?",
-                "a": "Use the contact form above or reach out directly by email. I usually respond within 24 hours."
+                "a": "Reach me directly on WhatsApp or by email above. I usually respond within 24 hours."
             }
-        ]
+        ],
+        "faqTitle": "Frequently Asked Questions"
     },
     "skills": {
-        "subtitle": "Technologies and tools I work with"
+        "subtitle": "Technologies and tools I work with",
+        "title": "Skills",
+        "levels": {
+            "mahir": "Proficient",
+            "nanodua": "Nanodua",
+            "dasar": "Beginner"
+        },
+        "levelsHint": "Proficient = used in real projects. Nanodua = used before. Beginner = still learning.",
+        "softTitle": "Soft Skills",
+        "toolsTitle": "Tools"
     },
     "projectHeader": {
         "title": "Architecting Digital Reality",
@@ -180,5 +177,12 @@
         "live": "Live",
         "lab": "Lab",
         "tech": "Technologies"
+    },
+    "resume": {
+        "title": "Resume",
+        "subtitle": "Latest CV in PDF format.",
+        "download": "Download CV",
+        "openInNewTab": "Open in New Tab",
+        "fallback": "Can't view the PDF in your browser? Use the Download CV button above."
     }
 }

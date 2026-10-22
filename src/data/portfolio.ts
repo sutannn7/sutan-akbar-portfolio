@@ -167,12 +167,12 @@ export const portfolioData: PortfolioData = {
   lab: [],
   skills: [
     {
-      group: 'Frontend & Web',
+      group: { id: 'Frontend & Web', en: 'Frontend & Web' },
       items: [
         { name: 'HTML', badge: 'mahir' },
         { name: 'CSS', badge: 'mahir' },
         { name: 'JavaScript', badge: 'mahir' },
-        { name: 'TypeScript', badge: 'nanodua' },
+        { name: 'TypeScript', badge: 'dasar' },
         { name: 'React', badge: 'nanodua' },
         { name: 'Next.js', badge: 'nanodua' },
         { name: 'Tailwind CSS', badge: 'nanodua' },
@@ -180,7 +180,7 @@ export const portfolioData: PortfolioData = {
       ],
     },
     {
-      group: 'Backend & Data',
+      group: { id: 'Backend & Data', en: 'Backend & Data' },
       items: [
         { name: 'PHP (Native)', badge: 'mahir' },
         { name: 'MySQL', badge: 'mahir' },
@@ -189,7 +189,7 @@ export const portfolioData: PortfolioData = {
       ],
     },
     {
-      group: 'Mobile & Bahasa',
+      group: { id: 'Mobile & Bahasa', en: 'Mobile & Languages' },
       items: [
         { name: 'Android Studio', badge: 'nanodua' },
         { name: 'Java', badge: 'dasar' },
@@ -198,7 +198,7 @@ export const portfolioData: PortfolioData = {
       ],
     },
     {
-      group: 'Analisis Sistem',
+      group: { id: 'Analisis Sistem', en: 'Systems Analysis' },
       items: [
         { name: 'UML', badge: 'nanodua' },
         { name: 'ERD', badge: 'nanodua' },
@@ -206,7 +206,7 @@ export const portfolioData: PortfolioData = {
       ],
     },
     {
-      group: 'Tools',
+      group: { id: 'Tools', en: 'Tools' },
       items: [
         { name: 'VS Code', badge: 'nanodua' },
         { name: 'Vite', badge: 'nanodua' },

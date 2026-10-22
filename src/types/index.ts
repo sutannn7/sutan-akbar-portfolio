@@ -17,7 +17,7 @@ export interface PortfolioData {
   };
   projects: Project[];
   lab: LabProject[];
-  skills: { group: string; items: { name: string; badge: SkillBadge }[] }[];
+  skills: { group: Localised; items: { name: string; badge: SkillBadge }[] }[];
   softSkills: string[];
   milestones: Milestone[];
   journey: JourneyEntry[];
