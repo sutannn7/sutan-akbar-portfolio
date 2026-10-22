@@ -7,6 +7,7 @@ import { shouldRenderHeavyVisuals } from '@/lib/performance';
 import { portfolioData } from '@/data/portfolio';
 import { HeroGrid } from '@/components/sections/HeroGrid';
 import { HeroVisual } from '@/components/sections/HeroVisual';
+import { HeroWorkflow } from '@/components/sections/HeroWorkflow';
 
 // Canvas hanya dimount di klien, dan hanya saat gate visual berat lolos.
 const NamePlate = dynamic(
@@ -40,6 +41,9 @@ export default function HeroSection() {
             </div>
           </div>
         )}
+      </div>
+      <div className="pointer-events-none absolute z-0 bottom-[6%] right-[60px] hidden xl:block">
+        <HeroWorkflow />
       </div>
       <div className="relative z-10 flex items-center justify-center w-full">
         <HeroVisual />

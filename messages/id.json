@@ -23,6 +23,12 @@
         "titleLine3": "ENGINEER",
         "subtitle": "Ada proyek yang ingin dibahas? Mari kita bicarakan.",
         "scrollHint": "Gulir ke bawah",
+        "workflowTitle": "Cara kerja",
+        "workflowStep1": "spesifikasi & rencana",
+        "workflowStep2": "dipecah per tugas",
+        "workflowStep3": "agent menulis kode",
+        "workflowStep4": "dicek di browser",
+        "workflowNote": "Spec-driven development",
         "title": "Mari Bicara",
         "ticker": {
             "build": "Mari bangun sesuatu bersama · ",
