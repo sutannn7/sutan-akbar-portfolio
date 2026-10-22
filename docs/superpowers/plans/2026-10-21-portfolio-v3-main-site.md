@@ -562,6 +562,8 @@ Dropdown "About" memuat `achievements` (`:52`), `experience` (`:54`), `blog` (`:
 
 - `:159` `const isBlog = pathname?.includes('/blog')` dan `:161` `const isGallery = ...` — hapus variabelnya **dan** semua tempat yang memakainya (cek dengan grep di file itu).
 - `:443` `/achievements`, `:445` `/experience`, `:447` `/blog`, `:448` `/gallery` — hapus baris link tersebut dari grup footer.
+- **`:370` hardcode `"Jakarta, Indonesia"`** — Sutan berdomisili di **Palembang**. Ganti dengan `t('footer.location')` (nilainya sudah `Palembang, Indonesia` di kedua file messages) atau literal `"Palembang, Indonesia"`.
+- `:395` hardcode `"SUTAN AKBAR"` → ambil dari `portfolioData.personal.name`.
 
 - [ ] **Step 3: `src/components/sections/StatsSection.tsx`**
 
