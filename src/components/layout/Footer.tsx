@@ -194,7 +194,7 @@ export function Footer() {
                                     rel="noopener noreferrer"
                                     className="hidden sm:block text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
                                 >
-                                    {t('footer.credit')}
+                                    {t('credit')}
                                 </a>
 
                                 <motion.button

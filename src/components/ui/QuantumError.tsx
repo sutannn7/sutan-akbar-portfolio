@@ -157,7 +157,7 @@ export function QuantumError({ type = '404', reset }: QuantumErrorProps) {
             <div className="absolute bottom-12 left-12 z-20 hidden md:block">
                 <div className="flex flex-col font-mono text-left select-none">
                     <div className="flex items-center gap-2 text-primary font-black text-[11px] tracking-[0.2em] uppercase mb-1 opacity-80">
-                        <span>JAKARTA, INDONESIA</span>
+                        <span>PALEMBANG, INDONESIA</span>
                     </div>
                     <div className="text-[10px] font-black uppercase tracking-[0.1em] text-foreground/40 mb-2">
                         {formattedDate}
