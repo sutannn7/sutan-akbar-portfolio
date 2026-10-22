@@ -4,7 +4,6 @@ import { useState, useCallback, useEffect, Fragment } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useTheme } from 'next-themes';
 import { Spotlight } from '@/components/ui/spotlight-new';
@@ -23,7 +22,6 @@ import {
     Music,
     Bot
 } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { portfolioData } from '@/data/portfolio';
 
@@ -155,11 +153,6 @@ export function Footer() {
         open: { opacity: 1 }
     };
 
-    const pathname = usePathname();
-    const isBlog = pathname?.includes('/blog');
-    const isBlogDetail = pathname?.includes('/blog/') && pathname.split('/blog/')[1]?.length > 0;
-    const isGallery = pathname?.includes('/gallery');
-
     const previewSocials = portfolioData.personal.links.slice(0, 4);
 
     const expandedSocials = previewSocials.filter((s) => s.label !== 'Email');
@@ -167,24 +160,13 @@ export function Footer() {
     return (
         <>
             {/* Compact Footer - Always visible */}
-            <footer className={cn(
-                isBlog ? 'absolute bottom-0 w-full border-t-0 pointer-events-none !bg-transparent z-20' :
-                    isGallery ? 'relative z-20 mt-auto !bg-transparent' :
-                        'relative z-20 mt-auto dark:bg-black',
-                isExpanded && 'opacity-0 pointer-events-none'
-            )}>
-                <div className={`max-w-[1600px] mx-auto relative z-10 px-6 md:px-12 lg:px-24 py-6 md:py-8 pointer-events-auto ${isBlog || isGallery ? '!bg-transparent' : ''}`}>
-                    <div className={`
-                        px-6 md:px-8 py-4 md:py-6 transition-all duration-300
-                        ${isBlog || isGallery
-                            ? 'bg-card dark:bg-black/40 dark:backdrop-blur-xl border-2 border-foreground/10 dark:border-white/5 rounded-[2rem] shadow-xl dark:shadow-black/20'
-                            : 'glass-card'
-                        }
-                    `}>
+            <footer className={`relative z-20 mt-auto dark:bg-black ${isExpanded ? 'opacity-0 pointer-events-none' : ''}`}>
+                <div className="max-w-[1600px] mx-auto relative z-10 px-6 md:px-12 lg:px-24 py-6 md:py-8 pointer-events-auto">
+                    <div className="px-6 md:px-8 py-4 md:py-6 transition-all duration-300 glass-card">
                         <div className="flex items-center justify-between gap-4">
                             {/* Left Side - Animated Copyright */}
                             <div className="flex items-center gap-1.5 md:gap-2 pl-2 md:pl-4 z-10 overflow-hidden h-6">
-                                <span className={`text-xs md:text-sm font-bold uppercase tracking-widest ${isBlog ? 'text-muted-foreground' : 'text-gradient'}`}>
+                                <span className="text-xs md:text-sm font-bold uppercase tracking-widest text-gradient">
                                     © {currentYear}
                                 </span>
                                 <div className="relative w-[280px] h-full flex items-center">
@@ -196,7 +178,7 @@ export function Footer() {
                                                 animate={{ y: 0, opacity: 1 }}
                                                 exit={{ y: -20, opacity: 0 }}
                                                 transition={{ duration: 0.5, ease: "easeInOut" }}
-                                                className={`absolute left-0 text-xs md:text-sm font-bold uppercase tracking-widest whitespace-nowrap ${isBlog ? 'text-muted-foreground' : 'text-gradient'}`}
+                                                className="absolute left-0 text-xs md:text-sm font-bold uppercase tracking-widest whitespace-nowrap text-gradient"
                                             >
                                                 {copyrightIndex === 0
                                                     ? `${portfolioData.personal.name}.`
@@ -233,13 +215,7 @@ export function Footer() {
 
                                 <motion.button
                                     onClick={toggleExpand}
-                                    className={`
-                                            flex items-center gap-2 px-3 md:px-5 py-2 md:py-2.5 rounded-full transition-all text-xs font-black uppercase tracking-[0.2em]
-                                            ${isBlog
-                                            ? 'bg-muted/50 border-2 border-foreground/10 text-foreground hover:bg-muted hover:border-foreground/20'
-                                            : 'bg-muted hover:bg-muted/80 text-foreground'
-                                        }
-                                        `}
+                                    className="flex items-center gap-2 px-3 md:px-5 py-2 md:py-2.5 rounded-full transition-all text-xs font-black uppercase tracking-[0.2em] bg-muted hover:bg-muted/80 text-foreground"
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                 >

@@ -1069,6 +1069,7 @@ Halaman yang langsung merender `portfolioData.personal.bio` + `personal.links` +
 - [ ] **Step 5: Rewrite `Navbar.tsx`**
 
 - Sumber link dari `NAV_ITEMS` + `useTranslations()` untuk label.
+- **`:83` membaca `document.cookie` langsung** — itu menduplikasi sumber locale. Gunakan sumber tunggal (`src/lib/locale.ts` / provider i18n), jangan baca cookie manual.
 - Hapus dropdown "About" yang berisi achievements/skills/experience/projects/blog.
 - Hapus link `https://arfazrllworkspace.vercel.app/`.
 - Tombol kanan: "Mari terhubung" → `/contact`.
@@ -1175,6 +1176,8 @@ Struktur (urutan):
 6. Komponen ini **tidak** merender Canvas; Canvas ada di `page.tsx` agar bisa dibungkus gate.
 
 - [ ] **Step 6: Susun hero di `src/app/page.tsx`**
+
+`src/app/page.tsx` meng-import `useTranslations` tapi tidak memakainya — hapus import yang tidak terpakai saat menulis ulang file ini.
 
 ```tsx
 'use client';
@@ -1417,6 +1420,8 @@ Deskripsi bahasa Indonesia dari `messages/id.json`, terjemahan di `en.json`. Jud
 
 Pakai `portfolioData.personal.bio` + `portfolioData.personal.links` + lokasi + bahasa. Hilangkan semua konten orang lain. Section ini jadi "ringkasan singkat" supaya `/about` (Task 10) jadi halaman lengkap.
 
+**Prosa pindah dari message file ke data.** Key `about.leadIn.*` (`thesis`, `scope`, `bridging`, `integration`) dan `about.profile.narrative*` (`narrative`, `narrative2`, `profile.title`) saat ini masih di `messages/*.json` — padahal itu prosa, bukan label UI. Pindahkan isinya ke `portfolio.ts` ( sebagai `Localised` di `personal` atau field baru `personal.about`), lalu **hapus key-key tersebut dari `messages/id.json` DAN `messages/en.json`**. Spec §7: prosa konten tinggal di `portfolio.ts`.
+
 - [ ] **Step 10: Adaptasi `ExperienceStickyScroll.tsx` jadi journey timeline**
 
 Sumber data `portfolioData.journey` (bukan `portfolioData.experiences`). Render: tahun, judul, org, points. Kalau motion dimatikan, render sebagai daftar statis (tanpa sticky).
@@ -1574,6 +1579,7 @@ Task 6 sudah membuat halaman ini. Sekarang lengkapi: pendidikan (POLSRI D-IV Man
 - [ ] **Step 4: Sederhanakan `/resume`**
 
 - `src/app/resume/page.tsx:56` masih mereferensikan `/resume.pdf` — file itu **sudah dihapus** di Task 2c (itu CV penulis fork). Arahkan ke `/cv.pdf`.
+- `src/app/resume/page.tsx` meng-import `useTranslations` tapi tidak memakainya — hapus import yang tidak terpakai.
 - Tombol unduh `public/cv.pdf` (atribut `download`).
 - Embed ringan: `<object data="/cv.pdf" type="application/pdf" class="w-full h-[80vh]">` dengan fallback link unduh. **Bukan** `pdf-viewer.tsx` / react-pdf (sudah dihapus di Task 2).
 - Tombol "Salin email" (clipboard API) sebagai alternatif.
