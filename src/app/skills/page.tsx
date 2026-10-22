@@ -4,7 +4,6 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useAnimationFrame, useMotionValue } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 import { portfolioData } from '@/data/portfolio';
-import { SplineScene } from '@/components/ui/SplineScene';
 import { TextPressure } from '@/components/ui/TextPressure';
 import { KineticTechGrid } from '@/components/ui/KineticTechGrid';
 import { ArchedTechIconsInteractive } from '@/components/ui/ArchedTechIcons';
@@ -171,9 +170,6 @@ export default function SkillsPage() {
     const yHeroText = useTransform(scrollY, [0, 800], [0, 350]);
     const opacityHero = useTransform(scrollY, [0, 600], [1, 0]);
 
-    const yHeroSpline = useTransform(scrollY, [0, 1000], [0, 200]);
-    const scaleSpline = useTransform(scrollY, [0, 800], [1, 1.05]);
-
     // Tech showcase derived from portfolioData.skills (single source of truth;
     // there is no top-level techStack anymore).
     const techItems = portfolioData.skills.flatMap((group) =>
@@ -195,14 +191,7 @@ export default function SkillsPage() {
             <section className="relative h-screen flex items-end justify-center overflow-hidden pb-16">
                 <motion.div
                     className="absolute inset-0 z-0"
-                    style={{ y: yHeroSpline, scale: scaleSpline, willChange: 'transform' }}
                 >
-                    <DeferredMount fallback={<div className="w-full h-full opacity-10 bg-zinc-800 animate-pulse" />}>
-                        <SplineScene
-                            scene="https://prod.spline.design/qVnpleqGGhqRlQYK/scene.splinecode"
-                            className="w-full h-full opacity-60 md:opacity-100"
-                        />
-                    </DeferredMount>
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
                 </motion.div>
 

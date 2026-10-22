@@ -8,15 +8,9 @@ import { cn } from '@/lib/utils';
 import { portfolioData } from '@/data/portfolio';
 import dynamic from 'next/dynamic';
 
-const Lanyard = dynamic<{ position?: [number, number, number], gravity?: [number, number, number], isLowPowerMode?: boolean }>(() => import('@/components/three/Lanyard').then(mod => mod.Lanyard), {
-    ssr: false,
-    loading: () => <div className="w-full h-full flex items-center justify-center bg-transparent"><Loader2 className="w-10 h-10 animate-spin text-primary" /></div>
-});
-
 const DynamicScrollVelocity = dynamic(() => import('@/components/ui/ScrollVelocity'), { ssr: false });
 const Meteors = dynamic(() => import('@/components/ui/meteors').then(mod => mod.Meteors), { ssr: false });
 
-import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 import { DeferredMount } from '@/components/ui/DeferredMount';
 
 function SocialTicker({ items, direction = 'left', speed = 30, isLowPowerMode = false }: { items: any[], direction?: 'left' | 'right', speed?: number, isLowPowerMode?: boolean }) {
@@ -368,31 +362,6 @@ export default function ContactPage() {
                 {/* We keep this relative and stable. No shrinking or fading here. */}
                 <div className="container-creative px-4 md:px-8 max-w-[1800px] mx-auto pb-40">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-
-                        {/* LEFT COLUMN: Lanyard */}
-                        <div className="col-span-1 lg:col-span-4 relative lg:sticky top-0 h-[400px] md:h-[500px] lg:h-[90vh] pointer-events-none z-20">
-                            {/* Anchor Slot/Bar for Lanyard */}
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 md:w-64 lg:w-96 h-2 bg-gradient-to-r from-transparent via-foreground/20 to-transparent blur-[2px] rounded-full z-30 mt-[-1px]" />
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 md:w-32 lg:w-48 h-[3px] bg-gradient-to-r from-transparent via-foreground/40 to-transparent rounded-full z-30" />
-
-                            <DeferredMount fallback={<div className="w-full h-full flex items-center justify-center opacity-50"><Loader2 className="w-8 h-8 animate-spin" /></div>}>
-                                <div className="w-full h-full pointer-events-auto overflow-visible">
-                                    {!isLowPowerMode ? (
-                                        <ErrorBoundary fallback={<div className="w-full h-full flex items-center justify-center opacity-50">Interactive Card Unavailable</div>}>
-                                            <Lanyard position={[0, 0, 15]} gravity={[0, -40, 0]} isLowPowerMode={isLowPowerMode} />
-                                        </ErrorBoundary>
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center p-8">
-                                            <div className="relative w-full max-w-sm aspect-[3/4] rounded-3xl overflow-hidden border border-white/10 bg-primary/5">
-                                                <div className="absolute inset-0 flex items-center justify-center text-muted-foreground/20 italic font-serif">
-                                                    Archive ID // Static
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </DeferredMount>
-                        </div>
 
                         {/* RIGHT COLUMN: Content Stack */}
                         <div className="col-span-1 lg:col-span-8 flex flex-col gap-16 relative z-10 pt-10 lg:pt-0">

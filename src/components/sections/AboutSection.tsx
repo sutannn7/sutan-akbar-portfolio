@@ -16,7 +16,6 @@ import ScrollReveal from "@/components/ScrollReveal";
 import { Github, Linkedin, Instagram, MessageSquare, ArrowRight, ArrowUpRight } from "lucide-react";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { useCountUp } from "@/hooks/useCountUp";
-import { SocialCorner } from "@/components/layout/SocialCorner";
 import { cn } from "@/lib/utils";
 
 import Testimonial1 from "@/components/ui/testimonial-1";
@@ -26,10 +25,6 @@ import Bucket from "@/components/ui/bucket";
 import { ArgentLoopInfiniteSlider } from "@/components/ui/argent-loop-infinite-slider";
 import { HorizontalTimeline } from "@/components/ui/horizontal-timeline";
 import { CertificateShowcase } from "@/components/ui/certificate-marquee";
-import { GitHubShowcase } from "@/components/ui/github-showcase";
-import KaggleShowcase from "@/components/ui/kaggle-showcase";
-import { WakaTimeShowcase } from "@/components/ui/wakatime-showcase";
-import { ShowcaseStack } from "@/components/ui/showcase-stack";
 
 const showcaseMembers = [
     // 6. View more
@@ -640,19 +635,6 @@ export default function AboutSection() {
                         <div className="w-full mt-8 md:mt-12">
                             <CertificateShowcase />
                         </div>
-
-                        {/* Stacking Card Showcases */}
-                        <ShowcaseStack>
-                            <div className="w-full">
-                                <GitHubShowcase />
-                            </div>
-                            <div className="w-full">
-                                <KaggleShowcase />
-                            </div>
-                            <div className="w-full">
-                                <WakaTimeShowcase />
-                            </div>
-                        </ShowcaseStack>
                     </div>
                     <AuditFunnel />
                 </div>

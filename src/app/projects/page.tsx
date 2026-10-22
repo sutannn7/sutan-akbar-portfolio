@@ -21,8 +21,6 @@ import { usePerformance } from '@/hooks/usePerformance';
 import { ProjectPlaceholder, getPlaceholderImageUrl } from '@/components/projects/ProjectPlaceholder';
 import { DeferredMount } from '@/components/ui/DeferredMount';
 
-import { getProjectImages } from '@/app/actions/getProjectImages';
-
 type FilterType = 'all' | 'ongoing' | 'completed';
 
 // ─── Magnetic Fill-Invert Button ─────────────────────────────────────────────
@@ -1030,16 +1028,6 @@ export default function ProjectsPage() {
         const loadImages = async () => {
             const updatedProjects = await Promise.all(
                 portfolioData.projects.map(async (project) => {
-                    // Try to find dynamic images
-                    try {
-                        const images = await getProjectImages(project.slug, project.title.id);
-                        if (images.length > 0) {
-                            return { ...project, image: images[0] }; // Use first image as cover
-                        }
-                    } catch (e) {
-                        console.error("Failed to load images for", project.title.id, e);
-                    }
-
                     // Preload the placeholder image if no dynamic image is found
                     const img = new Image();
                     img.src = getPlaceholderImageUrl(project.title.id);

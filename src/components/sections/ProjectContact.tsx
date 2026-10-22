@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import { MessageCircle, Mail, ArrowUpRight } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import { portfolioData } from '@/data/portfolio';
-import { InteractiveRobotSpline } from '@/components/ui/interactive-3d-robot';
 import Link from 'next/link';
 
 // --- INLINE 3D FLIP COMPONENT ---
@@ -55,8 +54,6 @@ const Hover3DFlipText = ({ text }: { text: string }) => {
 
 // --- MAIN WRAPPER COMPONENT ---
 export const ProjectContact = ({ isLowPowerMode }: { isLowPowerMode?: boolean }) => {
-    const ROBOT_SCENE_URL = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
-
     return (
         <section className="relative z-10 w-full bg-transparent px-6 md:px-12 py-20 md:py-32 overflow-hidden">
 
@@ -81,17 +78,6 @@ export const ProjectContact = ({ isLowPowerMode }: { isLowPowerMode?: boolean })
                             "Just want to say hi?",
                         ]}
                     />
-                </div>
-
-                <div className="relative z-10 w-full lg:w-1/2 flex justify-center lg:justify-end h-[400px] md:h-[500px]">
-                    <div className="relative w-full h-full overflow-hidden flex items-center justify-center [mask-image:radial-gradient(circle_at_center,black_40%,transparent_75%)] md:[mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_70%)] translate-x-6 lg:translate-x-12">
-                        <div className="absolute inset-0 scale-[1.15] md:scale-110">
-                            <InteractiveRobotSpline
-                                scene={ROBOT_SCENE_URL}
-                                className="w-full h-full"
-                            />
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>

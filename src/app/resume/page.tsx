@@ -4,7 +4,6 @@ import { ArrowLeft, Download, ExternalLink } from 'lucide-react';
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { usePerformance } from '@/hooks/usePerformance';
-import { PdfViewer } from '@/components/ui/pdf-viewer';
 
 export default function ResumePage() {
     const { isLowPowerMode } = usePerformance();
@@ -52,9 +51,6 @@ export default function ResumePage() {
                 transition={{ delay: 0.2 }}
                 className="flex-1 w-full max-w-[1400px] mx-auto px-4 md:px-6 min-h-0 pb-4 relative"
             >
-                <div className="w-full h-full bg-muted/30 rounded-2xl border border-border/50 overflow-hidden relative group">
-                    <PdfViewer url="/resume.pdf" />
-                </div>
             </motion.div>
         </div>
     );
