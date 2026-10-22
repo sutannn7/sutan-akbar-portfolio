@@ -41,8 +41,7 @@ function PlateMesh({ pointer }: { pointer: { current: Pointer } }) {
   });
 
   return (
-    <mesh ref={meshRef}>
-      <RoundedBox args={[3.2, 1.8, 0.12]} radius={0.12} smoothness={4} />
+    <RoundedBox ref={meshRef} args={[3.2, 1.8, 0.12]} radius={0.12} smoothness={4}>
       <meshPhysicalMaterial
         color="#C8F246"
         roughness={0.2}
@@ -54,7 +53,7 @@ function PlateMesh({ pointer }: { pointer: { current: Pointer } }) {
         emissive="#C8F246"
         emissiveIntensity={0.18}
       />
-    </mesh>
+    </RoundedBox>
   );
 }
 
