@@ -14,16 +14,14 @@ export default async function GitHubRepos() {
       <section id="github" className="relative py-20 lg:py-32 bg-background text-foreground">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-3xl font-bold mb-6">{t('githubRepos')}</h2>
-          <p className="text-muted-foreground mb-8">
-            Tidak dapat memuat repositori dari GitHub saat ini.
-          </p>
+          <p className="text-muted-foreground mb-8">{t('githubUnavailable')}</p>
           <a
             href={`https://github.com/${username}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 border rounded-lg font-medium hover:bg-accent/50 transition"
           >
-            Lihat profil GitHub →
+            {t('viewProfile')}
           </a>
         </div>
       </section>

@@ -80,7 +80,9 @@
             "teamValue": "Individu",
             "techStack": "Teknologi",
             "techStackValue": "{count} Teknologi"
-        }
+        },
+        "githubUnavailable": "Tidak dapat memuat repositori dari GitHub saat ini.",
+        "viewProfile": "Lihat profil GitHub"
     },
     "ctaSection": {
         "ribbon1": "Next.js • React • TypeScript • Tailwind CSS • Framer Motion • Three.js • HTML • CSS • JavaScript • PHP • MySQL • Git",

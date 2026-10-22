@@ -1,5 +1,27 @@
 # SDD ledger — plan: docs/superpowers/plans/2026-10-21-portfolio-v3-main-site.md
 
+## 🔴, RESUME — 22/10/2026 malam (setelah Task 11 sebagian)
+
+**Status sekarang:**
+- Branch **`main`** (renamed dari `feature/v3-reskin`), HEAD `b041781`, working tree bersih.
+- **Sudah di-push** ke `origin` = `sutannn7/sutan-akbar-portfolio` → `refs/heads/main` = `b041781`. Repo sebelumnya shallow → sudah di-`git fetch --unshallow upstream` (378 commit) karena push ditolak GitHub (`index-pack failed`).
+- Test **54/54 hijau** (13 file), typecheck **0 error**, `next build` sukses (12/12 halaman).
+- 7 route terverifikasi di browser headless (1440×900), **0 console error**: `/`, `/projects`, `/projects/learnease`, `/skills`, `/about`, `/contact`, `/resume`.
+
+**Sudah dikerjakan pada sesi ini:**
+1. **Task 9** (`/projects`) — grid kartu + filter 16 chip, detail page locale-aware. Commit `9444e51`.
+2. **Task 10** (`/skills`, `/about`, `/contact`, `/resume`) — 4 route ditulis ulang dari nol sebagai Server Component. `contact.form` + `hero.ticker` dihapus dari kedua file messages, 2 jawaban FAQ diubah (tidak lagi menyebut formulir). `public/cv.pdf` dibuat dari `CV_Sutan_Akbar_Dwi_Nugraha_Update_LearnEase.docx` via Word COM (format 17). Commit `6298d8d`.
+3. **Task 11 (bagian lokal)** — sapu 39 file yatim (8.068 baris) + 7 package (`@splinetool/react-spline`, 2 radix, cva, gl-matrix, mini-svg-data-uri, react-tooltip), `src/types/global.d.ts` (shim spline) dihapus. Commit `b041781`.
+4. **CV dipatch** → `sutan-akbar.vercel.app` + `github.com/sutannn7/sutan-akbar-portfolio` (5 text node), PDF di-regenerate. Sumber: `C:\Users\lenovo\Downloads\CV_Sutan_Akbar_Dwi_Nugraha_Final.docx`.
+
+**Yang MENUNGGU Sutan (tidak bisa dari sini):**
+- Connect `sutannn7/sutan-akbar-portfolio` → project Vercel `sutan-akbar`: Settings → Git → Connect Git Repository → Redeploy.
+- Env di project Vercel `sutan-akbar`: `NEXT_PUBLIC_GITHUB_USERNAME=sutannn7` (blok GitHub di homepage pakai ini).
+- Hapus 3 repo kosong di GitHub (Settings → Danger Zone): `sutan-command-palette`, `sutan-token-playground`, `sutan-onboarding-flow` (repo ke-3 ada typo "onbarding"). `gh` tidak punya scope `delete_repo`. Sampai dihapus, ketiganya muncul di blok GitHub homepage.
+- Setelah deploy: cek 4 URL mengembalikan 200 — `sutan-akbar.vercel.app`, `polsri-lms-frontend.vercel.app`, `nusantara-kopi.vercel.app`, + repo `sutan-akbar-portfolio`.
+
+**Catatan animasi (Ruling 30):** efek scroll TIDAK boleh hilang di route yang ditulis ulang. Navbar sudah hide-on-scroll (scroll bawah → sembunyi, scroll atas → muncul). Section-level reveal pakai 1 komponen `src/components/ui/Reveal.tsx` (client, fade + naik 24px, `viewport once`, hormati `prefers-reduced-motion`). Halaman yang memakai: `/skills`, `/about`, `/contact`, `/resume`. Content reveal homepage sudah punya sendiri (`whileInView`).
+
 ## ⏸ RESUME — 22/10/2026 sore (Sutan pulang, lanjut dari rumah)
 
 **Lanjut dari:** Task 7 fix round 2 (5 cacat visual di hero) — subagent sedang jalan saat sesi ditutup. Cek dulu `git log` + `git status`: kalau ada commit `fix: ...` untuk hero, itu hasilnya; kalau working tree kotor, `git diff` dulu sebelum lanjut.
@@ -56,12 +78,12 @@ Workspace: `.superpowers/sdd/2026-10-21-portfolio-v3-main-site/`
 | 3 | Token desain, tema, konfigurasi Next | **complete** (commit 1878ad8, review clean, 0 temuan) |
 | 4 | Model data + seluruh konten portofolio | **complete** (commit `183e4c9` + fix `357c284`, review clean) |
 | 2c | Sapu sisa identitas fork | **complete** (commit `233ed0f`, review clean) |
-| 5 | i18n — default ID + penulisan ulang messages | pending |
+| 5 | i18n — default ID + penulisan ulang messages | **complete** (commit `b920811` + rewrite Task 8/9/10, review clean, guard tanpa EXCLUDED)|
 | 6 | Layout, navigasi, footer | **complete** (commit `cb0c672` + fix `45a5979` + `1c03e78`, review clean setelah 2 fix round) |
-| 7 | Hero — split headline, 3D name plate, grid | pending |
-| 8 | Section homepage | pending |
-| 9 | Rute `/projects` | pending |
-| 10 | Rute `/skills`, `/about`, `/contact`, `/resume` | pending |
+| 7 | Hero — split headline, 3D name plate, grid | **complete** (commit `57519f2` fix material RoundedBox, 5 cacat visual beres)|
+| 8 | Section homepage | **complete** (commit `54100d2` + fix `9fae489` `8d6058d` `2ecf45a`)|
+| 9 | Rute `/projects` | **complete** (commit `9444e51`, -2228 baris, browser terverifikasi)|
+| 10 | Rute `/skills`, `/about`, `/contact`, `/resume` | **complete** (commit `6298d8d`, -1215 baris, browser terverifikasi)|
 | 11 | Audit konten, deploy, penarikan CV | pending |
 
 18. **Ruling — 4 project Vercel sudah dibuat Sutan (21/10/2026).** `sutan-akbar`, `sutan-command-palette`, `sutan-token-playground`, `sutan-onboarding-flow` — semua 4 sudah ada di akun Vercel Sutan, masing-masing dengan domain `*.vercel.app`, tapi **belum ada deployment** (semua 404 saat dicek). Konsekuensi: langkah deploy di plan utama + 3 plan mini diubah dari "bikin project baru" → "**connect repo yang sudah ada**" lewat **Settings → Git → Connect Git Repository** + **Deployments → Redeploy**. Bikin project baru akan gagal karena nama sudah dipakai. — Alasan: Sutan sudah membuatnya; tidak perlu bikin ulang. — Biaya kalau salah: 4 project Vercel perlu dihapus & dibuat ulang.
@@ -189,6 +211,31 @@ Situs **tidak bisa dibuka**: Chrome headless → halaman depan jatuh ke error bo
 ## Task 8 — brief siap
 
 `.superpowers/sdd/2026-10-21-portfolio-v3-main-site/task-8-brief.md` (232 baris). Section homepage: stats, tentang, keahlian, proyek, GitHub repos, CTA. **Perhatikan:** `computeStats` membaca `techStack` per proyek (Ruling 2) dan `ProjectsSection`/blok GitHub butuh message key yang belum ada (Ruling 3 → tambah ke `id.json` **dan** `en.json`).
+
+## Task 8 — hasil (22/10/2026)
+
+**Implementasi** (commit `54100d2`): `src/lib/stats.ts` + test, `src/lib/github.ts` + test, `src/components/sections/GitHubRepos.tsx` (server component, fallback statis ke github.com/sutannn7), `src/components/sections/Milestones.tsx`, rewrite `StatsSection` / `ExpertiseSection` / `AboutSection` / `ExperienceStickyScroll` / `CTASection`, `page.tsx` 9 section. Stats dari data: Proyek 4 · Live 3 · Lab 0 · Teknologi 16.
+
+**Fix round 1** (`9fae489`): **`page.tsx` harus jadi Server Component** — sebelumnya `'use client'`, jadi `GitHubRepos` + `Milestones` (server component, `getTranslations`) crash: *"`getTranslations` is not supported in Client Components"*. Hero dipindah ke `src/components/sections/HeroSection.tsx` ('use client'), markup hero **byte-identical**. Featured block pakai `getLocale()`/`getTranslations()` dari `next-intl/server`. 4 file yatim dihapus.
+
+**Fix round 2** (`8d6058d`): **12 klaim terlarang masih ada di `messages/*.json`** — `projects.metadata.roleValue` ("Pengembang Full Stack"), `ctaSection.subtitle` ("sistem berbasis AI dan rekayasa full stack"), dan 4 jawaban `contact.faqData.*.a` (Kecerdasan Buatan / AI research / TensorFlow-PyTorch-YOLO / AIoT / deteksi serangan). Guard yang diperluas masih terlalu longgar (hanya multi-word) → sekarang ada **dua level**: nilai message & `portfolioData` pakai daftar ketat (`\bAI\b`, `AIoT`, `\bML\b`, `machine learning`, `data science`, `full[\s-?]*stack`, `tensorflow`, `pytorch`, `scikit-learn`, `yolo`); file `.ts/.tsx` tetap multi-word saja (bare "AI" akan false-positive di `EMAIL`/`MAIN`/`DETAIL`). FAQ ditulis ulang jujur (5 pasang, index sejajar id/en). CTA: judul "Sedang mencari magang? Mari ngobrol." (sebelumnya kalimat terpotong "Mari Membangun Sesuatu yang" karena `together` tak dirender), tombol "Hubungi Saya" + "Unduh CV", `ribbon2` = "FRONTEND ENGINEER · UI ENGINEER · WEB DEVELOPER · FRONTEND ENTHUSIAST". Key `words` + `together` dihapus dari kedua file. Key milestone duplikat "2026" → `${year}-${title.id}`.
+
+**Fix oleh controller** (`2ecf45a`): tahun di timeline journey **menimpa judul** (`absolute -left-[24px]` + teks "2021–2024" selebar ~70px vs konten mulai 48px). Diperbaiki: container `pl-[124px]`, tahun `absolute -left-[112px] w-[96px] text-right` → kolom sendiri.
+
+**Build sekarang HIJAU** (typecheck **0** error, 51/51 test, `next build` sukses 7 rute). Build sebelumnya rusak sejak Task 2 karena 9 import modul yang sudah dihapus — sudah dibersihkan (commit `f4c4eeb`) plus `ProjectContact` kehilangan robot Spline (peer `@splinetool/runtime` tak terpasang & scene dari CDN). `src/components/ui/interactive-3d-robot.tsx` dihapus.
+
+**Tool verifikasi browser (BARU, pakai tiap task visual):**
+- `C:\Users\lenovo\AppData\Local\Temp\opencode\shot.mjs` — screenshot **full page** + kumpulkan console error (CDP, `captureBeyondViewport`).
+- `...\shot-scroll.mjs` — screenshot **per posisi scroll** (untuk konten yang muncul saat digulir / `whileInView`).
+- Catatan: `npm.cmd run dev` + `--window-size` tinggi **tidak boleh** dipakai untuk full page — `min-h-screen` ikut jadi tinggi. Selalu pakai CDP.
+
+**PENTING — 3 bug fatal lolos review statis** dan hanya ketahuan lewat browser: (1) `Footer.tsx` `t('footer.credit')` → crash total; (2) `NamePlate` `useFrame` di luar `<Canvas>` → crash; (3) `page.tsx` client → crash. **Ruling 28 (browser check) adalah wajib, bukan opsional.**
+
+**Ruling 29 — root cause slab 3D (butuh 4 ronde perbaikan).** drei `<RoundedBox>` merender `<mesh>`-nya sendiri. Material yang ditaruh sebagai *saudara* menempel ke mesh luar yang **tanpa geometri**, sedangkan mesh RoundedBox yang terlihat jatuh ke material default three.js (`MeshBasicMaterial` putih) → selalu netral (229,229,229). Fix: `<RoundedBox ref={meshRef}><meshPhysicalMaterial …/></RoundedBox>`. Efek sampingnya: `useFrame` sekarang memegang mesh yang benar → tilt & float benar-benar jalan.
+
+**Sisa pekerjaan:** Task 9 (rute `/projects`) → Task 10 (`/skills`, `/about`, `/contact`, `/resume`) → Task 11 (audit + deploy + CV) → Plan 2/3/4 (3 mini project) → Plan 5 (`/lab`).
+
+**BUTUH TINDAKAN SUTAN:** 3 repo GitHub kosong lama (`command-palette`, `token-playground`, `onbarding-flow` — ada typo) masih ada dan muncul di blok "Repositori GitHub" di situs. `gh` tidak punya scope `delete_repo` → hapus manual: GitHub → Settings → Danger Zone → Delete. Yang dipakai: `sutan-command-palette`, `sutan-token-playground`, `sutan-onboarding-flow`.
 
 ## Plan lain (sudah ditulis, di `docs/superpowers/plans/`)
 | Plan | Isi | Repo target |

@@ -80,7 +80,9 @@
             "teamValue": "Individual",
             "techStack": "Tech Stack",
             "techStackValue": "{count} Technologies"
-        }
+        },
+        "githubUnavailable": "Could not load repositories from GitHub right now.",
+        "viewProfile": "View GitHub profile"
     },
     "ctaSection": {
         "ribbon1": "Next.js • React • TypeScript • Tailwind CSS • Framer Motion • Three.js • HTML • CSS • JavaScript • PHP • MySQL • Git",
