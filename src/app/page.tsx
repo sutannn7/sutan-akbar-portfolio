@@ -23,7 +23,11 @@ export default function HomePage() {
   return (
     <main className="relative min-h-screen w-full flex items-center justify-center bg-background text-foreground overflow-hidden">
       <HeroGrid />
-      <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-70">
+      {/* Plate di kanan atas (x ≈ 820–1380, y ≈ 100–420 @1440×1000), di band kosong
+           kanan END dan di atas ENGINEER; tidak overlap headline maupun navbar.
+           Di bawah lg disembunyikan (headline memenuhi layar) agar tidak pernah menempel
+           pada teks. opacity-70 dihapus karena itu menurunkan opacity nama-overlay. */}
+      <div className="pointer-events-none absolute z-0 top-[100px] right-[60px] hidden lg:block">
         {heavy ? (
           <NamePlate name={portfolioData.personal.name} role={portfolioData.personal.title.id} />
         ) : (

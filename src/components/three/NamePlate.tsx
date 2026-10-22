@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { RoundedBox } from '@react-three/drei';
+import { Environment, RoundedBox } from '@react-three/drei';
 import * as THREE from 'three';
 
 interface NamePlateProps {
@@ -76,12 +76,29 @@ export function NamePlate({ name, role }: NamePlateProps) {
 
   return (
     <div className="relative w-full max-w-[560px] h-[320px]">
-      {/* Nama dan peran sebagai HTML agar tajam, dapat disalin, dan terbaca screen reader */}
+      {/* Nama dan peran sebagai HTML: tajam, dapat disalin, dan terbaca screen reader.
+           Teks putih (bukan foreground) agar kontras baik di kedua tema
+           atas warna slab lime yang tetap. */}
       <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 text-center">
-        <span className="font-sans font-medium text-foreground">{name}</span>
-        <span className="font-mono text-sm text-muted-foreground mt-2">{role}</span>
+        <span className="font-sans font-medium text-white drop-shadow-lg">{name}</span>
+        <span className="font-mono text-sm text-white/80 mt-2">{role}</span>
       </div>
       <Canvas dpr={[1, 1.5]} camera={{ position: [0, 0, 5], fov: 45 }}>
+        {/* Lingkungan dihasilkan secara lokal (tanpa preset CDN, tanpa fetch):
+             drei merender anak-anak ke dalam scena virtual dan
+             menangkapnya sekali ke dalam WebGLCubeRenderTarget. Tekstur ini
+             memberi slab transmisi sesuatu yang dapat di-bias, sehingga warna
+             #C8F246 benar-benar terbaca sebagai kaca lime. */}
+        <Environment frames={1} background={false} environmentIntensity={1.2}>
+          <mesh position={[-3, 2, 0]}>
+            <planeGeometry args={[4, 2]} />
+            <meshBasicMaterial color="white" />
+          </mesh>
+          <mesh position={[3, 1, 2]}>
+            <planeGeometry args={[2, 1]} />
+            <meshBasicMaterial color="white" />
+          </mesh>
+        </Environment>
         <ambientLight intensity={0.6} />
         <directionalLight position={[2, 3, 4]} intensity={1.2} />
         <PlateMesh pointer={pointer} />

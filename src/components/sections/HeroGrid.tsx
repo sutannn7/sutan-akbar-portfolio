@@ -11,7 +11,7 @@ export function HeroGrid() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 z-[-10] mix-blend-overlay"
+      className="pointer-events-none absolute inset-0 z-[-10]"
       style={{
         backgroundImage: [
           `linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px)`,
