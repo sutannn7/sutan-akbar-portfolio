@@ -23,12 +23,6 @@
         "titleLine3": "ENGINEER",
         "subtitle": "Have a project to discuss? Let's talk.",
         "scrollHint": "Scroll down",
-        "workflowTitle": "How I work",
-        "workflowStep1": "spec & plan",
-        "workflowStep2": "split into tasks",
-        "workflowStep3": "agent writes code",
-        "workflowStep4": "checked in the browser",
-        "workflowNote": "Spec-driven development",
         "title": "Let's Talk",
         "ticker": {
             "build": "Let's build something together · ",
