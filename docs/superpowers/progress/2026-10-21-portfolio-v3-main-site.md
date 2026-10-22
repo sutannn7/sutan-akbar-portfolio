@@ -22,6 +22,13 @@
 
 **Catatan animasi (Ruling 30):** efek scroll TIDAK boleh hilang di route yang ditulis ulang. Navbar sudah hide-on-scroll (scroll bawah → sembunyi, scroll atas → muncul). Section-level reveal pakai 1 komponen `src/components/ui/Reveal.tsx` (client, fade + naik 24px, `viewport once`, hormati `prefers-reduced-motion`). Halaman yang memakai: `/skills`, `/about`, `/contact`, `/resume`. Content reveal homepage sudah punya sendiri (`whileInView`).
 
+**Sapu aset publik (Ruling 31):** audit `public/` vs referensi di `src/` menemukan **131 file (45,7 MB) yang tidak dirujuk kode sama sekali** tapi tetap ikut ter-deploy ke Vercel dan ter-commit ke repo publik. Termasuk `public/about/arfazrll.webp` (**foto penulis asli**, 1,2 MB) dan `public/certificate/` (**31 sertifikat** — "Dasar Artificial Intelligence", "Generative AI", "Machine Learning Foundations", "elevAIte", dll) plus `public/gallery/`, `public/journey/`, `public/experience/`, `public/lanyard/` (2,4 MB), `public/assets/` (23 logo perusahaan), `public/project/`, `public/feature/`. Semua dihapus. `public/` sekarang 6 file, 0,8 MB: `cv.pdf`, `favicon.svg`, `noise.svg`, `projects/{learnease,polsri,kopi}.jpg`.
+
+**Slot foto profil (menunggu Sutan):** `portfolioData.personal.avatar` → `/avatar.jpg`. `src/components/ui/ProfileAvatar.tsx` cek keberadaan file saat render; kalau belum ada → monogram inisial "SA" (bukan gambar tiruan). Slot sudah dipasang di atas judul `/about`. Cara supplying foto: taruh file di `public/avatar.jpg` (format jpg/png/webp, potret, ≥800px).
+
+**Bug 404 diperbaiki:** `QuantumError.tsx` memakai `useState(new Date())` → jam render berbeda antara server dan client → hydration error di halaman 404 (terbukti di browser: "21.06.16" vs "21.06.14"). Sekarang jam hanya tampil setelah mount, placeholder `--.--.--` sebelum itu.
+
+
 ## ⏸ RESUME — 22/10/2026 sore (Sutan pulang, lanjut dari rumah)
 
 **Lanjut dari:** Task 7 fix round 2 (5 cacat visual di hero) — subagent sedang jalan saat sesi ditutup. Cek dulu `git log` + `git status`: kalau ada commit `fix: ...` untuk hero, itu hasilnya; kalau working tree kotor, `git diff` dulu sebelum lanjut.

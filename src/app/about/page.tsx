@@ -2,17 +2,21 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import { ArrowUpRight } from 'lucide-react';
 import { Reveal } from '@/components/ui/Reveal';
+import { ProfileAvatar } from '@/components/ui/ProfileAvatar';
 import { portfolioData } from '@/data/portfolio';
 import { Locale } from '@/lib/locale';
 
 export default async function AboutPage() {
   const locale = (await getLocale()) as Locale;
   const t = await getTranslations('about');
-  const { bio, links, location, languages } = portfolioData.personal;
+  const { bio, links, location, languages, avatar } = portfolioData.personal;
 
   return (
     <main className="mx-auto max-w-4xl px-6 py-24 md:px-10 md:py-32">
       <Reveal>
+        <div className="mb-8">
+          <ProfileAvatar src={avatar} name={portfolioData.personal.name} />
+        </div>
         <h1 className="text-4xl font-black tracking-tight text-foreground md:text-6xl">{t('summary')}</h1>
         <section className="mt-8">
           {bio[locale].split('\n\n').map((paragraph, i) => (

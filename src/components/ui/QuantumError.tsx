@@ -15,7 +15,9 @@ export function QuantumError({ type = '404', reset }: QuantumErrorProps) {
     const { isLowPowerMode } = usePerformance();
     const mouseX = useMotionValue(0);
     const mouseY = useMotionValue(0);
-    const [currentTime, setCurrentTime] = useState(new Date());
+    // Jam live hanya boleh tampil setelah mount: kalau diisi di server,
+    // teksnya beda 1-2 detik dari render client -> hydration error.
+    const [currentTime, setCurrentTime] = useState<Date | null>(null);
     const frameRef = React.useRef<number | null>(null);
 
     const springConfig = { damping: 25, stiffness: 150 };
@@ -35,6 +37,7 @@ export function QuantumError({ type = '404', reset }: QuantumErrorProps) {
                 mouseY.set(e.clientY);
             });
         };
+        setCurrentTime(new Date());
         const timer = setInterval(() => setCurrentTime(new Date()), 1000);
 
         window.addEventListener('mousemove', handleMouseMove);
@@ -53,19 +56,23 @@ export function QuantumError({ type = '404', reset }: QuantumErrorProps) {
         ? "The page you're looking for is missing."
         : "An internal technical error has occurred.";
 
-    const formattedDate = currentTime.toLocaleDateString('id-ID', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    }).toUpperCase();
+    const formattedDate = currentTime
+        ? currentTime.toLocaleDateString('id-ID', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        }).toUpperCase()
+        : '';
 
-    const formattedTime = currentTime.toLocaleTimeString('id-ID', {
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false
-    });
+    const formattedTime = currentTime
+        ? currentTime.toLocaleTimeString('id-ID', {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        })
+        : '--.--.--';
 
     return (
         <div className="fixed inset-0 z-[99999] bg-white dark:bg-[#000000] flex flex-col items-center justify-center font-sans overflow-hidden select-none">

@@ -14,7 +14,7 @@ export const portfolioData: PortfolioData = {
       en:
         'Sutan Akbar Dwi Nugraha, a Frontend Engineer based in Palembang. He is currently a D-IV Informatics Management student at Politeknik Negeri Sriwijaya (IPK 3.55/4.00 through semester 4).\n\nHe builds lightweight, clean, mobile-ready web interfaces. His work includes the campus LMS UI/UX redesign (LearnEase, team of 5: audit of 8 pages, design tokens, dark mode, 7 prototype pages, and an automated test runner), the MI POLSRI study-program profile website that he built alone with native PHP and MySQL, and Nusantara Kopi for the SINTAK event (team of 4, live on Vercel).\n\nHe commits to honesty in this portfolio: nothing claimed without real work to back it.',
     },
-    avatar: '/avatar.svg',
+    avatar: '/avatar.jpg',
     location: 'Palembang, Indonesia',
     email: 'Akbarcool998@gmail.com',
     phone: '0857-5829-2876',
