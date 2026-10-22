@@ -6,24 +6,14 @@
         "skills": "Skills",
         "contact": "Contact",
         "resume": "Resume",
-        "achievements": "Achievements",
-        "experience": "Experience",
-        "blog": "Blog",
-        "gallery": "Gallery",
         "lab": "Lab",
         "languageId": "Indonesian",
         "languageEn": "English",
         "menu": {
-            "achievements": "Achievements",
-            "achievementsDesc": "Certifications, awards, and milestones",
             "skills": "Skills",
             "skillsDesc": "Technologies and tools I work with",
-            "experience": "Experience",
-            "experienceDesc": "My professional journey and growth",
             "projects": "Projects",
-            "projectsDesc": "A showcase of all my work",
-            "blog": "Blog",
-            "blogDesc": "Thoughts and technical explorations"
+            "projectsDesc": "A showcase of all my work"
         }
     },
     "hero": {

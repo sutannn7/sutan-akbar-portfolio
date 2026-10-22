@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { ChevronDown, Trophy, Navigation, Briefcase, Rocket, BookOpen, ImageIcon, FileText } from 'lucide-react';
+import { ChevronDown, Navigation, Rocket, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface NavLink {
@@ -226,7 +226,7 @@ export default function CardNav({
     }, []);
 
     const aboutItem = items.find(i => i.label === "About") || items[0];
-    const allHrefs = ['/projects', '/experience', '/skills', '/achievements', '/blog', '/gallery', '/resume'];
+    const allHrefs = ['/projects', '/skills', '/resume'];
     const isActive = useMemo(() => {
         return allHrefs.some(href => pathname === href || pathname.startsWith(`${href}/`));
     }, [pathname]);
@@ -288,16 +288,13 @@ export default function CardNav({
                         )}>
                             {/* Left Main Area */}
                             <div className="flex-1 p-5 flex flex-col gap-4">
-                                {/* Top 2 big boxes */}
-                                <div className="grid grid-cols-2 gap-4">
+                                {/* Top big box */}
+                                <div className="grid grid-cols-1 gap-4">
                                     <MegaBoxBig href="/projects" icon={Rocket} title="Project" desc="Discover my latest builds" theme={theme} pathname={pathname} />
-                                    <MegaBoxBig href="/experience" icon={Briefcase} title="Experience" desc="My professional journey" theme={theme} pathname={pathname} />
                                 </div>
-                                {/* Bottom 3 small boxes */}
-                                <div className="grid grid-cols-3 gap-4">
+                                {/* Bottom small box */}
+                                <div className="grid grid-cols-1 gap-4">
                                     <MegaBoxSmall href="/skills" icon={Navigation} title="Skill" desc="Technical expertise" theme={theme} pathname={pathname} />
-                                    <MegaBoxSmall href="/achievements" icon={Trophy} title="Achievement" desc="Milestones reached" theme={theme} pathname={pathname} />
-                                    <MegaBoxSmall href="/blog" icon={BookOpen} title="Blog" desc="Insights and docs" theme={theme} pathname={pathname} />
                                 </div>
                             </div>
 
@@ -306,7 +303,6 @@ export default function CardNav({
                                 "w-[280px] p-4 flex flex-col justify-center gap-4 border-l",
                                 theme === 'dark' ? "border-white/5" : "border-black/5"
                             )}>
-                                <SidebarLink href="/gallery" icon={ImageIcon} title="Gallery" desc="Visual portfolio & moments" theme={theme} pathname={pathname} />
                                 <SidebarLink href="/resume" icon={FileText} title="Resume" desc="View or download my CV" theme={theme} pathname={pathname} />
                             </div>
                         </div>

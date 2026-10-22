@@ -63,11 +63,10 @@ export function ArcRevealHero({
   // This PREVENTS the new page from appearing BEFORE the preloader animation starts!
   if (pathname !== prevPathname) {
     const isBackToProjects = prevPathname.startsWith('/projects/') && pathname === '/projects';
-    const isBackToBlog = prevPathname.startsWith('/blog/') && pathname === '/blog';
     setPrevPathname(pathname);
     
     // Skip preloader if navigating back to the main listing page from a detail page
-    if (!isBackToProjects && !isBackToBlog) {
+    if (!isBackToProjects) {
         setPhase("intro");
         setIndex(0);
         progress.set(0);

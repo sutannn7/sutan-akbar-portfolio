@@ -51,14 +51,6 @@ export default function Testimonial1() {
       cta: "View Projects",
     },
     {
-      value: 2,
-      decimals: 0,
-      suffix: " Years",
-      label: "Professional Exp",
-      href: "/experience",
-      cta: "Explore Career",
-    },
-    {
       value: 34,
       decimals: 0,
       suffix: "+",

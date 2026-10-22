@@ -6,24 +6,14 @@
         "skills": "Keahlian",
         "contact": "Kontak",
         "resume": "Resume",
-        "achievements": "Pencapaian",
-        "experience": "Pengalaman",
-        "blog": "Blog",
-        "gallery": "Galeri",
         "lab": "Lab",
         "languageId": "Indonesia",
         "languageEn": "English",
         "menu": {
-            "achievements": "Pencapaian",
-            "achievementsDesc": "Sertifikasi, penghargaan, dan pencapaian",
             "skills": "Keahlian",
             "skillsDesc": "Teknologi dan alat yang saya gunakan",
-            "experience": "Pengalaman",
-            "experienceDesc": "Perjalanan profesional dan pertumbuhan saya",
             "projects": "Proyek",
-            "projectsDesc": "Pameran semua karya saya",
-            "blog": "Blog",
-            "blogDesc": "Pemikiran dan eksplorasi teknis"
+            "projectsDesc": "Pameran semua karya saya"
         }
     },
     "hero": {

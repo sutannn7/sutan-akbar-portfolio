@@ -5,8 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ZoomParallax } from "@/components/ui/zoom-parallax";
 import { Book } from "@/components/ui/book";
 import { portfolioData } from "@/data/portfolio";
-import Link from "next/link";
-import { ArrowUpRight, BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
+import { BookOpen, ChevronLeft, ChevronRight } from "lucide-react";
 
 const CATEGORY_COLORS: Record<string, string> = {
     'applied-ai': '#9D2127', // Deep Red
@@ -100,15 +99,7 @@ export default function StatsSection({ scrollYProgress, showOnly }: { scrollYPro
 
                     {/* Immersive Zoom Parallax Component */}
                     <div className="w-full">
-                        <ZoomParallax images={images}>
-                            <Link 
-                                href="/gallery" 
-                                className="group flex items-center gap-3 px-6 py-3.5 bg-foreground text-background rounded-full font-bold uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all shadow-xl border border-border/10"
-                            >
-                                View Gallery
-                                <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                            </Link>
-                        </ZoomParallax>
+                        <ZoomParallax images={images} />
                     </div>
                 </>
             )}
@@ -116,17 +107,13 @@ export default function StatsSection({ scrollYProgress, showOnly }: { scrollYPro
             {/* Book Showcase Integration */}
             {(showOnly === 'bottom' || !showOnly) && (
                 <div className="w-full max-w-[1600px] mx-auto px-6 md:px-12 pt-16 pb-32 space-y-16 relative">
-                    <div className="flex items-center justify-between border-b border-border/50 pb-8">
+                    <div className="flex items-center border-b border-border/50 pb-8">
                         <div className="space-y-1">
                             <h3 className="text-2xl font-bold text-foreground flex items-center gap-3">
                                 Latest Stories
                             </h3>
                             <p className="text-muted-foreground/60 font-medium uppercase tracking-widest text-xs">Articles • Insights • Technical Deep Dives</p>
                         </div>
-                        <Link href="/blog" className="hidden md:flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground/40 hover:text-foreground transition-colors group">
-                            Browse Full Archive
-                            <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                        </Link>
                     </div>
 
                     <div className="relative group/slider flex items-center justify-center">
@@ -182,8 +169,8 @@ export default function StatsSection({ scrollYProgress, showOnly }: { scrollYPro
                                             }}
                                             className="group relative w-[200px] md:w-[260px] flex-shrink-0"
                                         >
-                                            <Link href={`/blog/${blog.slug}`} className="block relative z-10 group/book">
-                                                {/* Glow Effect - Inside Link for better hover detection */}
+                                            <div className="block relative z-10 group/book">
+                                                {/* Glow Effect - Inside card for better hover detection */}
                                                 <div
                                                     className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[180%] aspect-square -z-10 blur-[80px] opacity-0 group-hover/book:opacity-70 group-hover/book:scale-110 transition-all duration-700 rounded-full pointer-events-none"
                                                     style={{
@@ -217,19 +204,12 @@ export default function StatsSection({ scrollYProgress, showOnly }: { scrollYPro
                                                         {blog.excerpt}
                                                     </p>
                                                 </div>
-                                            </Link>
+                                            </div>
                                         </motion.div>
                                     ))}
                                 </AnimatePresence>
                             </div>
                         </div>
-                    </div>
-
-                    <div className="flex justify-center md:hidden pt-8">
-                        <Link href="/blog" className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground/40 hover:text-foreground transition-colors group">
-                            Browse Full Archive
-                            <ArrowUpRight className="w-4 h-4" />
-                        </Link>
                     </div>
                 </div>
             )}

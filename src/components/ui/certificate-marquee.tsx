@@ -2,8 +2,6 @@
 
 import { motion, MotionValue, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 
 const certificates = [
@@ -13,54 +11,6 @@ const certificates = [
   "/certificate/Mastering Smart Contract.webp",
   "/certificate/Started with Databases.webp",
 ];
-
-function ScrambleButton({ href }: { href: string }) {
-  const [displayText, setDisplayText] = useState("View All Achievements");
-  const [isScrambling, setIsScrambling] = useState(false);
-  const originalText = "View All Achievements";
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
-
-  const scramble = () => {
-    if (isScrambling) return;
-    setIsScrambling(true);
-    
-    let iteration = 0;
-    const maxIterations = originalText.length;
-
-    const interval = setInterval(() => {
-      setDisplayText((prev) =>
-        originalText
-          .split("")
-          .map((letter, index) => {
-            if (index < iteration) {
-              return originalText[index];
-            }
-            return chars[Math.floor(Math.random() * chars.length)];
-          })
-          .join("")
-      );
-
-      if (iteration >= maxIterations) {
-        clearInterval(interval);
-        setIsScrambling(false);
-      }
-
-      iteration += 1 / 3;
-    }, 30);
-  };
-
-  return (
-    <Link
-      href={href}
-      onMouseEnter={scramble}
-      className="group relative inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-full font-bold overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-lg hover:shadow-primary/20"
-    >
-      <span className="relative z-10">{displayText}</span>
-      <ArrowRight className="w-4 h-4 relative z-10 transition-transform group-hover:translate-x-1" />
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary-foreground/10 to-primary/0 translate-x-[-100%] group-hover:animate-[move-x_1.5s_infinite]" />
-    </Link>
-  );
-}
 
 type ColumnProps = {
   images: string[];
@@ -147,10 +97,6 @@ export function CertificateShowcase() {
                 A collection of my professional certifications in AI, Web Development, and Cloud Engineering from industry leaders.
               </p>
             </div>
-          </div>
-          
-          <div className="flex justify-center mt-4">
-            <ScrambleButton href="/achievements" />
           </div>
         </motion.div>
       </div>

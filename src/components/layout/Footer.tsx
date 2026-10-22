@@ -343,12 +343,12 @@ export function Footer() {
                                                 {localTime}
                                             </p>
                                             <a
-                                                href="https://www.google.com/maps/place/Jakarta,+Indonesia"
+                                                href="https://www.google.com/maps/place/Palembang,+Indonesia"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="text-zinc-900 dark:text-white text-[1.2vw] min-text-[14px] font-medium tracking-tight hover:text-zinc-500 dark:hover:text-zinc-400 transition-colors inline-block"
                                             >
-                                                Jakarta, Indonesia
+                                                {t('location')}
                                             </a>
                                         </FooterColumn>
 
@@ -368,7 +368,7 @@ export function Footer() {
                                         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                                         className="text-[18vw] font-black leading-none text-zinc-900 dark:text-white tracking-tighter select-none text-center"
                                     >
-                                        SUTAN AKBAR
+                                        {portfolioData.personal.name}
                                     </motion.h2>
                                 </div>
                             </div>
@@ -416,12 +416,8 @@ function AboutHoverMenu({ tNav, onExpandChange }: { tNav: (key: string) => strin
     const [isOpen, setIsOpen] = useState(false);
 
     const subLinks = [
-        { href: '/achievements', label: tNav('achievements') },
         { href: '/skills', label: tNav('skills') },
-        { href: '/experience', label: tNav('experience') },
         { href: '/projects', label: tNav('projects') },
-        { href: '/blog', label: tNav('blog') },
-        { href: '/gallery', label: tNav('gallery') },
     ];
 
     const active = isMobile ? isOpen : isHovered;
