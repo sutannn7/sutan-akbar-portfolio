@@ -1410,6 +1410,8 @@ Server component. Render `portfolioData.milestones` sebagai timeline vertikal: t
 
 Angka dari `computeStats(portfolioData)` — **dilarang hard-code**. Empat kartu: Proyek / Live / Mini Project / Teknologi. Label dari `t('stats.*')`. Animasi counter pakai `useCountUp` yang sudah ada (`src/hooks/useCountUp.ts`); matikan kalau `prefersReducedMotion`.
 
+**Slider "Latest Stories" dibuang.** `StatsSection.tsx:23` punya `const blogs: any[] = []` — array kosong yang diindeks, sehingga bisa render `undefined` atau crash. Section ini untuk portofolio, bukan blog. Hapus slider itu beserta wrapper/import yang jadi yatim.
+
 - [ ] **Step 8: Rewrite `ExpertiseSection.tsx`**
 
 Tiga kartu statis sesuai spec §8.5:
