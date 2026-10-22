@@ -48,6 +48,10 @@ export function Navbar() {
     const pathname = usePathname();
     const { scrollY } = useScroll();
 
+    // `t` is scoped to 'navigation', so strip the namespace from NAV_ITEMS' labelKey.
+    // Single definition so desktop and mobile can't drift apart.
+    const navLabel = (labelKey: string) => t(labelKey.replace(/^navigation\./, ''));
+
     const [isVisible, setIsVisible] = useState(true);
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -172,7 +176,7 @@ export function Navbar() {
                                     className={linkClass(item.href)}
                                 >
                                     {/* t is scoped to 'navigation', so strip the namespace from labelKey */}
-                                    <span className="relative z-10">{t(item.labelKey.replace(/^navigation\./, ''))}</span>
+                                    <span className="relative z-10">{navLabel(item.labelKey)}</span>
                                 </Link>
                             ))}
 
@@ -259,7 +263,7 @@ export function Navbar() {
                                             pathname === item.href ? 'text-foreground' : ''
                                         )}
                                     >
-                                        {t(item.labelKey)}
+                                        {navLabel(item.labelKey)}
                                     </Link>
                                 ))}
                             </nav>
