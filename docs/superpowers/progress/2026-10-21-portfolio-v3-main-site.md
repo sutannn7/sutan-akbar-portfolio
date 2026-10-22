@@ -360,3 +360,9 @@ Konsekuensi: free tier lebih lemah dari model berbayar → task konten (4, 5) pe
 
 - Fork di-clone dengan `--depth 1`. Kalau nanti perlu history dari `upstream`, jalankan `git fetch --unshallow upstream` lebih dulu.
 - `git -c user.name=... -c user.email=...` dipakai untuk commit otomatis karena config global mesin ini belum ada.
+
+## 2026-10-23 — Arch scroll reveal (adaptasi template softlife)
+
+- `HeroSection`: panel `bg-secondary` tumbuh dari slot lengkung ke layar penuh, di-scrub ScrollTrigger (`bottom bottom` → `bottom 30%`); konten hero naik + fade. Guard `prefers-reduced-motion` lewat `gsap.matchMedia`, tanpa JS panel tetap `opacity-0`.
+- `StatsSection`: ground jadi `bg-secondary`, kartu `bg-background`, supaya sambungan arch ke section berikutnya tidak berubah warna.
+- Verifikasi: typecheck bersih, 55/55 tes lulus, 0 error konsol; screenshot 1440×900, 1920×1080, 390×844.

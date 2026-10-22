@@ -25,11 +25,11 @@ export default function StatsSection() {
   ];
 
   return (
-    <section className="relative py-20 lg:py-32 bg-background text-foreground">
+    <section className="relative py-20 lg:py-32 bg-secondary text-secondary-foreground">
       <div className="max-w-6xl mx-auto px-6">
         <ul className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {cards.map((card) => (
-            <li key={card.label} className="border rounded-xl p-6 bg-card text-card-foreground">
+            <li key={card.label} className="border rounded-xl p-6 bg-background text-foreground">
               <p className="text-sm text-muted-foreground uppercase tracking-wider font-medium">
                 {card.label}
               </p>
