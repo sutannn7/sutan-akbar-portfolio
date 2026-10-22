@@ -45,16 +45,14 @@ function PlateMesh({ pointer }: { pointer: { current: Pointer } }) {
       <RoundedBox args={[3.2, 1.8, 0.12]} radius={0.12} smoothness={4} />
       <meshPhysicalMaterial
         color="#C8F246"
-        transmission={0.35}
-        thickness={0.4}
-        roughness={0.12}
+        roughness={0.2}
         ior={1.3}
-        attenuationColor="#C8F246"
-        attenuationDistance={1.2}
+        clearcoat={0.6}
+        clearcoatRoughness={0.15}
         transparent
         opacity={0.78}
         emissive="#C8F246"
-        emissiveIntensity={0.14}
+        emissiveIntensity={0.18}
       />
     </mesh>
   );
@@ -103,8 +101,8 @@ export function NamePlate({ name, role }: NamePlateProps) {
             <meshBasicMaterial color="#7BA316" />
           </mesh>
         </Environment>
-        <ambientLight intensity={0.6} />
-        <directionalLight position={[2, 3, 4]} intensity={1.2} />
+        <ambientLight intensity={0.4} />
+        <directionalLight position={[2, 3, 4]} intensity={0.7} />
         <PlateMesh pointer={pointer} />
       </Canvas>
     </div>
