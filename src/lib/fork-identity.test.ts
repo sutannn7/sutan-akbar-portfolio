@@ -10,15 +10,17 @@ export const FORBIDDEN_FORK_IDENTITY = [
   /syahrilarfianalmazril/i,
 ];
 
+// Strings that are allowed to appear verbatim anywhere, because they are
+// mandated by the task brief (Task 6, ruling 5): the MIT credit link to the
+// original fork. Any OTHER occurrence of arfazrll* still trips the guard.
+export const ALLOWED_FORK_STRINGS = ['https://github.com/Arfazrll/PersonalBlog'];
+
 // Two files are allowed to contain those words:
 // - this file, which declares the patterns above
 // - verify-build.test.ts, which uses the word as an intentional test fixture
 export const ALLOWED_FORK_MENTIONS = [
   'src/lib/fork-identity.test.ts',
   'src/lib/verify-build.test.ts',
-  // Task 6 ruling: footer credits the MIT-licensed original with a link to
-  // github.com/Arfazrll/PersonalBlog (see task-6 brief, ruling 5).
-  'src/components/layout/Footer.tsx',
 ];
 
 const SCANNED_EXTENSIONS = ['.ts', '.tsx', '.svg', '.json', '.md'];
@@ -35,6 +37,16 @@ function sourceFiles(dir: string, root: string): string[] {
   return out;
 }
 
+// Per-content check: strips the allowed strings first, then looks for any
+// remaining forbidden fork identity. Exported so it can be unit-tested.
+export function contentHasForkIdentity(content: string): boolean {
+    let scanned = content;
+    for (const allowed of ALLOWED_FORK_STRINGS) {
+        scanned = scanned.replaceAll(allowed, '');
+    }
+    return FORBIDDEN_FORK_IDENTITY.some((pattern) => pattern.test(scanned));
+}
+
 describe('identitas fork', () => {
   it('tidak ada jejak identitas fork di src/ dan public/', () => {
     const root = process.cwd();
@@ -46,11 +58,16 @@ describe('identitas fork', () => {
     const offenders: string[] = [];
     for (const file of files) {
       const content = readFileSync(join(root, file), 'utf8');
-      for (const pattern of FORBIDDEN_FORK_IDENTITY) {
-        if (pattern.test(content)) offenders.push(`${file}: ${pattern}`);
-      }
+      if (contentHasForkIdentity(content)) offenders.push(file);
     }
 
     expect(offenders).toEqual([]);
+  });
+
+  it('mengizinkan URL kredit MIT yang diizinkan, tetap menangkap arfazrll lain', () => {
+    const diizinkan = 'lihat https://github.com/Arfazrll/PersonalBlog';
+    const tidakDiizinkan = 'lihat https://github.com/arfazrllworkspace/elsewhere';
+    expect(contentHasForkIdentity(diizinkan)).toBe(false);
+    expect(contentHasForkIdentity(tidakDiizinkan)).toBe(true);
   });
 });

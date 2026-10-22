@@ -166,17 +166,19 @@ export function Navbar() {
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    onClick={handleHomeClick}
+                                    // Only the home link scrolls-to-top on the homepage;
+                                    // every other link must navigate normally.
+                                    onClick={item.href === '/' ? handleHomeClick : undefined}
                                     className={linkClass(item.href)}
                                 >
-                                    <span className="relative z-10">{t(item.labelKey)}</span>
+                                    {/* t is scoped to 'navigation', so strip the namespace from labelKey */}
+                                    <span className="relative z-10">{t(item.labelKey.replace(/^navigation\./, ''))}</span>
                                 </Link>
                             ))}
 
                             {/* CTA kanan: mari terhubung → kontak */}
                             <Link
                                 href="/contact"
-                                onClick={handleHomeClick}
                                 className={cn(
                                     'relative px-5 py-2 text-sm font-bold transition-all duration-300 rounded-full group',
                                     pathname === '/contact' ? 'text-foreground bg-muted' : 'text-[#D1FF4D] border border-[#D1FF4D]/50 hover:border-[#D1FF4D] hover:text-[#D1FF4D]'

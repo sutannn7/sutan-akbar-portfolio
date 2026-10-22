@@ -32,6 +32,7 @@
     "about": {
         "milestones": "Capaian",
         "journey": "Perjalanan",
+        "location": "Lokasi",
         "leadIn": {
             "tagline": "FOKUS INTI",
             "role": "Frontend Engineer",

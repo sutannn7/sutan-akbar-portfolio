@@ -32,6 +32,7 @@
     "about": {
         "milestones": "Milestones",
         "journey": "Journey",
+        "location": "Location",
         "leadIn": {
             "tagline": "CORE FOCUS",
             "role": "Frontend Engineer",

@@ -6,6 +6,7 @@ import { Locale } from '@/lib/locale';
 export default async function AboutPage() {
     const locale = (await getLocale()) as Locale;
     const t = await getTranslations('about');
+    const tContact = await getTranslations('contact');
     const { bio, links, location } = portfolioData.personal;
 
     return (
@@ -23,7 +24,7 @@ export default async function AboutPage() {
             </section>
 
             <section className="mb-12">
-                <h2 className="text-xl font-bold text-foreground mb-4">{t('contact.hero.title')}</h2>
+                <h2 className="text-xl font-bold text-foreground mb-4">{tContact('hero.title')}</h2>
                 <ul className="flex flex-col gap-3">
                     {links.map((link) => (
                         <li key={link.label}>
@@ -41,7 +42,7 @@ export default async function AboutPage() {
             </section>
 
             <section className="mb-12">
-                <h2 className="text-xl font-bold text-foreground mb-4">Lokasi</h2>
+                <h2 className="text-xl font-bold text-foreground mb-4">{t('location')}</h2>
                 <a
                     href={`https://www.google.com/maps/place/${encodeURIComponent(location)}`}
                     target="_blank"
