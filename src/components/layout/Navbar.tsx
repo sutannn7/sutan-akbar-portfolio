@@ -4,14 +4,14 @@ import { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useMotionValueEvent } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useTranslations } from 'next-intl';
-import { Menu, X, Moon, Sun, Globe, ChevronDown } from 'lucide-react';
+import { useTranslations, useLocale } from 'next-intl';
+import { Menu, X, Globe } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { cn } from '@/lib/utils';
 
-import CardNav from '@/components/ui/CardNav';
 import { AnimatedThemeToggler } from '@/components/ui/animated-theme-toggler';
 import { usePreloadState } from '@/components/ui/arc-preloader-hero';
+import { NAV_ITEMS } from '@/data/navigation';
 
 function Clock() {
     const [time, setTime] = useState<string>('');
@@ -41,25 +41,10 @@ function Clock() {
     );
 }
 
-// Sub-links for the "About" dropdown
-// Sub-links for the "About" dropdown
-const useNavItems = () => {
-    const t = useTranslations('navigation.menu');
-    return [
-        {
-            label: "About",
-            links: [
-                { label: t('skills'), href: "/skills", description: t('skillsDesc') },
-                { label: t('projects'), href: "/projects", description: t('projectsDesc') },
-            ]
-        }
-    ];
-};
-
 export function Navbar() {
     const t = useTranslations('navigation');
-    const navItems = useNavItems();
-    const { theme, setTheme, resolvedTheme } = useTheme();
+    const locale = useLocale();
+    const { resolvedTheme } = useTheme();
     const pathname = usePathname();
     const { scrollY } = useScroll();
 
@@ -68,8 +53,7 @@ export function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [lastScrollY, setLastScrollY] = useState(0);
     const [mounted, setMounted] = useState(false);
-    const [currentLocale, setCurrentLocale] = useState('en');
-    
+
     // Consume preload state directly from context
     const { isPreloading: isPreloadActive } = usePreloadState();
 
@@ -77,8 +61,6 @@ export function Navbar() {
 
     useEffect(() => {
         setMounted(true);
-        const locale = document.cookie.split('; ').find(row => row.startsWith('locale='))?.split('=')[1] || 'en';
-        setCurrentLocale(locale);
     }, []);
 
     // Lock body scroll when menu is open
@@ -117,12 +99,13 @@ export function Navbar() {
         setIsMenuOpen((prev) => !prev);
     }, []);
 
+    // Tulis cookie locale (hanya write — baca locale lewat useLocale / i18n provider,
+    // jangan pernah baca document.cookie langsung) lalu me-refresh agar SSR ambil nilai baru.
     const toggleLocale = useCallback(() => {
-        const newLocale = currentLocale === 'en' ? 'id' : 'en';
-        document.cookie = `locale=${newLocale};path=/;max-age=31536000`;
-        setCurrentLocale(newLocale);
+        const nextLocale = locale === 'id' ? 'en' : 'id';
+        document.cookie = `locale=${nextLocale};path=/;max-age=31536000`;
         window.location.reload();
-    }, [currentLocale]);
+    }, [locale]);
 
     const closeMenu = useCallback(() => {
         setIsMenuOpen(false);
@@ -136,6 +119,8 @@ export function Navbar() {
         closeMenu();
     }, [pathname, closeMenu]);
 
+    const navLinks = NAV_ITEMS.filter((item) => item.href !== '/contact');
+
     // Animation variants
     const navVariants = {
         visible: { y: 0, opacity: 1 },
@@ -146,6 +131,12 @@ export function Navbar() {
         closed: { opacity: 0 },
         open: { opacity: 1 }
     };
+
+    const linkClass = (href: string) =>
+        cn(
+            'relative px-5 py-2 text-sm font-bold transition-all duration-300 rounded-full group',
+            pathname === href ? 'text-foreground bg-muted' : 'text-muted-foreground hover:text-foreground'
+        );
 
     return (
         <>
@@ -169,32 +160,26 @@ export function Navbar() {
                             <Clock />
                         </Link>
 
-                        {/* Desktop Navigation with CardNav */}
+                        {/* Desktop Navigation */}
                         <div className="hidden lg:flex items-center gap-6">
-                            {/* HOME */}
+                            {navLinks.map((item) => (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    onClick={handleHomeClick}
+                                    className={linkClass(item.href)}
+                                >
+                                    <span className="relative z-10">{t(item.labelKey)}</span>
+                                </Link>
+                            ))}
+
+                            {/* CTA kanan: mari terhubung → kontak */}
                             <Link
-                                href="/"
+                                href="/contact"
                                 onClick={handleHomeClick}
                                 className={cn(
                                     'relative px-5 py-2 text-sm font-bold transition-all duration-300 rounded-full group',
-                                    pathname === '/' ? 'text-foreground bg-muted' : 'text-muted-foreground hover:text-foreground'
-                                )}
-                            >
-                                <span className="relative z-10">{t('home')}</span>
-                            </Link>
-
-                            <CardNav
-                                items={navItems}
-                                theme={isDark ? 'dark' : 'light'}
-                                pathname={pathname}
-                            />
-
-                            {/* CONTACT (Direct Link) */}
-                            <Link
-                                href="/contact"
-                                className={cn(
-                                    'relative px-5 py-2 text-sm font-bold transition-all duration-300 rounded-full group',
-                                    pathname === '/contact' ? 'text-foreground bg-muted' : 'text-muted-foreground hover:text-foreground'
+                                    pathname === '/contact' ? 'text-foreground bg-muted' : 'text-[#D1FF4D] border border-[#D1FF4D]/50 hover:border-[#D1FF4D] hover:text-[#D1FF4D]'
                                 )}
                             >
                                 <span className="relative z-10">{t('contact')}</span>
@@ -207,15 +192,16 @@ export function Navbar() {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={toggleLocale}
-                                className="p-2 md:p-2.5 rounded-full bg-muted/80 hover:bg-muted transition-colors"
+                                className="p-2 md:p-2.5 rounded-full bg-muted/80 hover:bg-muted transition-colors flex items-center gap-2"
                                 aria-label="Toggle language"
                             >
                                 <Globe className="w-4 h-4" />
+                                <span className="text-xs md:text-sm font-medium">
+                                    {locale === 'id' ? t('languageEn') : t('languageId')}
+                                </span>
                             </motion.button>
 
-                            {mounted && (
-                                <AnimatedThemeToggler />
-                            )}
+                            {mounted && <AnimatedThemeToggler />}
 
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
@@ -239,93 +225,71 @@ export function Navbar() {
                         </div>
                     </motion.div>
                 </div>
-            </motion.nav >
+            </motion.nav>
 
             {/* Mobile Menu Overlay */}
             <AnimatePresence>
-                {
-                    isMenuOpen && (
+                {isMenuOpen && (
+                    <motion.div
+                        variants={menuVariants}
+                        initial="closed"
+                        animate="open"
+                        exit="closed"
+                        transition={{ duration: 0.3 }}
+                        className="fixed inset-0 z-[90] lg:hidden"
+                    >
                         <motion.div
-                            variants={menuVariants}
-                            initial="closed"
-                            animate="open"
-                            exit="closed"
-                            transition={{ duration: 0.3 }}
-                            className="fixed inset-0 z-[90] lg:hidden"
-                        >
+                            className="absolute inset-0 bg-background"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                        />
+
+                        <div className="relative flex flex-col items-center justify-center h-full overflow-y-auto py-20">
+                            <nav className="flex flex-col items-center gap-6">
+                                {NAV_ITEMS.map((item) => (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        onClick={item.href === '/' ? handleHomeClick : closeMenu}
+                                        className={cn(
+                                            'text-3xl font-bold text-muted-foreground hover:text-foreground transition-colors',
+                                            pathname === item.href ? 'text-foreground' : ''
+                                        )}
+                                    >
+                                        {t(item.labelKey)}
+                                    </Link>
+                                ))}
+                            </nav>
+
                             <motion.div
-                                className="absolute inset-0 bg-background"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                            />
-
-                            <div className="relative flex flex-col items-center justify-center h-full overflow-y-auto py-20">
-                                <nav className="flex flex-col items-center gap-6">
-                                    {/* Mobile Home */}
-                                    <Link
-                                        href="/"
-                                        onClick={handleHomeClick}
-                                        className="text-3xl font-black text-muted-foreground hover:text-foreground transition-colors"
-                                    >
-                                        {t('home')}
-                                    </Link>
-
-                                    <Link
-                                        href="/contact"
-                                        onClick={closeMenu}
-                                        className="text-3xl font-black text-muted-foreground hover:text-foreground transition-colors"
-                                    >
-                                        {t('contact')}
-                                    </Link>
-
-                                    {/* Mobile Links grouped by Categories */}
-                                    {navItems.map((category) => (
-                                        <div key={category.label} className="flex flex-col items-center gap-4 py-4 border-b border-white/5 w-full last:border-0 text-center">
-                                            <span className="text-[10px] font-black font-mono text-primary tracking-[0.3em] uppercase opacity-50">
-                                                {category.label}
-                                            </span>
-                                            {category.links.map((link) => (
-                                                <Link
-                                                    key={link.label}
-                                                    href={link.href}
-                                                    onClick={closeMenu}
-                                                    className={cn(
-                                                        'text-2xl font-bold transition-all hover:scale-110 active:scale-95 duration-200',
-                                                        pathname === link.href ? 'text-foreground' : 'text-muted-foreground/60 hover:text-foreground'
-                                                    )}
-                                                >
-                                                    {link.label}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    ))}
-                                </nav>
-
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: 20 }}
-                                    transition={{ delay: 0.5 }}
-                                    className="flex items-center gap-4 mt-12"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 20 }}
+                                transition={{ delay: 0.5 }}
+                                className="flex items-center gap-4 mt-12"
+                            >
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={toggleLocale}
+                                    className="px-6 py-3 rounded-full glass-card text-sm font-medium hover:bg-muted/50 transition-colors flex items-center gap-2"
                                 >
-                                    <button
-                                        onClick={toggleLocale}
-                                        className="px-6 py-3 rounded-full glass-card text-sm font-medium hover:bg-muted/50 transition-colors"
-                                    >
-                                        {currentLocale === 'en' ? 'English' : 'Indonesia'}
-                                    </button>
-                                    {mounted && (
-                                        <AnimatedThemeToggler
-                                            className="px-6 py-6 glass-card text-sm font-medium hover:bg-muted/50 flex items-center gap-2"
-                                        />
-                                    )}
-                                </motion.div>
-                            </div>
-                        </motion.div >
-                    )
-                }
-            </AnimatePresence >
+                                    <Globe className="w-4 h-4" />
+                                    <span>
+                                        {locale === 'id' ? t('languageEn') : t('languageId')}
+                                    </span>
+                                </motion.button>
+                                {mounted && (
+                                    <AnimatedThemeToggler
+                                        className="px-6 py-6 glass-card text-sm font-medium hover:bg-muted/50 flex items-center gap-2"
+                                    />
+                                )}
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </>
     );
 }

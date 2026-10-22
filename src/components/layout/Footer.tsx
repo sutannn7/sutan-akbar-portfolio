@@ -9,18 +9,13 @@ import { useTheme } from 'next-themes';
 import { Spotlight } from '@/components/ui/spotlight-new';
 import {
     ChevronUp,
+    Check,
+    Copy,
     Github,
     Linkedin,
-    Twitter,
-    Instagram,
     Mail,
-    Heart,
-    Copy,
-    Check,
-    X,
-    Gamepad2,
-    Music,
-    Bot
+    Phone,
+    X
 } from 'lucide-react';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { portfolioData } from '@/data/portfolio';
@@ -30,10 +25,8 @@ type SocialIconComponent = typeof Github;
 const socialIcons: { [key: string]: SocialIconComponent } = {
     github: Github,
     linkedin: Linkedin,
-    twitter: Bot, // Replaced Twitter logo with AI Bot logo
-    instagram: Instagram,
-    discord: Gamepad2,
-    spotify: Music,
+    mail: Mail,
+    whatsapp: Phone,
 };
 
 const marqueeKeys = ['0', '1', '2', '3', '4', '5'];
@@ -58,25 +51,6 @@ function Marquee() {
             <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-white dark:from-black to-transparent z-10" />
             <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-white dark:from-black to-transparent z-10" />
         </div>
-    );
-}
-
-function SocialCard({ social }: { social: { label: string; url: string; icon: string } }) {
-    const Icon = socialIcons[social.icon] || Github;
-
-    return (
-        <motion.a
-            href={social.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative flex items-center gap-2 px-4 h-11 md:h-12 transition-all duration-300 rounded-full border border-white/5 bg-secondary/30 hover:bg-secondary/50 backdrop-blur-sm shadow-sm"
-            whileHover={{ y: -4, scale: 1.05 }}
-        >
-            <Icon className="w-7 h-7 text-muted-foreground group-hover:text-primary transition-colors duration-300" />
-            <span className="text-sm md:text-base font-bold tracking-wide text-muted-foreground group-hover:text-foreground transition-colors">{social.label}</span>
-            {/* Subtle glow on hover */}
-            <div className="absolute inset-0 rounded-full bg-primary/0 group-hover:bg-primary/5 transition-all duration-300" />
-        </motion.a>
     );
 }
 
@@ -213,6 +187,16 @@ export function Footer() {
                                     })}
                                 </div>
 
+                                {/* Kredit open source (MIT) — selalu terlihat */}
+                                <a
+                                    href="https://github.com/Arfazrll/PersonalBlog"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="hidden sm:block text-xs md:text-sm text-muted-foreground hover:text-foreground transition-colors underline underline-offset-4"
+                                >
+                                    {t('footer.credit')}
+                                </a>
+
                                 <motion.button
                                     onClick={toggleExpand}
                                     className="flex items-center gap-2 px-3 md:px-5 py-2 md:py-2.5 rounded-full transition-all text-xs font-black uppercase tracking-[0.2em] bg-muted hover:bg-muted/80 text-foreground"
@@ -332,7 +316,7 @@ export function Footer() {
                                                 </AnimatePresence>
                                             </div>
                                             {portfolioData.personal.links
-                                                .filter((s) => ['LinkedIn', 'GitHub'].includes(s.label))
+                                                .filter((s) => s.label !== 'Email')
                                                 .map((s) => (
                                                     <FooterLink key={s.label} href={s.url} target="_blank">{s.label}</FooterLink>
                                                 ))}

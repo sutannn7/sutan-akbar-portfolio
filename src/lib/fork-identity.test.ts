@@ -16,6 +16,9 @@ export const FORBIDDEN_FORK_IDENTITY = [
 export const ALLOWED_FORK_MENTIONS = [
   'src/lib/fork-identity.test.ts',
   'src/lib/verify-build.test.ts',
+  // Task 6 ruling: footer credits the MIT-licensed original with a link to
+  // github.com/Arfazrll/PersonalBlog (see task-6 brief, ruling 5).
+  'src/components/layout/Footer.tsx',
 ];
 
 const SCANNED_EXTENSIONS = ['.ts', '.tsx', '.svg', '.json', '.md'];
