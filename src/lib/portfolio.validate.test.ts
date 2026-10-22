@@ -107,10 +107,10 @@ describe('portfolioData', () => {
   it('lab kosong', () => {
     expect(portfolioData.lab).toHaveLength(0);
   });
-  it('LearnEase dan Portofolio v3 tidak punya image', () => {
+  it('LearnEase punya image, Portofolio v3 belum punya', () => {
     const le = portfolioData.projects.find((p) => p.slug === 'learnease');
     const p4 = portfolioData.projects.find((p) => p.slug === 'portofolio-v3');
-    expect(le?.image).toBeUndefined();
+    expect(le?.image).toBe('/projects/learnease.jpg');
     expect(p4?.image).toBeUndefined();
   });
   it('longDescription LearnEase mengikuti urutan proses', () => {

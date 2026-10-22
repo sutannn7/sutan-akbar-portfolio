@@ -4,8 +4,8 @@ import { join } from 'node:path';
 import id from '../../messages/id.json';
 import en from '../../messages/en.json';
 
-// src/components/projects/ProjectPageContent.tsx — rewritten in Task 9; its section keys are added there.
-const EXCLUDED = ['src/components/projects/ProjectPageContent.tsx'];
+// Project detail section keys now exist in both message files; no exclusions needed.
+const EXCLUDED: string[] = [];
 
 const root = process.cwd();
 
@@ -87,7 +87,13 @@ function scanFile(path: string, content: string): string[] {
 
   for (const [name, nsSet] of bindings) {
     if (!nsSet) continue;
-    const callRe = new RegExp(`\\b${name}\\s*(\\.\\s*rich)?\\s*\\(\\s*(['\"])(.*?)\\2\\s*\\)`, 'gs');
+    // Lookahead on `,`/`)` so a call carrying interpolation values (a key plus
+    // a values object) resolves to the key alone instead of running on to the
+    // next quoted string in the file.
+    const callRe = new RegExp(
+      `\\b${name}\\s*(\\.\\s*rich)?\\s*\\(\\s*(['\"])(.*?)\\2\\s*(?=[,)])`,
+      'gs',
+    );
     for (const m of content.matchAll(callRe)) {
       const key = m[3];
       const attempted = resolve(name, key);

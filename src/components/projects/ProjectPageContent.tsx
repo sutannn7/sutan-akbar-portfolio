@@ -1,507 +1,337 @@
 'use client';
 
-import { useState, useEffect, useMemo, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useTranslations } from 'next-intl';
-import { X, Calendar, Code, Box, Award, Share2, ExternalLink, Github, Terminal, ChevronRight, ChevronLeft, CheckCircle2, Copy, Check, Maximize2, ArrowUpRight, Zap, Sparkles, ArrowLeft, Clock, Users, Layers, LayoutGrid, ArrowRight } from 'lucide-react';
-import { cn, formatDate } from '@/lib/utils';
+import { useMemo, useState } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import {
+  ArrowLeft,
+  Box,
+  Calendar,
+  Check,
+  Clock,
+  Code,
+  ExternalLink,
+  Github,
+  Layers,
+  Terminal,
+  Users,
+  X,
+} from 'lucide-react';
+import { Locale } from '@/lib/locale';
+import { portfolioData } from '@/data/portfolio';
 import { Project } from '@/types';
 import { TechStack } from './TechStack';
-import { ProjectPlaceholder } from './ProjectPlaceholder';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { portfolioData } from '@/data/portfolio';
 
-// --- Animated Terminal Component ---
-const TerminalBlock = ({ title, code }: { title: string; code: string }) => {
-    const [copied, setCopied] = useState(false);
-
-    const handleCopy = () => {
-        navigator.clipboard.writeText(code);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-    };
-
+function ImageOrBlock({ project, locale }: { project: Project; locale: Locale }) {
+  if (project.image) {
     return (
-        <div className="rounded-xl overflow-hidden border border-black/15 dark:border-white/10 bg-slate-50 dark:bg-zinc-950 shadow-2xl">
-            {/* Terminal Header */}
-            <div className="flex items-center justify-between px-4 py-2 bg-slate-200/50 dark:bg-white/5 border-b border-black/10 dark:border-white/5">
-                <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                    <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                </div>
-                <span className="text-xs font-mono text-slate-500 dark:text-white/30">{title}</span>
-                <div className="w-10" /> {/* Spacer for balance */}
-            </div>
-
-            {/* Terminal Body */}
-            <div className="relative group p-4">
-                <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button
-                        onClick={handleCopy}
-                        className="p-1.5 rounded-md bg-black/5 dark:bg-white/5 hover:bg-black/10 dark:hover:bg-white/10 text-slate-500 dark:text-white/50 hover:text-black dark:hover:text-white transition-all focus:outline-none"
-                    >
-                        {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                    </button>
-                </div>
-                <div className="font-mono text-sm leading-relaxed overflow-x-auto">
-                    {code.split('\n').map((line, i) => (
-                        <div key={i} className="flex min-w-max">
-                            <span className="text-slate-400 dark:text-white/20 mr-4 select-none">$</span>
-                            <span className="text-emerald-700 dark:text-emerald-400">{line}</span>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </div>
+      <img
+        src={project.image}
+        alt={project.title[locale]}
+        className="block h-full w-full object-cover"
+      />
     );
-};
+  }
+  // Tanpa image: blok CSS dengan monogram, tidak ada gambar tiruan.
+  return (
+    <div className="flex h-full w-full items-center justify-center font-mono text-5xl font-bold text-muted-foreground">
+      {project.title[locale].charAt(0).toUpperCase()}
+    </div>
+  );
+}
 
-// Helper to render text with bold markers (**text**)
-const renderRichText = (text: string) => {
-    const parts = text.split(/(\*\*.*?\*\*)/g);
-    return parts.map((part, i) => {
-        if (part.startsWith('**') && part.endsWith('**')) {
-            return <strong key={i} className="font-bold text-foreground bg-primary/10 px-1 rounded mx-0.5">{part.slice(2, -2)}</strong>;
-        }
-        return <span key={i}>{part}</span>;
-    });
-};
+function SectionHeading({ icon, label }: { icon: React.ReactNode; label: string }) {
+  return (
+    <div className="mb-6 flex items-center gap-3">
+      <span className="rounded-lg bg-primary/10 p-2 text-primary">{icon}</span>
+      <h2 className="text-2xl font-bold text-foreground">{label}</h2>
+    </div>
+  );
+}
 
-// --- Vertical Gallery Component ---
-const ProjectGallery = ({
-    images,
-    onImageClick,
-    viewMoreText,
-    viewLessText
-}: {
-    images: string[],
-    onImageClick: (img: string) => void,
-    viewMoreText: string,
-    viewLessText: string
-}) => {
-    const [showAll, setShowAll] = useState(false);
-    const visibleImages = showAll ? images : images.slice(0, 2);
+export function ProjectPageContent({ project }: { project: Project }) {
+  const t = useTranslations('projects');
+  const tCommon = useTranslations('common');
+  const locale = useLocale() as Locale;
+  const router = useRouter();
+  const [lightbox, setLightbox] = useState(false);
 
-    return (
-        <div className="flex flex-col gap-8 pb-12">
-            <div className="flex flex-col gap-12">
-                {visibleImages.map((img, idx) => (
-                    <motion.div
-                        key={idx}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-10%" }}
-                        transition={{ duration: 0.6, delay: idx * 0.1 }}
-                        className="group relative w-full cursor-zoom-in"
-                        onClick={() => onImageClick(img)}
-                    >
-                        {/* Real Image Tag - Floating with deep shadow */}
-                        <img
-                            src={img}
-                            alt={`Gallery Image ${idx + 1}`}
-                            loading="lazy"
-                            className="w-full h-auto object-contain block rounded-lg shadow-2xl shadow-black/20 dark:shadow-black/60 transition-transform duration-500 group-hover:scale-[1.01]"
-                        />
+  const handleBack = () => {
+    if (typeof window !== 'undefined' && document.referrer.includes('/projects')) {
+      router.back();
+    } else {
+      router.push('/projects');
+    }
+  };
 
-                        {/* Tech UI (Minimal Floating Label) */}
-                        <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                            <div className="bg-white/90 dark:bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10 text-[10px] font-mono font-bold text-emerald-700 dark:text-emerald-400 shadow-lg flex items-center gap-2">
-                                <span>IMG_0{idx + 1}</span>
-                                <Maximize2 className="w-3 h-3" />
-                            </div>
-                        </div>
-                    </motion.div>
+  const otherProjects = useMemo(
+    () => portfolioData.projects.filter((p) => p.id !== project.id),
+    [project.id],
+  );
+
+  const hasDemo = Boolean(project.demoUrl);
+  const hasRepo = Boolean(project.repoUrl);
+
+  return (
+    <div className="min-h-screen bg-background px-6 pb-24 pt-20 text-foreground sm:px-10 sm:pt-28">
+      <div className="mx-auto max-w-7xl">
+        <button
+          onClick={handleBack}
+          className="group mb-6 inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+        >
+          <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+          <span>{t('sections.backToProjects')}</span>
+        </button>
+
+        <h1 className="mb-6 text-4xl font-black leading-[1.0] tracking-tighter text-foreground md:text-5xl lg:text-7xl">
+          {project.title[locale]}
+        </h1>
+        <p className="mb-12 max-w-3xl text-xl font-light leading-relaxed text-muted-foreground md:text-2xl">
+          {project.description[locale]}
+        </p>
+
+        {/* Galeri visual: gambar hero, atau blok monogram bila tidak ada gambar. */}
+        <section id="visual-gallery" className="mb-16">
+          <SectionHeading icon={<Layers className="h-5 w-5" />} label={t('sections.visualGallery')} />
+          <button
+            type="button"
+            disabled={!project.image}
+            onClick={() => project.image && setLightbox(true)}
+            className="relative block aspect-[2/1] w-full overflow-hidden rounded-2xl border border-border bg-secondary enabled:cursor-zoom-in"
+          >
+            <ImageOrBlock project={project} locale={locale} />
+          </button>
+        </section>
+
+        {/* Metadata */}
+        <div className="mb-16 grid grid-cols-2 gap-x-4 gap-y-6 border-y border-border/40 py-6 md:grid-cols-4">
+          <div className="flex flex-col gap-2">
+            <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+              <Code className="h-3 w-3" /> {t('metadata.role')}
+            </span>
+            <span className="font-bold text-foreground">{project.role}</span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+              <Calendar className="h-3 w-3" /> {t('metadata.timeline')}
+            </span>
+            <span className="font-mono font-bold text-foreground">{project.year}</span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+              <Users className="h-3 w-3" /> {t('metadata.team')}
+            </span>
+            <span className="font-bold text-foreground">
+              {project.team ?? t('metadata.teamValue')}
+            </span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
+              <Layers className="h-3 w-3" /> {t('metadata.techStack')}
+            </span>
+            <span className="truncate font-bold text-foreground">
+              {project.techStack.length} {t('metadata.techStack')}
+            </span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+          <div className="space-y-20 lg:col-span-8">
+            <section id="mission">
+              <SectionHeading icon={<Box className="h-5 w-5" />} label={t('sections.missionBrief')} />
+              <p className="max-w-2xl text-lg leading-relaxed text-muted-foreground">
+                {project.longDescription[locale]}
+              </p>
+            </section>
+
+            <section id="key-features">
+              <SectionHeading icon={<Check className="h-5 w-5" />} label={t('sections.keyFeatures')} />
+              <ul className="max-w-2xl list-disc space-y-3 pl-6 text-muted-foreground">
+                {project.highlights.map((h) => (
+                  <li key={h.id} className="leading-relaxed">
+                    {h[locale]}
+                  </li>
                 ))}
-            </div>
+              </ul>
+            </section>
 
-            {images.length > 2 && (
-                <div className="flex justify-center pt-4">
-                    <button
-                        onClick={() => setShowAll(!showAll)}
-                        className="px-6 py-3 rounded-full border border-border/40 hover:bg-secondary/10 transition-colors text-sm font-bold tracking-wide uppercase flex items-center gap-2 group"
-                    >
-                        <span>{showAll ? viewLessText : viewMoreText}</span>
-                        <ChevronRight className={cn("w-4 h-4 transition-transform duration-300", showAll ? "rotate-[-90deg]" : "rotate-90")} />
-                    </button>
+            <section id="engineering-chronicles">
+              <SectionHeading
+                icon={<Clock className="h-5 w-5" />}
+                label={t('sections.engineeringChronicles')}
+              />
+              <dl className="grid grid-cols-1 gap-4 text-muted-foreground sm:grid-cols-2">
+                <div className="flex flex-col gap-1">
+                  <dt className="text-[10px] font-bold uppercase tracking-widest">{t('metadata.role')}</dt>
+                  <dd className="font-medium text-foreground">{project.role}</dd>
                 </div>
+                <div className="flex flex-col gap-1">
+                  <dt className="text-[10px] font-bold uppercase tracking-widest">{t('metadata.team')}</dt>
+                  <dd className="font-medium text-foreground">
+                    {project.team ?? t('metadata.teamValue')}
+                  </dd>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <dt className="text-[10px] font-bold uppercase tracking-widest">{t('metadata.timeline')}</dt>
+                  <dd className="font-mono font-medium text-foreground">{project.year}</dd>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <dt className="text-[10px] font-bold uppercase tracking-widest">
+                    {t('sections.technologies')}
+                  </dt>
+                  <dd className="font-mono font-medium text-foreground">
+                    {project.techStack.join(' · ')}
+                  </dd>
+                </div>
+              </dl>
+            </section>
+
+            {/* Instalasi hanya bermakna kalau ada repositori publik. */}
+            {hasRepo && (
+              <section id="installation">
+                <SectionHeading icon={<Terminal className="h-5 w-5" />} label={t('sections.installation')} />
+                <div className="max-w-md overflow-hidden rounded-lg border border-border bg-secondary">
+                  <pre className="overflow-x-auto p-3 font-mono text-xs">{`git clone ${project.repoUrl}`}</pre>
+                </div>
+              </section>
             )}
-        </div>
-    );
-};
+          </div>
 
-// --- Typewriter Effect Component ---
-const Typewriter = ({ examples }: { examples: string[] }) => {
-    const [currentText, setCurrentText] = useState("");
-    const [loopNum, setLoopNum] = useState(0);
-    const [isDeleting, setIsDeleting] = useState(false);
-    const typingSpeed = 100;
-    const deletingSpeed = 50;
-    const pauseTime = 2000;
-
-    useEffect(() => {
-        const handleType = () => {
-            const i = loopNum % examples.length;
-            const fullText = examples[i];
-
-            setCurrentText(isDeleting
-                ? fullText.substring(0, currentText.length - 1)
-                : fullText.substring(0, currentText.length + 1)
-            );
-
-            if (!isDeleting && currentText === fullText) {
-                setTimeout(() => setIsDeleting(true), pauseTime);
-            } else if (isDeleting && currentText === "") {
-                setIsDeleting(false);
-                setLoopNum(loopNum + 1);
-            }
-        };
-
-        const timer = setTimeout(handleType, isDeleting ? deletingSpeed : typingSpeed);
-        return () => clearTimeout(timer);
-    }, [currentText, isDeleting, loopNum, examples]);
-
-    return (
-        <span className="font-mono text-emerald-400">
-            {currentText}
-            <span className="animate-pulse">|</span>
-        </span>
-    );
-};
-
-export function ProjectPageContent({ project, isLowPowerMode }: { project: Project; isLowPowerMode?: boolean }) {
-    const t = useTranslations('projects');
-    const tCommon = useTranslations('common');
-    const router = useRouter();
-    const isOngoing = false;
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-    const handleExit = () => {
-        if (typeof window !== 'undefined' && document.referrer.includes('/projects')) {
-            router.back();
-        } else {
-            router.push('/projects');
-        }
-    };
-
-    // Get other projects for "More Projects" section
-    const otherProjects = useMemo(() => {
-        const others = portfolioData.projects.filter(p => p.id !== project.id);
-        // We take the first 5 projects. We avoid Math.random() here to prevent SSR hydration mismatch!
-        return others.slice(0, 5);
-    }, [project.id]);
-
-    return (
-        <div className="min-h-screen bg-background text-foreground pb-24 pt-24 sm:pt-32">
-
-            {/* 1. HEADER SECTION (Centered, Blog Style) */}
-            <div className="container max-w-7xl mx-auto px-6 mb-12 relative">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
-                >
-                    {/* Back Link */}
-                    <div className="flex items-center gap-4 mb-6">
-                        <div
-                            onClick={handleExit}
-                            className="flex items-center gap-2 text-sm text-muted-foreground font-medium hover:text-primary transition-colors group cursor-pointer"
-                        >
-                            <ArrowLeft className="w-4 h-4" />
-                            <span>{t('sections.backToProjects')}</span>
-                        </div>
-                    </div>
-
-                    {/* Title & Description - REMOVED max-w-4xl constraint for Title */}
-                    <div className="w-full">
-                        {/* Status Badge */}
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-6 border bg-secondary/10 dark:bg-secondary/5 border-black/20 dark:border-border/40 text-muted-foreground">
-                            <span className={cn("w-2 h-2 rounded-full", isOngoing ? "bg-emerald-500 animate-pulse" : "bg-blue-500")} />
-                            {isOngoing ? t('status.ongoing') : t('status.completed')}
-                        </div>
-
-                        {/* Full Width Layout for Title */}
-                        <h1 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tight text-foreground mb-6 leading-[1.0] break-words uppercase">
-                            {project.title.id}
-                        </h1>
-
-                        <p className="text-xl md:text-2xl text-muted-foreground/80 leading-relaxed max-w-3xl font-light mb-8">
-                            {project.description.id}
-                        </p>
-
-                        {/* Typewriter Effect (Subtext) */}
-                        <div className="font-mono text-sm text-emerald-500/80 mb-8 h-6 flex items-center">
-                            <Typewriter examples={[
-                                "Initiating project overview...",
-                                "Loading technical specifications...",
-                                "Decrypting success metrics..."
-                            ]} />
-                        </div>
-                    </div>
-                </motion.div>
-            </div>
-
-            {/* 2. HERO IMAGE SECTION (Wide Banner) */}
-            <div className="container max-w-7xl mx-auto px-6 mb-16">
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
-                    className="relative w-full aspect-video md:aspect-[2/1] rounded-3xl overflow-hidden border border-black/15 dark:border-border/40 shadow-2xl bg-secondary/5 group"
-                    onClick={() => project.image && setSelectedImage(project.image)}
-                >
-                    {project.image ? (
-                        <motion.img
-                            src={project.image}
-                            alt={project.title.id}
-                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 cursor-zoom-in"
-                        />
-                    ) : (
-                        <ProjectPlaceholder className="rounded-none border-0 bg-transparent pb-0 [&>div.z-10]:scale-125" title={project.title.id} />
+          <div className="relative lg:col-span-4">
+            <div className="sticky top-24 space-y-8">
+              {(hasDemo || hasRepo) && (
+                <div className="rounded-2xl border border-border bg-card p-6">
+                  <h3 className="mb-6 text-sm font-bold uppercase tracking-widest text-muted-foreground">
+                    {t('sections.projectAccess')}
+                  </h3>
+                  <div className="flex flex-col gap-3">
+                    {hasDemo && (
+                      <a
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-2 rounded-xl border border-primary bg-primary px-4 py-3 text-sm font-bold text-primary-foreground transition-colors hover:bg-primary/90"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        <span>{t('sections.liveDemo')}</span>
+                      </a>
                     )}
-
-                    {/* Overlay Gradient */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
-                </motion.div>
-            </div>
-
-            {/* 3. METADATA BAR (Horizontal Strip) */}
-            <div className="container max-w-7xl mx-auto px-6 mb-20">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 gap-x-4 border-y border-black/20 dark:border-border/40 py-8">
-                    <div className="flex flex-col gap-2">
-                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold flex items-center gap-2">
-                            <Code className="w-3 h-3" /> {t('metadata.role')}
-                        </span>
-                        <span className="font-bold text-foreground">{project.role || t('metadata.roleValue')}</span>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold flex items-center gap-2">
-                            <Clock className="w-3 h-3" /> {t('metadata.timeline')}
-                        </span>
-                        <span className="font-bold text-foreground">{project.year}</span>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold flex items-center gap-2">
-                            <Users className="w-3 h-3" /> {t('metadata.team')}
-                        </span>
-                        <span className="font-bold text-foreground">{project.team || t('metadata.teamValue')}</span>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold flex items-center gap-2">
-                            <Layers className="w-3 h-3" /> {t('metadata.techStack')}
-                        </span>
-                        <span className="font-bold text-foreground truncate">{t('metadata.techStackValue', { count: project.techStack.length })}</span>
-                    </div>
+                    {hasRepo && (
+                      <a
+                        href={project.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center justify-center gap-2 rounded-xl border border-border bg-secondary px-4 py-3 text-sm font-medium text-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
+                      >
+                        <Github className="h-4 w-4" />
+                        <span>{t('sections.sourceCode')}</span>
+                      </a>
+                    )}
+                  </div>
                 </div>
+              )}
+
+              <div>
+                <h3 className="mb-6 border-b border-border/40 pb-4 text-sm font-bold uppercase tracking-widest text-muted-foreground">
+                  {t('sections.technologies')}
+                </h3>
+                <TechStack techStack={project.techStack} />
+              </div>
+
+              <div>
+                <h3 className="mb-6 border-b border-border/40 pb-4 text-sm font-bold uppercase tracking-widest text-muted-foreground">
+                  {t('sections.contents')}
+                </h3>
+                <ul className="space-y-3 text-sm text-muted-foreground">
+                  <li>
+                    <a href="#mission" className="block transition-colors hover:text-primary">
+                      · {t('sections.missionBrief')}
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#key-features" className="block transition-colors hover:text-primary">
+                      · {t('sections.keyFeatures')}
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#engineering-chronicles" className="block transition-colors hover:text-primary">
+                      · {t('sections.engineeringChronicles')}
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#visual-gallery" className="block transition-colors hover:text-primary">
+                      · {t('sections.visualGallery')}
+                    </a>
+                  </li>
+                  {hasRepo && (
+                    <li>
+                      <a href="#installation" className="block transition-colors hover:text-primary">
+                        · {t('sections.installation')}
+                      </a>
+                    </li>
+                  )}
+                </ul>
+              </div>
             </div>
-
-            {/* 4. MAIN CONTENT GRID */}
-            <div className="container max-w-7xl mx-auto px-6">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-
-                    {/* LEFT COLUMN: Main Content (8 cols) */}
-                    <div className="lg:col-span-8 space-y-20">
-
-                        {/* MISSION OVERVIEW */}
-                        <section id="mission">
-                            <div className="flex items-center gap-3 mb-6">
-                                <span className="bg-emerald-500/10 text-emerald-500 p-2 rounded-lg">
-                                    <Box className="w-5 h-5" />
-                                </span>
-                                <h2 className="text-2xl font-bold text-foreground">{t('sections.missionBrief')}</h2>
-                            </div>
-                            <div className="prose prose-lg dark:prose-invert prose-emerald max-w-none prose-headings:font-black prose-headings:tracking-tight prose-p:leading-loose text-zinc-600 dark:text-muted-foreground">
-                                <p>{project.longDescription.id || project.description.id}</p>
-                            </div>
-                        </section>
-
-
-
-
-
-
-
-
-
-                    </div>
-
-                    {/* RIGHT COLUMN: Sticky Sidebar (4 cols) */}
-                    <div className="lg:col-span-4 relative">
-                        <div className="sticky top-20 space-y-8">
-
-                            {/* Actions Card */}
-                            <div className="p-6 rounded-2xl bg-white dark:bg-secondary/5 border border-black/20 dark:border-white/10 backdrop-blur-sm shadow-sm dark:shadow-none">
-                                <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-6">{t('sections.projectAccess')}</h3>
-                                <div className="flex flex-col gap-3">
-                                    {project.demoUrl && (
-                                        <motion.a
-                                            href={project.demoUrl === '#' ? undefined : project.demoUrl}
-                                            target={project.demoUrl === '#' ? undefined : "_blank"}
-                                            rel={project.demoUrl === '#' ? undefined : "noopener noreferrer"}
-                                            className={cn(
-                                                "flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-bold text-sm transition-all",
-                                                project.demoUrl === '#'
-                                                    ? "bg-zinc-800 text-zinc-500 cursor-not-allowed opacity-50 border border-white/5"
-                                                    : "bg-foreground text-background hover:opacity-90 shadow-lg shadow-black/20"
-                                            )}
-                                            whileHover={project.demoUrl === '#' ? {} : { scale: 1.02 }}
-                                            whileTap={project.demoUrl === '#' ? {} : { scale: 0.98 }}
-                                        >
-                                            <span>{t('sections.liveDemo')}</span>
-                                            <ExternalLink className="w-4 h-4" />
-                                        </motion.a>
-                                    )}
-                                    {project.repoUrl && (
-                                        <a href={project.repoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-medium text-sm bg-black/10 dark:bg-secondary/10 hover:bg-black/20 dark:hover:bg-secondary/20 text-foreground transition-all border border-black/5 dark:border-transparent hover:border-black/10 dark:hover:border-white/5">
-                                            <Github className="w-4 h-4" />
-                                            <span>{t('sections.sourceCode')}</span>
-                                        </a>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Tech Stack Tags */}
-                            <div>
-                                <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-6 pb-4 border-b border-black/25 dark:border-white/5">{t('sections.technologies')}</h3>
-                                <div className="flex flex-wrap gap-2">
-                                    {project.techStack.map(tech => (
-                                        <div key={tech} className="px-3 py-1.5 bg-secondary/20 dark:bg-secondary/5 border border-black/20 dark:border-white/5 rounded-lg text-xs font-medium text-muted-foreground hover:text-foreground hover:border-black/30 dark:hover:border-white/10 transition-colors cursor-default">
-                                            {tech}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Table of Contents (Functional) */}
-                            <div>
-                                <h3 className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-6 pb-4 border-b border-black/25 dark:border-white/5">{t('sections.contents')}</h3>
-                                <ul className="space-y-3 text-sm text-muted-foreground">
-                                    <li onClick={() => document.getElementById('mission')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground cursor-pointer transition-colors hover:translate-x-1 duration-200 block">• {t('sections.missionBrief')}</li>
-                                    {false && <li onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground cursor-pointer transition-colors hover:translate-x-1 duration-200 block">• {t('sections.keyFeatures')}</li>}
-                                    {false && <li onClick={() => document.getElementById('chronicles')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground cursor-pointer transition-colors hover:translate-x-1 duration-200 block">• {t('sections.engineeringChronicles')}</li>}
-                                    {false && <li onClick={() => document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground cursor-pointer transition-colors hover:translate-x-1 duration-200 block">• {t('sections.visualGallery')}</li>}
-                                    {false && <li onClick={() => document.getElementById('installation')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground cursor-pointer transition-colors hover:translate-x-1 duration-200 block">• {t('sections.installation')}</li>}
-                                </ul>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            {/* 5. FOOTER NAVIGATION (Back & More Projects) */}
-            <div className="container max-w-7xl mx-auto px-6 mt-32 border-t border-border/40 pt-16">
-
-                {/* Back Link Bottom */}
-                <div className="mb-16">
-                    <div
-                        onClick={handleExit}
-                        className="inline-flex items-center gap-2 text-muted-foreground font-medium hover:text-primary transition-colors group cursor-pointer"
-                    >
-                        <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-                        <span>{t('sections.backToProjects')}</span>
-                    </div>
-                </div>
-
-                {/* MORE PROJECTS CAROUSEL */}
-                <div className="relative group">
-                    <div className="flex items-center justify-between mb-8">
-                        <h2 className="text-2xl font-bold">{t('sections.moreProjects')}</h2>
-                        <div className="flex gap-2">
-                            <button
-                                onClick={() => {
-                                    if (scrollContainerRef.current) {
-                                        scrollContainerRef.current.scrollBy({ left: -scrollContainerRef.current.clientWidth / 3, behavior: 'smooth' });
-                                    }
-                                }}
-                                className="p-2 rounded-full border border-black/10 dark:border-white/10 bg-black/10 dark:bg-secondary/5 hover:bg-black/20 dark:hover:bg-white/10 transition-colors text-muted-foreground hover:text-foreground"
-                            >
-                                <ChevronLeft className="w-5 h-5" />
-                            </button>
-                            <button
-                                onClick={() => {
-                                    if (scrollContainerRef.current) {
-                                        scrollContainerRef.current.scrollBy({ left: scrollContainerRef.current.clientWidth / 3, behavior: 'smooth' });
-                                    }
-                                }}
-                                className="p-2 rounded-full border border-black/10 dark:border-white/10 bg-black/10 dark:bg-secondary/5 hover:bg-black/20 dark:hover:bg-white/10 transition-colors text-muted-foreground hover:text-foreground"
-                            >
-                                <ChevronRight className="w-5 h-5" />
-                            </button>
-                        </div>
-                    </div>
-
-                    <div
-                        ref={scrollContainerRef}
-                        className="flex gap-6 overflow-x-auto pb-4 snap-x [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] -mx-6 px-6"
-                    >
-                        {otherProjects.map((p, i) => (
-                            <Link
-                                href={`/projects/${p.slug}`}
-                                key={p.id}
-                                className="flex-none w-[85vw] md:w-[calc(33.333%-1rem)] snap-center group relative aspect-video rounded-xl overflow-hidden border border-black/30 dark:border-white/10 bg-zinc-200 dark:bg-zinc-900 shadow-md dark:shadow-none"
-                            >
-                                {/* Background Layer */}
-                                {p.image ? (
-                                    <img src={p.image} alt={p.title.id} loading="lazy" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-                                ) : (
-                                    <ProjectPlaceholder className="absolute inset-0" title={p.title.id} />
-                                )}
-
-                                {/* Gradient Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-80 transition-opacity group-hover:opacity-90" />
-
-                                {/* Content Overlay */}
-                                <div className="absolute bottom-0 left-0 w-full p-5 flex flex-col justify-end">
-                                    <div className="mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">
-                                        <span className={cn(
-                                            "inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium backdrop-blur-md",
-                                            false
-                                                ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
-                                                : "border-blue-500/30 bg-blue-500/10 text-blue-400"
-                                        )}>
-                                            'Completed'
-                                        </span>
-                                    </div>
-                                    <h3 className="font-bold text-lg leading-tight text-white mb-1 group-hover:text-primary transition-colors line-clamp-1">
-                                        {p.title.id}
-                                    </h3>
-                                    <p className="text-sm text-zinc-400 line-clamp-1">
-                                        {p.techStack[0]} • {p.category || "Development"}
-                                    </p>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-
-            </div>
-
-            {/* Image Lightbox - Independent Portal */}
-            <AnimatePresence>
-                {selectedImage && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={() => setSelectedImage(null)}
-                        className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 cursor-zoom-out"
-                    >
-                        <motion.img
-                            layoutId={`project-img-${selectedImage}`}
-                            src={selectedImage}
-                            alt="Lightbox View"
-                            className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl"
-                        />
-                        <button className="absolute top-4 right-4 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors">
-                            <X className="w-6 h-6" />
-                        </button>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+          </div>
         </div>
-    );
+
+        <div className="mt-24 border-t border-border/40 pt-16">
+          <button
+            onClick={handleBack}
+            className="group mb-16 inline-flex items-center gap-2 font-medium text-muted-foreground transition-colors hover:text-primary"
+          >
+            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+            <span>{t('sections.backToProjects')}</span>
+          </button>
+
+          <h2 className="mb-8 text-2xl font-bold text-foreground">{t('sections.moreProjects')}</h2>
+          <div className="-mx-6 flex snap-x gap-6 overflow-x-auto px-6 pb-4">
+            {otherProjects.map((p) => (
+              <Link
+                key={p.id}
+                href={`/projects/${p.slug}`}
+                className="group relative aspect-video w-[82vw] flex-none snap-center overflow-hidden rounded-xl border border-border/50 bg-secondary md:w-[calc(33.333%-1rem)]"
+              >
+                <ImageOrBlock project={p} locale={locale} />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent" />
+                <div className="absolute bottom-0 left-0 flex w-full flex-col justify-end p-5">
+                  <h3 className="mb-1 line-clamp-1 text-lg font-bold leading-tight text-foreground transition-colors group-hover:text-primary">
+                    {p.title[locale]}
+                  </h3>
+                  <p className="line-clamp-1 text-sm text-muted-foreground">
+                    {p.techStack[0]} · {p.category}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {lightbox && project.image && (
+          <div
+            onClick={() => setLightbox(false)}
+            className="fixed inset-0 z-[200] flex cursor-zoom-out items-center justify-center bg-black/95 p-4 backdrop-blur-xl"
+          >
+            <img
+              src={project.image}
+              alt={project.title[locale]}
+              className="max-h-[90vh] max-w-full rounded-lg object-contain shadow-2xl"
+            />
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightbox(false);
+              }}
+              className="absolute right-4 top-4 rounded-full bg-white/10 p-3 text-white transition-colors hover:bg-white/20"
+            >
+              <span className="sr-only">{tCommon('close')}</span>
+              <X className="h-6 w-6" />
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
