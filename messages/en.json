@@ -33,34 +33,17 @@
         "milestones": "Milestones",
         "journey": "Journey",
         "location": "Location",
-        "leadIn": {
-            "tagline": "CORE FOCUS",
-            "role": "Frontend Engineer",
-            "headlineAI": "Applied AI.",
-            "headlineData": "Scalable Data.",
-            "headlineSoftware": "Robust Software Engineering",
-            "thesis": "I build intelligent systems at the intersection of <span class='text-primary italic font-serif-elegant font-normal'>AI</span>, <span class='text-secondary italic font-serif-elegant font-normal'>Engineering</span>, and <span class='text-accent italic font-serif-elegant font-normal'>Scalable Architecture</span>.",
-            "scope": "Focusing on predictive models, optimized data processing, and RAG pipelines designed for production and measurable performance.",
-            "bridging": "Bridging labs and live systems.",
-            "integration": "Beyond models, I architect full-stack ecosystems: secure backends, robust data architectures, and scalable pipelines.",
-            "signature": "Azril",
-            "aboutMe": "About Me",
-            "scroll": "Scroll to Explore",
-            "shortStory": "My Short Story"
-        },
+        "summary": "About Me",
+        "languages": "Languages",
         "architecting": "Architecting",
         "digitalReality": "Digital Reality",
         "closing": {
             "discoverMore": "Discover More"
-        },
-        "profile": {
-            "title": "Architecting Scalable Systems <br /> Where Intelligence Meets Engineering.",
-            "narrative": "As an IT student specializing in Artificial Intelligence and Software Engineering, I build systems that bridge research foundations with production-ready implementation.",
-            "narrative2": "My work combines algorithmic thinking, backend engineering, and scalable architecture to deliver solutions that are intelligent, reliable, and built for real-world impact."
         }
     },
     "projects": {
         "githubRepos": "GitHub Repositories",
+        "featured": "Featured Projects",
         "labSection": "Lab Experiments",
         "labAll": "View All Lab",
         "viewProject": "View Project",
@@ -102,8 +85,8 @@
             "intelligent": "Intelligent",
             "creative": "Creative"
         },
-        "ribbon1": "Next.js • React • Python • PyTorch • Pandas • TypeScript • Node.js • Scikit-Learn • TensorFlow • SQL",
-        "ribbon2": "Software Engineer • AI Engineer • Data Scientist • Data Analyst • Machine Learning Engineer • Backend Developer • Full Stack Engineer • NLP Engineer • Data Engineer • Web Developer",
+        "ribbon1": "Next.js • React • TypeScript • Tailwind CSS • Framer Motion • Three.js • HTML • CSS • JavaScript • PHP • MySQL • Git",
+        "ribbon2": "Frontend Engineer",
         "title": "Let's Build Something",
         "together": "Together",
         "subtitle": "Open to strategic collaborations in AI-driven systems and scalable full-stack engineering. Let's turn ambitious ideas into production-ready solutions.",
@@ -189,11 +172,11 @@
     },
     "expertise": {
         "craftTitle": "INTERFACE CRAFT",
-        "craftDescription": "Interfaces built with React, Tailwind CSS, and Next.js — focused on speed, accessibility, and user experience.",
+        "craftDescription": "Interfaces honed to pixel detail, typography, animation, and accessibility.",
         "systemsTitle": "FRONTEND SYSTEMS",
-        "systemsDescription": "Frontend architecture, state management, and system integration that scales and stays maintainable.",
+        "systemsDescription": "Frontend architecture, React/Next.js, state management, API integration, optimization, and tooling.",
         "productTitle": "PRODUCT THINKING",
-        "productDescription": "Solving user problems with product decisions grounded in data and user needs."
+        "productDescription": "From user needs to technical decisions."
     },
     "stats": {
         "projects": "Projects",

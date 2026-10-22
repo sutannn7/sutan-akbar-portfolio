@@ -134,10 +134,10 @@ export const IdentitySequence = ({ scrollYProgress, isVisible }: IdentitySequenc
                                 <div className="relative z-10 h-7 overflow-hidden">
                                     <div className="flex flex-col transition-transform duration-500 ease-out group-hover:-translate-y-1/2">
                                         <span className="text-white dark:text-black group-hover:text-black font-bold text-xl leading-7 transition-colors duration-500">
-                                            {t("leadIn.aboutMe")}
+                                            {t("summary")}
                                         </span>
                                         <span className="text-black font-bold text-xl leading-7 transition-colors duration-500">
-                                            {t("leadIn.aboutMe")}
+                                            {t("summary")}
                                         </span>
                                     </div>
                                 </div>
@@ -165,11 +165,11 @@ export const IdentitySequence = ({ scrollYProgress, isVisible }: IdentitySequenc
                         >
                             ↓
                         </motion.span>
-                        <span>{t("leadIn.scroll")}</span>
+                        <span>{t("summary")}</span>
                     </div>
 
                     <div className="text-zinc-500 dark:text-white/60 text-sm font-medium tracking-tight">
-                        {t("leadIn.shortStory")}
+                        {t("summary")}
                     </div>
                 </div>
             </motion.div>
@@ -266,7 +266,7 @@ export const IdentitySequence = ({ scrollYProgress, isVisible }: IdentitySequenc
                             <div className="md:col-span-7">
                                 <h3
                                     className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight leading-snug text-black dark:text-white"
-                                    dangerouslySetInnerHTML={{ __html: t.raw("profile.title") }}
+                                    dangerouslySetInnerHTML={{ __html: t.raw("summary") }}
                                 />
                             </div>
 
@@ -274,7 +274,7 @@ export const IdentitySequence = ({ scrollYProgress, isVisible }: IdentitySequenc
                             <div className="md:col-span-5 pt-1">
                                 <p className="text-[13px] md:text-[15px] text-zinc-500 dark:text-zinc-400 leading-relaxed font-normal">
                                     <BlurInUpText 
-                                        text={`${t("profile.narrative")} ${t("profile.narrative2")}`} 
+                                        text={t("summary")} 
                                         animate={isTextAnimated} 
                                     />
                                 </p>

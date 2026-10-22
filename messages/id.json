@@ -33,34 +33,17 @@
         "milestones": "Capaian",
         "journey": "Perjalanan",
         "location": "Lokasi",
-        "leadIn": {
-            "tagline": "FOKUS INTI",
-            "role": "Frontend Engineer",
-            "headlineAI": "AI Terapan.",
-            "headlineData": "Data Skalabel.",
-            "headlineSoftware": "Rekayasa Perangkat Lunak Tangguh",
-            "thesis": "Membangun sistem cerdas di persimpangan <span class='text-primary italic font-serif-elegant font-normal'>AI</span>, <span class='text-secondary italic font-serif-elegant font-normal'>Rekayasa</span>, dan <span class='text-accent italic font-serif-elegant font-normal'>Arsitektur Skalabel</span>.",
-            "scope": "Berfokus pada model prediktif, pemrosesan data yang dioptimalkan, dan pipeline RAG yang dirancang untuk produksi dan performa terukur.",
-            "bridging": "Menghubungkan lab dan sistem langsung.",
-            "integration": "Selain model, saya merancang ekosistem full-stack: backend yang aman, arsitektur data yang kuat, dan pipeline yang skalabel.",
-            "signature": "Azril",
-            "aboutMe": "Tentang Saya",
-            "scroll": "Scroll untuk Jelajah",
-            "shortStory": "Cerita Singkat Saya"
-        },
+        "summary": "Tentang Saya",
+        "languages": "Bahasa",
         "architecting": "Merancang",
         "digitalReality": "Realitas Digital",
         "closing": {
             "discoverMore": "Temukan Lebih Lanjut"
-        },
-        "profile": {
-            "title": "Membangun <br class='hidden lg:block' /> Sistem Skalabel <br /> Tempat <span class='text-primary italic font-serif font-light lowercase'>Kecerdasan</span> <br /> Bertemu Rekayasa.",
-            "narrative": "Sebagai mahasiswa Teknologi Informasi yang berfokus pada Kecerdasan Buatan dan Rekayasa Perangkat Lunak, saya membangun sistem yang menjembatani fondasi riset dengan implementasi siap produksi.",
-            "narrative2": "Pekerjaan saya memadukan pemikiran algoritmik, rekayasa backend, dan arsitektur yang skalabel untuk menghadirkan solusi yang cerdas, andal, dan siap digunakan di dunia nyata."
         }
     },
     "projects": {
         "githubRepos": "Repositori GitHub",
+        "featured": "Proyek Terpilih",
         "labSection": "Eksperimen Lab",
         "labAll": "Lihat Semua Lab",
         "viewProject": "Lihat Proyek",
@@ -102,8 +85,8 @@
             "intelligent": "Cerdas",
             "creative": "Kreatif"
         },
-        "ribbon1": "Next.js • React • Python • PyTorch • Pandas • TypeScript • Node.js • Scikit-Learn • TensorFlow • SQL",
-        "ribbon2": "Software Engineer • AI Engineer • Data Scientist • Data Analyst • Machine Learning Engineer • Backend Developer • Full Stack Engineer • NLP Engineer • Data Engineer • Web Developer",
+        "ribbon1": "Next.js • React • TypeScript • Tailwind CSS • Framer Motion • Three.js • HTML • CSS • JavaScript • PHP • MySQL • Git",
+        "ribbon2": "Frontend Engineer",
         "title": "Mari Membangun Sesuatu yang",
         "together": "Bersama",
         "subtitle": "Terbuka untuk kolaborasi strategis dalam pengembangan sistem berbasis AI dan rekayasa full stack yang skalabel. Mari kita transformasikan ide ambisius menjadi solusi siap produksi.",
@@ -189,11 +172,11 @@
     },
     "expertise": {
         "craftTitle": "INTERFACE CRAFT",
-        "craftDescription": "Antarmuka dibangun dengan React, Tailwind CSS, dan Next.js — difokuskan pada kecepatan, aksesibilitas, dan pengalaman pengguna.",
+        "craftDescription": "Antarmuka yang dituntaskan hingga detail piksel, tipografi, animasi, dan aksesibilitas.",
         "systemsTitle": "FRONTEND SYSTEMS",
-        "systemsDescription": "Arsitektur frontend, manajemen state, dan integrasi sistem yang scalable dan dapat dirawat.",
+        "systemsDescription": "Arsitektur frontend, React/Next.js, manajemen state, integrasi API, optimasi, dan tooling.",
         "productTitle": "PRODUCT THINKING",
-        "productDescription": "Memecahkan masalah pengguna dengan keputusan produk yang didasari data dan analisis kebutuhan."
+        "productDescription": "Dari kebutuhan pengguna hingga keputusan teknis."
     },
     "stats": {
         "projects": "Proyek",

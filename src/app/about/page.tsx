@@ -12,7 +12,7 @@ export default async function AboutPage() {
     return (
         <main className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24 py-12 md:py-24">
             <h1 className="text-4xl md:text-6xl font-black tracking-tight text-foreground mb-6">
-                {t('leadIn.aboutMe')}
+                {t('summary')}
             </h1>
 
             <section className="mb-12">

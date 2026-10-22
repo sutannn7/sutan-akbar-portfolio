@@ -132,3 +132,17 @@ describe('portfolioData komponen', () => {
     }
   });
 });
+
+describe('berkas pesan', () => {
+  it('tidak ada klaim terlarang di berkas pesan', () => {
+    for (const file of ['id.json', 'en.json']) {
+      const content = readFileSync(join(process.cwd(), 'messages', file), 'utf8');
+      const json = JSON.parse(content);
+      for (const s of allStrings(json)) {
+        for (const re of FORBIDDEN_COMPONENT_CLAIMS) {
+          expect(s, `${file}: ${re}`).not.toMatch(re);
+        }
+      }
+    }
+  });
+});
