@@ -70,7 +70,7 @@
         },
         "metadata": {
             "role": "Peran",
-            "roleValue": "Pengembang Full Stack",
+            "roleValue": "Frontend Engineer",
             "timeline": "Waktu",
             "team": "Tim",
             "teamValue": "Individu",
@@ -79,19 +79,12 @@
         }
     },
     "ctaSection": {
-        "words": {
-            "amazing": "Luar Biasa",
-            "innovative": "Inovatif",
-            "intelligent": "Cerdas",
-            "creative": "Kreatif"
-        },
         "ribbon1": "Next.js • React • TypeScript • Tailwind CSS • Framer Motion • Three.js • HTML • CSS • JavaScript • PHP • MySQL • Git",
-        "ribbon2": "Frontend Engineer",
-        "title": "Mari Membangun Sesuatu yang",
-        "together": "Bersama",
-        "subtitle": "Terbuka untuk kolaborasi strategis dalam pengembangan sistem berbasis AI dan rekayasa full stack yang skalabel. Mari kita transformasikan ide ambisius menjadi solusi siap produksi.",
-        "start": "Hire Me",
-        "work": "View My Resume"
+        "ribbon2": "Frontend Engineer · UI Engineer · Web Developer · Frontend Enthusiast",
+        "title": "Sedang mencari magang? Mari ngobrol.",
+        "subtitle": "Saya Frontend Engineer di Palembang, terbuka untuk magang dan kolaborasi frontend. Mari kita bicarakan proyek Anda.",
+        "start": "Hubungi Saya",
+        "work": "Unduh CV"
     },
     "contact": {
         "whatsapp": "WhatsApp",
@@ -119,22 +112,22 @@
         "faqData": [
             {
                 "q": "Apa bidang keahlian utama Anda?",
-                "a": "Saya berspesialisasi di persimpangan Kecerdasan Buatan, Full-stack Development (Next.js & Node.js), dan teknologi Blockchain/Web3."
+                "a": "Saya adalah Frontend Engineer di Palembang. Saya membangun antarmuka web dengan HTML, CSS, JavaScript, TypeScript, React, Next.js, dan Tailwind CSS, dengan fokus pada detail tampilan, animasi, dan aksesibilitas. Saya masih mahasiswa D-IV Manajemen Informatika (IPK 3,55 / 4,00, semester 4)."
             },
             {
-                "q": "Apakah Anda tersedia untuk kolaborasi riset atau freelance?",
-                "a": "Saya aktif dalam riset AI dan selalu terbuka untuk proyek freelance inovatif, magang, atau kolaborasi teknis."
+                "q": "Apakah Anda tersedia untuk magang atau kolaborasi?",
+                "a": "Ya. Saya terbuka untuk magang, freelance, dan kolaborasi teknis. Hubungi saya melalui formulir kontak atau email; saya biasanya merespons dalam 24 jam."
             },
             {
-                "q": "Apa tech stack tipikal Anda untuk produksi?",
-                "a": "Untuk AI, Python dengan TensorFlow, PyTorch, dan YOLO. Untuk web, stack T3: Next.js, TypeScript, dan Tailwind CSS."
+                "q": "Apa tech stack yang Anda gunakan?",
+                "a": "HTML, CSS, JavaScript, PHP (native), MySQL, dan Git (mahir). Serta TypeScript, Oracle, Java, Python, dan C++ (dasar). Hal di luar itu masih saya pelajari (nanodua)."
             },
             {
-                "q": "Apakah Anda memiliki pengalaman dengan proyek enterprise atau lab?",
-                "a": "Ya, sebagai System Analyst dan Pengembang AI di lingkungan berbasis riset, termasuk platform AIoT dan sistem deteksi serangan."
+                "q": "Apa saja yang sudah Anda buat?",
+                "a": "Empat proyek nyata: LearnEase (redesign LMS selama magang 5 bulan, tim 5 orang), Website Profil Jurusan MI POLSRI (PHP native + MySQL, dibuat mandiri), Nusantara Kopi (situs acara kopi, tim 4 orang, live di Vercel), dan Portofolio v3 (situs ini, Next.js 16, TypeScript, Tailwind, Framer Motion, Three.js)."
             },
             {
-                "q": "Bagaimana cara memulai kemitraan atau proyek?",
+                "q": "Bagaimana cara memulai kerja sama atau proyek?",
                 "a": "Gunakan formulir kontak di atas atau hubungi langsung via email. Saya biasanya merespons dalam 24 jam."
             }
         ]

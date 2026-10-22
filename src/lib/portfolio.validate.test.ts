@@ -3,12 +3,19 @@ import { portfolioData } from '@/data/portfolio';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const FORBIDDEN_CLAIMS = [
+// Strict value-level list: message values and portfolioData values.
+// A standalone "AI" is always artificial intelligence here.
+const FORBIDDEN_VALUE_CLAIMS = [
   /\bAI\b/,
-  /\bAI\s+Engineer\b/i,
+  /AIoT/,
+  /\bML\b/,
   /machine learning/i,
   /data science/i,
-  /full-?stack engineer/i,
+  /full[\s-]?stack/i,
+  /tensorflow/i,
+  /pytorch/i,
+  /scikit-learn/i,
+  /yolo/i,
 ];
 
 // Component-layer guard: multi-word phrases only. Deliberately does NOT scan
@@ -71,7 +78,7 @@ describe('portfolioData', () => {
   });
   it('tidak ada klaim yang tidak didukung', () => {
     for (const s of allStrings(portfolioData)) {
-      for (const re of FORBIDDEN_CLAIMS) {
+      for (const re of FORBIDDEN_VALUE_CLAIMS) {
         expect(s, `klaim terlarang: ${re}`).not.toMatch(re);
       }
     }
@@ -135,14 +142,16 @@ describe('portfolioData komponen', () => {
 
 describe('berkas pesan', () => {
   it('tidak ada klaim terlarang di berkas pesan', () => {
+    const offenses: string[] = [];
     for (const file of ['id.json', 'en.json']) {
       const content = readFileSync(join(process.cwd(), 'messages', file), 'utf8');
       const json = JSON.parse(content);
       for (const s of allStrings(json)) {
-        for (const re of FORBIDDEN_COMPONENT_CLAIMS) {
-          expect(s, `${file}: ${re}`).not.toMatch(re);
+        for (const re of FORBIDDEN_VALUE_CLAIMS) {
+          if (re.test(s)) offenses.push(`${file}: ${re} matched "${s}"`);
         }
       }
     }
+    expect(offenses).toEqual([]);
   });
 });

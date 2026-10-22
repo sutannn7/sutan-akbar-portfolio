@@ -17,7 +17,7 @@ export default async function Milestones() {
             const title = m.title[locale];
             const description = m.description[locale];
             return (
-              <li key={m.year} className="relative">
+              <li key={`${m.year}-${m.title.id}`} className="relative">
                 <span className="font-mono text-primary">{m.year}</span>
                 <div>
                   {m.href ? (

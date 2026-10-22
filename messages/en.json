@@ -70,7 +70,7 @@
         },
         "metadata": {
             "role": "Role",
-            "roleValue": "Full Stack Dev",
+            "roleValue": "Frontend Engineer",
             "timeline": "Timeline",
             "team": "Team",
             "teamValue": "Individual",
@@ -79,19 +79,12 @@
         }
     },
     "ctaSection": {
-        "words": {
-            "amazing": "Amazing",
-            "innovative": "Innovative",
-            "intelligent": "Intelligent",
-            "creative": "Creative"
-        },
         "ribbon1": "Next.js • React • TypeScript • Tailwind CSS • Framer Motion • Three.js • HTML • CSS • JavaScript • PHP • MySQL • Git",
-        "ribbon2": "Frontend Engineer",
-        "title": "Let's Build Something",
-        "together": "Together",
-        "subtitle": "Open to strategic collaborations in AI-driven systems and scalable full-stack engineering. Let's turn ambitious ideas into production-ready solutions.",
-        "start": "Hire Me",
-        "work": "View My Resume"
+        "ribbon2": "Frontend Engineer · UI Engineer · Web Developer · Frontend Enthusiast",
+        "title": "Looking for an internship? Let's talk.",
+        "subtitle": "Frontend Engineer based in Palembang, open to internships and frontend collaborations. Let's talk about your project.",
+        "start": "Get in touch",
+        "work": "Download CV"
     },
     "contact": {
         "whatsapp": "WhatsApp",
@@ -119,22 +112,22 @@
         "faqData": [
             {
                 "q": "What is your main area of expertise?",
-                "a": "I specialize at the intersection of Artificial Intelligence, Full-stack Development (Next.js & Node.js), and Blockchain/Web3 technologies."
+                "a": "I am a Frontend Engineer based in Palembang. I build web interfaces with HTML, CSS, JavaScript, TypeScript, React, Next.js, and Tailwind CSS, focusing on visual detail, animation, and accessibility. I am currently a D-IV Informatics Management student (IPK 3.55/4.00, semester 4)."
             },
             {
-                "q": "Are you available for research or freelance collaborations?",
-                "a": "I am active in AI research and always open to innovative freelance projects, internships, or technical collaborations."
+                "q": "Are you available for an internship or collaboration?",
+                "a": "Yes. I am open to internships, freelance work, and technical collaborations. Reach me via the contact form or email; I usually respond within 24 hours."
             },
             {
-                "q": "What is your typical tech stack for production?",
-                "a": "For AI, Python with TensorFlow, PyTorch, and YOLO. For web, the T3 stack: Next.js, TypeScript, and Tailwind CSS."
+                "q": "What tech stack do you use?",
+                "a": "HTML, CSS, JavaScript, native PHP, MySQL, and Git (proficient). Plus TypeScript, Oracle, Java, Python, and C++ (beginner). Everything else I am still learning."
             },
             {
-                "q": "Do you have experience with enterprise or lab projects?",
-                "a": "Yes, as a System Analyst and AI Developer in research-driven environments, including AIoT platforms and attack detection systems."
+                "q": "What have you actually built?",
+                "a": "Four real projects: LearnEase (an LMS redesign during a 5-month internship, team of 5), MI POLSRI Study Program Profile Website (native PHP and MySQL, built solo), Nusantara Kopi (a coffee-event site, team of 4, live on Vercel), and Portofolio v3 (this site, Next.js 16, TypeScript, Tailwind, Framer Motion, Three.js)."
             },
             {
-                "q": "How can we start a partnership or project?",
+                "q": "How do we start a partnership or project?",
                 "a": "Use the contact form above or reach out directly by email. I usually respond within 24 hours."
             }
         ]
